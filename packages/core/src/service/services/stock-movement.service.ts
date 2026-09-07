@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
+    ApplyStockCountInput,
     GlobalFlag,
     OrderLineInput,
     StockCountSheetLine,
@@ -10,7 +11,7 @@ import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { In } from 'typeorm';
 
 import { RequestContext } from '../../api/common/request-context';
-import { EntityNotFoundError } from '../../common/error/errors';
+import { EntityNotFoundError, UserInputError } from '../../common/error/errors';
 import { Instrument } from '../../common/instrument-decorator';
 import { idsAreEqual } from '../../common/utils';
 import { ShippingCalculator } from '../../config/shipping-method/shipping-calculator';
@@ -113,6 +114,43 @@ export class StockMovementService {
             stockOnHand: stockLevel.stockOnHand,
             stockAllocated: stockLevel.stockAllocated,
         }));
+    }
+
+    /**
+     * @description
+     * Applies the result of a physical stock count, setting stockOnHand at the given StockLocation
+     * to the counted quantity for each ProductVariant.
+     */
+    async applyStockCount(ctx: RequestContext, input: ApplyStockCountInput): Promise<StockCountSheetLine[]> {
+        const stockLocation = await this.stockLocationService.findOne(ctx, input.stockLocationId);
+        if (!stockLocation) {
+            throw new EntityNotFoundError('StockLocation', input.stockLocationId);
+        }
+        if (input.lines.length > 500) {
+            throw new UserInputError('error.list-query-limit-exceeded', { limit: 500 });
+        }
+        for (const line of input.lines) {
+            if (line.countedQuantity < 0) {
+                throw new UserInputError('error.stockonhand-cannot-be-negative');
+            }
+            const productVariant = await this.connection.findOneInChannel(
+                ctx,
+                ProductVariant,
+                line.productVariantId,
+                ctx.channelId,
+            );
+            if (!productVariant) {
+                throw new EntityNotFoundError('ProductVariant', line.productVariantId);
+            }
+            await this.adjustProductVariantStock(ctx, line.productVariantId, [
+                { stockLocationId: input.stockLocationId, stockOnHand: line.countedQuantity },
+            ]);
+        }
+        return this.getStockCountSheet(
+            ctx,
+            input.stockLocationId,
+            input.lines.map(line => line.productVariantId),
+        );
     }
 
     /**
