@@ -1,6 +1,7 @@
 import { Args, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { HistoryEntryListOptions, OrderHistoryArgs, SortOrder } from '@vendure/common/lib/generated-types';
 
+import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { assertFound, idsAreEqual } from '../../../common/utils';
 import { Order } from '../../../entity/order/order.entity';
 import { CustomerService, TranslatorService } from '../../../service/index';
@@ -18,6 +19,7 @@ export class OrderEntityResolver {
         private customerService: CustomerService,
         private historyService: HistoryService,
         private translator: TranslatorService,
+        private requestContextCache: RequestContextCacheService,
     ) {}
 
     @ResolveField()
@@ -100,7 +102,9 @@ export class OrderEntityResolver {
         ) {
             return order.promotions.map(p => this.translator.translate(p, ctx));
         }
-        return this.orderService.getOrderPromotions(ctx, order.id);
+        return this.requestContextCache.get(ctx, `OrderEntityResolver.promotions(${order.id})`, () =>
+            this.orderService.getOrderPromotions(ctx, order.id),
+        );
     }
 }
 

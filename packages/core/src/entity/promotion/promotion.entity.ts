@@ -197,11 +197,22 @@ export class Promotion
         }
     }
 
-    async test(ctx: RequestContext, order: Order): Promise<PromotionTestResult> {
-        if (this.endsAt && this.endsAt < new Date()) {
+    /**
+     * @description
+     * Returns whether this Promotion is within its startsAt / endsAt window at the given date.
+     */
+    isRunningAt(date: Date): boolean {
+        if (this.endsAt && this.endsAt < date) {
             return false;
         }
-        if (this.startsAt && this.startsAt > new Date()) {
+        if (this.startsAt && this.startsAt > date) {
+            return false;
+        }
+        return true;
+    }
+
+    async test(ctx: RequestContext, order: Order): Promise<PromotionTestResult> {
+        if (!this.isRunningAt(new Date())) {
             return false;
         }
         if (this.couponCode && !order.couponCodes.some(cc => couponCodesMatch(cc, this.couponCode))) {
