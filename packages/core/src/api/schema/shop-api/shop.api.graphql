@@ -1,3 +1,21 @@
+type OrderTrackingParcel {
+    fulfillmentId: ID!
+    method: String!
+    state: String!
+    trackingCode: String
+    updatedAt: DateTime!
+}
+
+type OrderTracking {
+    orderId: ID!
+    code: String!
+    state: String!
+    orderPlacedAt: DateTime!
+    shippingStatus: ShippingStatus!
+    shippingAddress: OrderAddress
+    parcels: [OrderTrackingParcel!]!
+}
+
 type Query {
     "The active Channel"
     activeChannel: Channel!
@@ -39,6 +57,10 @@ type Query {
     general anonymous access to Order data.
     """
     orderByCode(code: String!): Order
+    """
+    A compact tracking summary for a placed Order that avoids over-fetching the full Order object.
+    """
+    orderTracking(orderId: ID!): OrderTracking
     "Get a Product either by id or slug. If neither 'id' nor 'slug' is specified, an error will result."
     product(id: ID, slug: String): Product
     "Get a list of Products"
