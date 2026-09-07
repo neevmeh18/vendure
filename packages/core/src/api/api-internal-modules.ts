@@ -96,6 +96,7 @@ import { ShopEnvironmentResolver } from './resolvers/shop/shop-environment.resol
 import { ShopOrderResolver } from './resolvers/shop/shop-order.resolver';
 import { ShopPaymentMethodsResolver } from './resolvers/shop/shop-payment-methods.resolver';
 import { ShopProductsResolver } from './resolvers/shop/shop-products.resolver';
+import { ShopPromotionsResolver } from './resolvers/shop/shop-promotions.resolver';
 import { ShopShippingMethodsResolver } from './resolvers/shop/shop-shipping-methods.resolver';
 
 const adminResolvers = [
@@ -140,6 +141,7 @@ const shopResolvers = [
     ShopProductsResolver,
     ShopEnvironmentResolver,
     ShopPaymentMethodsResolver,
+    ShopPromotionsResolver,
     ShopShippingMethodsResolver,
 ];
 
