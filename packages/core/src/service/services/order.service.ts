@@ -115,6 +115,7 @@ import { OrderMerger } from '../helpers/order-merger/order-merger';
 import { OrderModifier } from '../helpers/order-modifier/order-modifier';
 import { OrderState } from '../helpers/order-state-machine/order-state';
 import { OrderStateMachine } from '../helpers/order-state-machine/order-state-machine';
+import { deriveShippingStatus, ShippingStatus } from '../helpers/order-tracking/shipping-status';
 import { PaymentState } from '../helpers/payment-state-machine/payment-state';
 import { RefundState } from '../helpers/refund-state-machine/refund-state';
 import { RefundStateMachine } from '../helpers/refund-state-machine/refund-state-machine';
@@ -1893,6 +1894,17 @@ export class OrderService implements OnApplicationBootstrap {
         });
 
         return fulfillments;
+    }
+
+    /**
+     * @description
+     * Derives a {@link ShippingStatus} for the Order from its associated Fulfillments.
+     *
+     * @since 3.8.0
+     */
+    async getShippingStatus(ctx: RequestContext, order: Order): Promise<ShippingStatus> {
+        const fulfillments = await this.getOrderFulfillments(ctx, order);
+        return deriveShippingStatus(fulfillments);
     }
 
     /**
