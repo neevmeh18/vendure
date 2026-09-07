@@ -34,6 +34,7 @@ import {
     SettlePaymentResult,
     SettleRefundInput,
     ShippingMethodQuote,
+    SortOrder,
     TransitionPaymentToStateResult,
     UpdateOrderNoteInput,
 } from '@vendure/common/lib/generated-types';
@@ -115,6 +116,7 @@ import { OrderMerger } from '../helpers/order-merger/order-merger';
 import { OrderModifier } from '../helpers/order-modifier/order-modifier';
 import { OrderState } from '../helpers/order-state-machine/order-state';
 import { OrderStateMachine } from '../helpers/order-state-machine/order-state-machine';
+import { OrderTimelineBuilder, OrderTimelineEvent } from '../helpers/order-timeline/order-timeline-builder';
 import { PaymentState } from '../helpers/payment-state-machine/payment-state';
 import { RefundState } from '../helpers/refund-state-machine/refund-state';
 import { RefundStateMachine } from '../helpers/refund-state-machine/refund-state-machine';
@@ -140,6 +142,11 @@ import { PaymentService } from './payment.service';
 import { ProductVariantService } from './product-variant.service';
 import { PromotionService } from './promotion.service';
 import { StockLevelService } from './stock-level.service';
+
+export interface OrderTimelineOptions {
+    publicOnly?: boolean;
+    take?: number;
+}
 
 /**
  * @description
@@ -170,6 +177,7 @@ export class OrderService implements OnApplicationBootstrap {
         private eventBus: EventBus,
         private channelService: ChannelService,
         private orderModifier: OrderModifier,
+        private orderTimelineBuilder: OrderTimelineBuilder,
         private customFieldRelationService: CustomFieldRelationService,
         private requestCache: RequestContextCacheService,
         private translator: TranslatorService,
@@ -2081,6 +2089,27 @@ export class OrderService implements OnApplicationBootstrap {
             input.isPublic,
         );
         return order;
+    }
+
+    /**
+     * @description
+     * Returns the Order's progress as an ordered list of timeline events.
+     */
+    async getOrderTimeline(
+        ctx: RequestContext,
+        orderId: ID,
+        options: OrderTimelineOptions = {},
+    ): Promise<OrderTimelineEvent[]> {
+        const { items } = await this.historyService.getHistoryForOrder(
+            ctx,
+            orderId,
+            options.publicOnly ?? false,
+            {
+                sort: { createdAt: SortOrder.ASC },
+                take: options.take ?? 50,
+            },
+        );
+        return this.orderTimelineBuilder.build(items);
     }
 
     async updateOrderNote(ctx: RequestContext, input: UpdateOrderNoteInput): Promise<HistoryEntry> {
