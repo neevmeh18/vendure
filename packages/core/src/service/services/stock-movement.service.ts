@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
     GlobalFlag,
     OrderLineInput,
+    StockCountSheetLine,
     StockLevelInput,
     StockMovementListOptions,
 } from '@vendure/common/lib/generated-types';
@@ -9,6 +10,7 @@ import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { In } from 'typeorm';
 
 import { RequestContext } from '../../api/common/request-context';
+import { EntityNotFoundError } from '../../common/error/errors';
 import { Instrument } from '../../common/instrument-decorator';
 import { idsAreEqual } from '../../common/utils';
 import { ShippingCalculator } from '../../config/shipping-method/shipping-calculator';
@@ -18,6 +20,7 @@ import { Order } from '../../entity/order/order.entity';
 import { OrderLine } from '../../entity/order-line/order-line.entity';
 import { ProductVariant } from '../../entity/product-variant/product-variant.entity';
 import { ShippingMethod } from '../../entity/shipping-method/shipping-method.entity';
+import { StockLevel } from '../../entity/stock-level/stock-level.entity';
 import { Allocation } from '../../entity/stock-movement/allocation.entity';
 import { Cancellation } from '../../entity/stock-movement/cancellation.entity';
 import { Release } from '../../entity/stock-movement/release.entity';
@@ -75,6 +78,40 @@ export class StockMovementService {
         return qb.getManyAndCount().then(([items, totalItems]) => ({
             items,
             totalItems,
+        }));
+    }
+
+    /**
+     * @description
+     * Returns the current stock levels at the given StockLocation, for use as a stock count worksheet.
+     */
+    async getStockCountSheet(
+        ctx: RequestContext,
+        stockLocationId: ID,
+        productVariantIds?: ID[] | null,
+    ): Promise<StockCountSheetLine[]> {
+        const stockLocation = await this.stockLocationService.findOne(ctx, stockLocationId);
+        if (!stockLocation) {
+            throw new EntityNotFoundError('StockLocation', stockLocationId);
+        }
+
+        const qb = this.connection
+            .getRepository(ctx, StockLevel)
+            .createQueryBuilder('stockLevel')
+            .innerJoinAndSelect('stockLevel.productVariant', 'productVariant')
+            .where('stockLevel.stockLocationId = :stockLocationId', { stockLocationId })
+            .orderBy('productVariant.sku', 'ASC');
+
+        if (productVariantIds) {
+            qb.andWhere({ productVariantId: In(productVariantIds) });
+        }
+
+        const stockLevels = await qb.getMany();
+        return stockLevels.map(stockLevel => ({
+            productVariantId: stockLevel.productVariantId,
+            sku: stockLevel.productVariant.sku,
+            stockOnHand: stockLevel.stockOnHand,
+            stockAllocated: stockLevel.stockAllocated,
         }));
     }
 

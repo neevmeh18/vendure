@@ -1,0 +1,11 @@
+type Query {
+    "Returns the current stock levels at the given StockLocation, for use as a stock count worksheet."
+    stockCountSheet(stockLocationId: ID!, productVariantIds: [ID!]): [StockCountSheetLine!]!
+}
+
+type StockCountSheetLine {
+    productVariantId: ID!
+    sku: String!
+    stockOnHand: Int!
+    stockAllocated: Int!
+}
