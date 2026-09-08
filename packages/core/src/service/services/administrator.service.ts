@@ -28,6 +28,7 @@ import { CustomFieldRelationService } from '../helpers/custom-field-relation/cus
 import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
 import { PasswordCipher } from '../helpers/password-cipher/password-cipher';
 import { RequestContextService } from '../helpers/request-context/request-context.service';
+import { SecurityAuditService } from '../helpers/security-audit/security-audit.service';
 import { checkSuperadminCredentials } from '../helpers/utils/check-superadmin-credentials';
 import { patchEntity } from '../helpers/utils/patch-entity';
 
@@ -53,6 +54,7 @@ export class AdministratorService {
         private customFieldRelationService: CustomFieldRelationService,
         private eventBus: EventBus,
         private requestContextService: RequestContextService,
+        private securityAuditService: SecurityAuditService,
     ) {}
 
     /** @internal */
@@ -252,6 +254,12 @@ export class AdministratorService {
             createdAdministrator,
         );
         await this.eventBus.publish(new AdministratorEvent(ctx, createdAdministrator, 'created', input));
+        await this.securityAuditService.record(ctx, {
+            action: 'administrator.created',
+            entityType: 'Administrator',
+            entityId: createdAdministrator.id,
+            data: input,
+        });
         return createdAdministrator;
     }
 
@@ -318,6 +326,12 @@ export class AdministratorService {
             updatedAdministrator,
         );
         await this.eventBus.publish(new AdministratorEvent(ctx, updatedAdministrator, 'updated', input));
+        await this.securityAuditService.record(ctx, {
+            action: 'administrator.updated',
+            entityType: 'Administrator',
+            entityId: updatedAdministrator.id,
+            data: input,
+        });
         return updatedAdministrator;
     }
 
@@ -367,6 +381,12 @@ export class AdministratorService {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         await this.userService.softDelete(ctx, administrator.user.id);
         await this.eventBus.publish(new AdministratorEvent(ctx, administrator, 'deleted', id));
+        await this.securityAuditService.record(ctx, {
+            action: 'administrator.deleted',
+            entityType: 'Administrator',
+            entityId: id,
+            data: { id },
+        });
         return {
             result: DeletionResult.DELETED,
         };

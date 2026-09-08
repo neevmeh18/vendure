@@ -23,6 +23,7 @@ export * from './helpers/product-price-applicator/product-price-applicator';
 export * from './helpers/refund-state-machine/refund-state';
 export * from './helpers/request-context/request-context.service';
 export * from './helpers/settings-store/settings-store.service';
+export * from './helpers/security-audit';
 export * from './helpers/slug.service';
 export * from './helpers/translatable-saver/translatable-saver';
 export * from './helpers/translator/translator.service';
