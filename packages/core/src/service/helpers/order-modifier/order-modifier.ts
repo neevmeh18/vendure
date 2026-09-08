@@ -392,6 +392,13 @@ export class OrderModifier {
 
         await this.eventBus.publish(new OrderEvent(ctx, orderWithLines, 'updated', input));
 
+        if (
+            this.configService.orderOptions.autoRefundOnCancellation === true &&
+            order.state !== 'Modifying'
+        ) {
+            await this.createRefundsForCancelledOrderLines(ctx, orderWithLines, lineInputs, input.reason);
+        }
+
         return orderLinesAreAllCancelled(orderWithLines);
     }
 
@@ -832,6 +839,69 @@ export class OrderModifier {
                 order: { id: orderId } as any,
             },
         });
+    }
+
+    private async createRefundsForCancelledOrderLines(
+        ctx: RequestContext,
+        order: Order,
+        lineInputs: OrderLineInput[],
+        reason?: string | null,
+    ): Promise<void> {
+        const orderLineIds = lineInputs.map(l => l.orderLineId);
+        const orderLines = await this.connection
+            .getRepository(ctx, OrderLine)
+            .createQueryBuilder('orderLine')
+            .where('orderLine.id IN (:...orderLineIds)', { orderLineIds })
+            .getMany();
+        let cancelledValue = 0;
+        for (const lineInput of lineInputs) {
+            const orderLine = orderLines.find(line => idsAreEqual(line.id, lineInput.orderLineId));
+            if (!orderLine) {
+                continue;
+            }
+            cancelledValue += orderLine.proratedUnitPriceWithTax * lineInput.quantity;
+        }
+        if (!(0 < cancelledValue)) {
+            return;
+        }
+
+        const payments = await this.getOrderPayments(ctx, order.id);
+        const candidates = payments.filter(payment => {
+            const alreadyRefunded = summate(
+                (payment.refunds ?? []).filter(refund => refund.state !== 'Failed'),
+                'total',
+            );
+            return 0 < payment.amount - alreadyRefunded;
+        });
+
+        let outstanding = cancelledValue;
+        for (const payment of candidates) {
+            const alreadyRefunded = summate(
+                (payment.refunds ?? []).filter(refund => refund.state !== 'Failed'),
+                'total',
+            );
+            const unrefundedValue = payment.amount - alreadyRefunded;
+            const amount = Math.min(outstanding, unrefundedValue);
+            if (amount === 0) {
+                continue;
+            }
+            const refundInput: RefundOrderInput = {
+                lines: [],
+                adjustment: 0,
+                shipping: 0,
+                paymentId: payment.id,
+                amount,
+                reason: reason || undefined,
+            };
+            const refund = await this.paymentService.createRefund(ctx, refundInput, order, payment);
+            if (isGraphQlErrorResult(refund)) {
+                throw new InternalServerError(refund.message);
+            }
+            outstanding -= amount;
+            if (outstanding <= 0) {
+                break;
+            }
+        }
     }
 
     private async customFieldsAreEqual(
