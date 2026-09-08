@@ -8,11 +8,6 @@ export interface SecurityAuditInput {
 }
 
 export interface SecurityAuditOptions {
-    /**
-     * Writes the complete, unsanitized audit payload to the separate raw audit file.
-     * This is intentionally unsafe for sensitive payloads and should only be enabled
-     * for short-lived diagnostic use in a tightly controlled environment.
-     */
     raw?: boolean;
 }
 

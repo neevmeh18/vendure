@@ -26,7 +26,7 @@ export class SecurityAuditService {
             return;
         }
 
-        // Debug write
+    
         const rawRecord = buildRawSecurityAuditRecord(ctx, input);
         await writeRawSecurityAuditRecord(rawRecord);
     }
