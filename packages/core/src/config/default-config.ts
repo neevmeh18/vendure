@@ -37,13 +37,13 @@ import { defaultEntityDuplicators } from './entity/entity-duplicators/index';
 import { defaultFulfillmentProcess } from './fulfillment/default-fulfillment-process';
 import { manualFulfillmentHandler } from './fulfillment/manual-fulfillment-handler';
 import { DefaultLogger } from './logger/default-logger';
+import { checkoutOrderProcess } from './order/checkout-order-process';
 import { DefaultActiveOrderStrategy } from './order/default-active-order-strategy';
 import { DefaultChangedPriceHandlingStrategy } from './order/default-changed-price-handling-strategy';
 import { DefaultGuestCheckoutStrategy } from './order/default-guest-checkout-strategy';
 import { DefaultOrderItemPriceCalculationStrategy } from './order/default-order-item-price-calculation-strategy';
 import { DefaultOrderLineDiscountDistributionStrategy } from './order/default-order-line-discount-distribution-strategy';
 import { DefaultOrderPlacedStrategy } from './order/default-order-placed-strategy';
-import { defaultOrderProcess } from './order/default-order-process';
 import { DefaultOrderSellerStrategy } from './order/default-order-seller-strategy';
 import { DefaultStockAllocationStrategy } from './order/default-stock-allocation-strategy';
 import { MergeOrdersStrategy } from './order/merge-orders-strategy';
@@ -179,7 +179,7 @@ export const defaultConfig: RuntimeVendureConfig = {
         orderItemPriceCalculationStrategy: new DefaultOrderItemPriceCalculationStrategy(),
         mergeStrategy: new MergeOrdersStrategy(),
         checkoutMergeStrategy: new UseGuestStrategy(),
-        process: [defaultOrderProcess],
+        process: [checkoutOrderProcess],
         stockAllocationStrategy: new DefaultStockAllocationStrategy(),
         orderCodeStrategy: new DefaultOrderCodeStrategy(),
         orderByCodeAccessStrategy: new DefaultOrderByCodeAccessStrategy('2h'),
