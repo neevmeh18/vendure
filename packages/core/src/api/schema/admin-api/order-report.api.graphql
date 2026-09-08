@@ -1,0 +1,23 @@
+type Query {
+    salesSummaryReport(input: SalesSummaryReportInput!): SalesSummaryReport!
+}
+
+enum SalesSummaryReportBucket {
+    DAY
+    WEEK
+    MONTH
+}
+
+input SalesSummaryReportSort {
+    key: String!
+    order: SortOrder!
+}
+
+input SalesSummaryReportInput {
+    start: DateTime!
+    end: DateTime!
+    bucket: SalesSummaryReportBucket!
+    take: Int
+    skip: Int
+    sort: SalesSummaryReportSort!
+}

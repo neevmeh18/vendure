@@ -43,6 +43,7 @@ export * from './services/facet.service';
 export * from './services/fulfillment.service';
 export * from './services/global-settings.service';
 export * from './services/history.service';
+export * from './services/order-report.service';
 export * from './services/order-testing.service';
 export * from './services/order.service';
 export * from './services/payment-method.service';

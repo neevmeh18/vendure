@@ -1,0 +1,10 @@
+type SalesSummaryReportRow {
+    periodStart: DateTime!
+    orderCount: Int!
+    totalRevenue: Money!
+}
+
+type SalesSummaryReport {
+    items: [SalesSummaryReportRow!]!
+    totalItems: Int!
+}
