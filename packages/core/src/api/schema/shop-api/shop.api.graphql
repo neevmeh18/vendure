@@ -15,6 +15,8 @@ type Query {
     collections(options: CollectionListOptions): CollectionList!
     "Returns a Collection either by its id or slug. If neither 'id' nor 'slug' is specified, an error will result."
     collection(id: ID, slug: String): Collection
+    "Returns the unmet checkout requirements for the active Order, and whether it is ready to proceed"
+    checkoutReadiness: CheckoutReadiness!
     "Returns a list of eligible shipping methods based on the current active Order"
     eligibleShippingMethods: [ShippingMethodQuote!]!
     "Returns a list of payment methods and their eligibility based on the current active Order"
@@ -49,6 +51,19 @@ type Query {
     activePaymentMethods: [PublicPaymentMethod]!
     "Get active shipping methods"
     activeShippingMethods: [PublicShippingMethod]!
+}
+
+enum CheckoutRequirementCode {
+    CONTENTS
+    CUSTOMER
+    SHIPPING_ADDRESS
+}
+
+type CheckoutReadiness {
+    "The checkout requirements that are currently unmet"
+    unmetRequirements: [CheckoutRequirementCode!]!
+    "Whether the Order currently meets all checkout requirements"
+    ready: Boolean!
 }
 
 type PublicPaymentMethod {
