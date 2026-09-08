@@ -11,6 +11,7 @@ import { randomBytes } from 'crypto';
 import { InMemoryJobQueueStrategy } from '../job-queue/in-memory-job-queue-strategy';
 import { InMemoryJobBufferStorageStrategy } from '../job-queue/job-buffer/in-memory-job-buffer-storage-strategy';
 import { NoopSchedulerStrategy } from '../scheduler/noop-scheduler-strategy';
+import { cleanInactiveApiKeysTask } from '../scheduler/tasks/clean-inactive-api-keys-task';
 import { cleanSessionsTask } from '../scheduler/tasks/clean-sessions-task';
 
 import { RandomBytesApiKeyStrategy } from './api-key-strategy/random-bytes-api-key-strategy';
@@ -215,7 +216,7 @@ export const defaultConfig: RuntimeVendureConfig = {
     },
     schedulerOptions: {
         schedulerStrategy: new NoopSchedulerStrategy(),
-        tasks: [cleanSessionsTask, cleanOrphanedSettingsStoreTask],
+        tasks: [cleanSessionsTask, cleanOrphanedSettingsStoreTask, cleanInactiveApiKeysTask],
         runTasksInWorkerOnly: true,
     },
     customFields: {

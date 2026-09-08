@@ -8,7 +8,8 @@ import {
     UpdateApiKeyInput,
 } from '@vendure/common/lib/generated-types';
 import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
-import { In, IsNull, UpdateResult } from 'typeorm';
+import ms, { type StringValue } from 'ms';
+import { In, IsNull, LessThan, UpdateResult } from 'typeorm';
 
 import { ApiType, RelationPaths, RequestContext } from '../../api';
 import {
@@ -180,7 +181,7 @@ export class ApiKeyService {
         );
 
         Logger.verbose(
-            `Created ApiKey (${newEntity.id}) for User (${userIdOwner}) with ApiKeyUser (${apiKeyUser.id}, ${apiKeyUser.identifier})`,
+            `Created ApiKey (${String(newEntity.id)}) for User (${String(userIdOwner)}) with ApiKeyUser (${String(apiKeyUser.id)}, ${String(apiKeyUser.identifier)})`,
         );
         await this.eventBus.publish(new ApiKeyEvent(ctx, newEntity, 'created', input));
 
@@ -222,7 +223,7 @@ export class ApiKeyService {
         });
         await this.customFieldRelationService.updateRelations(ctx, ApiKey, input, apiKey);
 
-        Logger.verbose(`Updated ApiKey (${apiKey.id}) by User (${String(ctx.activeUserId)})`);
+        Logger.verbose(`Updated ApiKey (${String(apiKey.id)}) by User (${String(ctx.activeUserId)})`);
         await this.eventBus.publish(new ApiKeyEvent(ctx, apiKey, 'updated', input));
 
         return assertFound(this.findOne(ctx, input.id, relations));
@@ -239,6 +240,38 @@ export class ApiKeyService {
             channelId: ctx.channelId,
         });
 
+        return this.softDeleteEntity(ctx, apiKey);
+    }
+
+    /**
+     * @description
+     * Soft-deletes API keys that have not been used within the given period.
+     */
+    async softDeleteInactive(
+        ctx: RequestContext,
+        options: { unusedFor: string | number; batchSize: number },
+    ): Promise<{ retiredCount: number }> {
+        const { unusedFor, batchSize } = options;
+        const unusedForMs = typeof unusedFor === 'string' ? ms(unusedFor as StringValue) : unusedFor;
+        const cutoff = new Date(Date.now() - unusedForMs);
+
+        const apiKeys = await this.connection.getRepository(ctx, ApiKey).find({
+            where: [
+                { deletedAt: IsNull(), lastUsedAt: LessThan(cutoff) },
+                { deletedAt: IsNull(), lastUsedAt: IsNull(), createdAt: LessThan(cutoff) },
+            ],
+            take: batchSize,
+        });
+
+        for (const apiKey of apiKeys) {
+            await this.softDeleteEntity(ctx, apiKey);
+        }
+
+        Logger.verbose(`Retired ${apiKeys.length} inactive API keys`);
+        return { retiredCount: apiKeys.length };
+    }
+
+    private async softDeleteEntity(ctx: RequestContext, apiKey: ApiKey): Promise<DeletionResponse> {
         const hasAuthMethod = await this.connection.getRepository(ctx, AuthenticationMethod).existsBy({
             user: { id: apiKey.userId },
         });
@@ -258,8 +291,8 @@ export class ApiKeyService {
             .getRepository(ctx, ApiKey)
             .update({ id: apiKey.id }, { deletedAt: apiKey.deletedAt });
 
-        Logger.verbose(`Deleted ApiKey (${id}) by User (${String(ctx.activeUserId)})`);
-        await this.eventBus.publish(new ApiKeyEvent(ctx, apiKey, 'deleted', id));
+        Logger.verbose(`Deleted ApiKey (${String(apiKey.id)}) by User (${String(ctx.activeUserId)})`);
+        await this.eventBus.publish(new ApiKeyEvent(ctx, apiKey, 'deleted', apiKey.id));
 
         return { result: DeletionResult.DELETED };
     }
@@ -297,7 +330,7 @@ export class ApiKeyService {
         entity.apiKeyHash = hash;
         await this.connection.getRepository(ctx, ApiKey).save(entity, { reload: false });
 
-        Logger.verbose(`Rotated ApiKey (${entity.id}) by User (${String(ctx.activeUserId)})`);
+        Logger.verbose(`Rotated ApiKey (${String(entity.id)}) by User (${String(ctx.activeUserId)})`);
         await this.eventBus.publish(new ApiKeyEvent(ctx, entity, 'updated', id));
 
         return { apiKey };
