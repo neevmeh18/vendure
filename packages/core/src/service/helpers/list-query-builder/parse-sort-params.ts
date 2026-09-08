@@ -5,7 +5,7 @@ import { DataSource } from 'typeorm/data-source/DataSource';
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata';
 
 import { UserInputError } from '../../../common/error/errors';
-import { NullOptionals, SortParameter } from '../../../common/types/common-types';
+import { NullOptionals, SortParameter } from '../../../common/types/shared-types';
 import { CustomFieldConfig } from '../../../config/custom-field/custom-field-types';
 import { VendureEntity } from '../../../entity/base/base.entity';
 

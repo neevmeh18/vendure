@@ -72,9 +72,9 @@ export const SaveViewDialog: React.FC<SaveViewDialogProps> = ({
             onOpenChange(false);
             setName('');
             setScope('user');
-        } catch (error) {
+        } catch (caughtError) {
             toast.error('Failed to save view');
-            console.error('Failed to save view:', error);
+            console.error('Failed to save view:', caughtError);
         } finally {
             setSaving(false);
         }

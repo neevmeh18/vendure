@@ -6,7 +6,7 @@ import {
 } from '@vendure/common/lib/generated-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { EntityNotFoundError } from '../../../common/error/errors';
 import { DuplicateEntityError } from '../../../common/error/generated-graphql-admin-errors';
 import { ConfigService } from '../../../config/config.service';

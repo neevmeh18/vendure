@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LanguageCode } from '@vendure/common/lib/generated-types';
 import { FindOneOptions } from 'typeorm';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { Translatable, TranslatableKeys, Translated } from '../../../common/types/locale-types';
 import { TransactionalConnection } from '../../../connection/transactional-connection';

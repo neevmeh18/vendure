@@ -53,7 +53,7 @@ export const schedulerRaceTestTask = new ScheduledTask({
         try {
             const existing = fs.readFileSync(LOG_FILE, 'utf-8');
             logs = JSON.parse(existing);
-        } catch (e) {
+        } catch (caughtError) {
             // File doesn't exist yet, that's fine
         }
         logs.push(logEntry);

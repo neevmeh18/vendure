@@ -81,10 +81,10 @@ export function DuplicateBulkAction({
                             'Unknown error';
                         results.errors.push(`${entityName} ${entity.name || entity.id}: ${errorMsg}`);
                     }
-                } catch (error) {
+                } catch (caughtError) {
                     results.failed++;
                     results.errors.push(
-                        `${entityName} ${entity.name || entity.id}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                        `${entityName} ${entity.name || entity.id}: ${caughtError instanceof Error ? caughtError.message : 'Unknown error'}`,
                     );
                 }
 

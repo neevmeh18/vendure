@@ -10,7 +10,7 @@ vi.mock('typeorm/find-options/FindOptionsUtils', () => ({
     },
 }));
 
-import { RequestContext } from './request-context';
+import { RequestContext } from './vendure-request-context';
 import { RequestContextCacheService } from '../../cache/request-context-cache.service';
 import { CustomFieldRelationResolverService } from './custom-field-relation-resolver.service';
 

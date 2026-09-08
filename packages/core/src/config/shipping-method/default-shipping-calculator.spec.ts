@@ -1,7 +1,7 @@
 import { ConfigArg } from '@vendure/common/lib/generated-types';
 import { describe, expect, it } from 'vitest';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Order } from '../../entity/order/order.entity';
 import { ShippingMethod } from '../../entity/shipping-method/shipping-method.entity';
 import { createRequestContext } from '../../testing/order-test-utils';

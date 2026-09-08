@@ -3,7 +3,7 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { idsAreEqual } from '../../../common/utils';
 import { Refund } from '../../../entity/refund/refund.entity';
 import { PaymentService } from '../../../service/services/payment.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('Refund')

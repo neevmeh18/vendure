@@ -16,7 +16,7 @@ import {
     TypedStructFieldConfig,
 } from '../../config/custom-field/custom-field-types';
 
-import { RequestContext } from './request-context';
+import { RequestContext } from './vendure-request-context';
 import { userHasPermissionsOnCustomField } from './user-has-permissions-on-custom-field';
 
 /**

@@ -56,8 +56,8 @@ export async function addDashboard(options?: AddDashboardOptions): Promise<CliCo
     try {
         vendurePlugin.addMetadataProperty('dashboard', './dashboard/index.tsx');
         log.success('Updated the plugin class');
-    } catch (e) {
-        log.error(e instanceof Error ? e.message : String(e));
+    } catch (caughtError) {
+        log.error(caughtError instanceof Error ? caughtError.message : String(caughtError));
         return { project, modifiedSourceFiles: [] };
     }
 

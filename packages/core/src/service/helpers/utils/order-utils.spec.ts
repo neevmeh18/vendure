@@ -1,7 +1,7 @@
 import { ID } from '@vendure/common/lib/shared-types';
 import { describe, expect, it } from 'vitest';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { EntityNotFoundError } from '../../../common/error/errors';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { Order } from '../../../entity/order/order.entity';
@@ -201,8 +201,8 @@ describe('assertOrderIsInChannel()', () => {
         let error: any;
         try {
             await assertOrderIsInChannel(contextForChannel(CHANNEL_B_ID), connection, 10, 'Payment', 7);
-        } catch (e) {
-            error = e;
+        } catch (caughtError) {
+            error = caughtError;
         }
         expect(error).toBeInstanceOf(EntityNotFoundError);
         expect(error.variables).toEqual({ entityName: 'Payment', id: 7 });
@@ -232,8 +232,8 @@ describe('assertOrderIsInChannel()', () => {
                     entityName,
                     99,
                 );
-            } catch (e) {
-                error = e;
+            } catch (caughtError) {
+                error = caughtError;
             }
             expect(error.variables).toEqual({ entityName, id: 99 });
         }

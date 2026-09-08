@@ -29,8 +29,8 @@ export function extendDetailFormQuery<T extends DocumentNode>(
             (acc, extension) => extendDocument(acc, extension),
             detailQuery,
         ) as T;
-    } catch (err) {
-        errorMessage = err instanceof Error ? err.message : String(err);
+    } catch (caughtError) {
+        errorMessage = caughtError instanceof Error ? caughtError.message : String(caughtError);
         // Continue with the original query instead of the extended one
         result = detailQuery;
     }

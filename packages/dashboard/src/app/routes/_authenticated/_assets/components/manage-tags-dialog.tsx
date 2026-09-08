@@ -174,9 +174,9 @@ export function ManageTagsDialog({ open, onOpenChange, onTagsUpdated }: Readonly
             setToDelete([]);
             setToUpdate([]);
             onOpenChange(false);
-        } catch (error) {
+        } catch (caughtError) {
             toast.error('Failed to update tags', {
-                description: error instanceof Error ? error.message : 'Unknown error',
+                description: caughtError instanceof Error ? caughtError.message : 'Unknown error',
             });
         } finally {
             setIsSaving(false);

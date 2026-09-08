@@ -41,12 +41,12 @@ export class StaleTaskService {
             if (this.isStale(lockedTask, now, intervalMs)) {
                 await this.clearStaleLock(lockedTask);
             }
-        } catch (error) {
+        } catch (caughtError) {
             Logger.error(
-                `Error cleaning up stale task locks: ${error instanceof Error ? error.message : String(error)}`,
+                `Error cleaning up stale task locks: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`,
                 loggerCtx,
             );
-            throw error;
+            throw caughtError;
         }
     }
 

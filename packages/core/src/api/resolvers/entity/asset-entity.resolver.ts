@@ -4,7 +4,7 @@ import { Asset } from '../../../entity/asset/asset.entity';
 import { Tag } from '../../../entity/tag/tag.entity';
 import { LocaleStringHydrator } from '../../../service/helpers/locale-string-hydrator/locale-string-hydrator';
 import { TagService } from '../../../service/services/tag.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('Asset')

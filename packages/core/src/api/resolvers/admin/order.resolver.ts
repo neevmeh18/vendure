@@ -38,7 +38,7 @@ import { FulfillmentState } from '../../../service/helpers/fulfillment-state-mac
 import { OrderState } from '../../../service/helpers/order-state-machine/order-state';
 import { PaymentState } from '../../../service/helpers/payment-state-machine/payment-state';
 import { OrderService } from '../../../service/services/order.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

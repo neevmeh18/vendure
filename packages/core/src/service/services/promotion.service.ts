@@ -18,7 +18,7 @@ import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { unique } from '@vendure/common/lib/unique';
 import { In, IsNull, Raw } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { ErrorResultUnion, JustErrorResults } from '../../common/error/error-result';
 import { ForbiddenError, UserInputError } from '../../common/error/errors';
@@ -30,7 +30,7 @@ import {
 } from '../../common/error/generated-graphql-shop-errors';
 import { Instrument } from '../../common/instrument-decorator';
 import { AdjustmentSource } from '../../common/types/adjustment-source';
-import { ListQueryOptions } from '../../common/types/common-types';
+import { ListQueryOptions } from '../../common/types/shared-types';
 import { assertFound, idsAreEqual } from '../../common/utils';
 import { ConfigService } from '../../config/config.service';
 import { PromotionAction } from '../../config/promotion/promotion-action';

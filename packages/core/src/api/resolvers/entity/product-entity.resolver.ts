@@ -20,7 +20,7 @@ import { ProductOptionGroupService } from '../../../service/services/product-opt
 import { ProductVariantService } from '../../../service/services/product-variant.service';
 import { ProductService } from '../../../service/services/product.service';
 import { ApiType } from '../../common/get-api-type';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Api } from '../../decorators/api.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

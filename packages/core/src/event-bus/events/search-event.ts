@@ -1,6 +1,6 @@
 import { SearchInput } from '@vendure/common/lib/generated-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { VendureEvent } from '../vendure-event';
 
 type ExtendedSearchInput = SearchInput & {

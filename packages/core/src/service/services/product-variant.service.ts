@@ -15,13 +15,13 @@ import { CustomFieldsObject, ID, PaginatedList } from '@vendure/common/lib/share
 import { unique } from '@vendure/common/lib/unique';
 import { In, IsNull } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { RequestContextCacheService } from '../../cache/request-context-cache.service';
 import { EntityNotFoundError, ForbiddenError, UserInputError } from '../../common/error/errors';
 import { Instrument } from '../../common/instrument-decorator';
 import { roundMoney } from '../../common/round-money';
-import { ListQueryOptions } from '../../common/types/common-types';
+import { ListQueryOptions } from '../../common/types/shared-types';
 import { Translated } from '../../common/types/locale-types';
 import { idsAreEqual } from '../../common/utils';
 import { UpdatedProductVariantPrice } from '../../config/catalog/product-variant-price-update-strategy';

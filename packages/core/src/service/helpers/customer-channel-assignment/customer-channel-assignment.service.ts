@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DEFAULT_CHANNEL_CODE } from '@vendure/common/lib/shared-constants';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { ConfigService } from '../../../config/config.service';
 import { Customer } from '../../../entity/customer/customer.entity';
 import { ChannelService } from '../../services/channel.service';

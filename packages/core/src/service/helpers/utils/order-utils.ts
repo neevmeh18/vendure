@@ -4,7 +4,7 @@ import { summate } from '@vendure/common/lib/shared-utils';
 import { unique } from '@vendure/common/lib/unique';
 import { In } from 'typeorm';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { EntityNotFoundError } from '../../../common/error/errors';
 import { idsAreEqual } from '../../../common/utils';
 import { TransactionalConnection } from '../../../connection/transactional-connection';

@@ -89,8 +89,8 @@ export function transformDocumentNodeInSource(source: string, storyContext: any)
                 // Replace the inline object with the formatted SDL
                 transformedSource =
                     transformedSource.substring(0, start) + replacement + transformedSource.substring(end);
-            } catch (e) {
-                console.error(`Failed to transform DocumentNode for prop "${propName}":`, e);
+            } catch (caughtError) {
+                console.error(`Failed to transform DocumentNode for prop "${propName}":`, caughtError);
             }
         }
 
@@ -115,14 +115,14 @@ export function transformDocumentNodeInSource(source: string, storyContext: any)
                     const formattedSdl = formatSdlForDisplay(sdl);
 
                     return `${propName}={graphql\`\n${formattedSdl}\n  \`}`;
-                } catch (e) {
-                    console.error(`Failed to transform DocumentNode variable for prop "${propName}":`, e);
+                } catch (caughtError) {
+                    console.error(`Failed to transform DocumentNode variable for prop "${propName}":`, caughtError);
                     return match;
                 }
             },
         );
-    } catch (e) {
-        console.error('Failed to transform DocumentNode source:', e);
+    } catch (caughtError) {
+        console.error('Failed to transform DocumentNode source:', caughtError);
         return source;
     }
 

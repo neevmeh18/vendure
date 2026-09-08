@@ -163,8 +163,8 @@ export function useRelationSelector<T>(config: RelationSelectorConfig<T>) {
                 const response = (await api.query(config.listQuery, variables)) as any;
                 const result = response[getQueryName(config.listQuery)];
                 return result?.items ?? [];
-            } catch (error) {
-                console.error('Error fetching items by IDs:', error);
+            } catch (caughtError) {
+                console.error('Error fetching items by IDs:', caughtError);
                 return [];
             }
         },
@@ -267,10 +267,10 @@ export function RelationSelector<T>({
                         );
                         return [...stillSelected, ...fetchedItems];
                     });
-                } catch (error) {
+                } catch (caughtError) {
                     // Remove from fetching set on error
                     missingIds.forEach(id => fetchingIdsRef.current.delete(id));
-                    console.error('Error fetching items by IDs:', error);
+                    console.error('Error fetching items by IDs:', caughtError);
                 }
             } else {
                 // Just filter out items that are no longer selected

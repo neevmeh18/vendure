@@ -74,8 +74,8 @@ export class TypeORMHealthCheckStrategy implements HealthCheckStrategy {
                     }),
                 ]);
                 return { [key]: { status: 'up' } };
-            } catch (err) {
-                const message = err instanceof Error ? err.message : String(err);
+            } catch (caughtError) {
+                const message = caughtError instanceof Error ? caughtError.message : String(caughtError);
                 throw new HealthCheckError(message, { [key]: { status: 'down', message } });
             } finally {
                 if (timer) {

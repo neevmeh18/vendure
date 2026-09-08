@@ -57,7 +57,7 @@ export function CollectionContentsPreviewTable({
             if (arg.list) {
                 try {
                     JSON.parse(argValue);
-                } catch (e) {
+                } catch (caughtError) {
                     isValidValue = false;
                 }
             }

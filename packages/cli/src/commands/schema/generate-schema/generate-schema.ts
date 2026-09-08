@@ -54,8 +54,8 @@ export async function generateSchema(options: SchemaOptions) {
             writeFileSync(outFile, JSON.stringify(jsonSchema));
         }
         log.info(`Generated schema: ${outFile}`);
-    } catch (e) {
-        log.error(e instanceof Error ? e.message : String(e));
+    } catch (caughtError) {
+        log.error(caughtError instanceof Error ? caughtError.message : String(caughtError));
         process.exit(1);
     }
 }

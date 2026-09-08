@@ -6,7 +6,7 @@ import { Channel } from '../../entity/channel/channel.entity';
 import { Order } from '../../entity/order/order.entity';
 import { Zone } from '../../entity/zone/zone.entity';
 
-import { RequestContext, SerializedRequestContext } from './request-context';
+import { RequestContext, SerializedRequestContext } from './vendure-request-context';
 
 describe('RequestContext', () => {
     describe('serialize/deserialize', () => {

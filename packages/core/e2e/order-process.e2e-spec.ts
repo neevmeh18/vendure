@@ -525,8 +525,8 @@ describe('Order process', () => {
             let thrown: Error | undefined;
             try {
                 await orderService.transitionToState(ctx, orderId, 'ValidatingCustomer');
-            } catch (e) {
-                thrown = e as Error;
+            } catch (caughtError) {
+                thrown = caughtError as Error;
             }
             expect(thrown).toBeDefined();
             expect(thrown!.message).toContain(ROLLBACK_FAILURE_MESSAGE);

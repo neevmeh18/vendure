@@ -1,6 +1,6 @@
 import { Permission } from '@vendure/common/lib/generated-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 
 import { EntityAccessControlStrategy } from './entity-access-control-strategy';
 

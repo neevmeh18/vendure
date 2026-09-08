@@ -3,7 +3,7 @@ import { filterAsync } from '@vendure/common/lib/filter-async';
 import { AdjustmentType } from '@vendure/common/lib/generated-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { CacheKey } from '../../../common/constants';
 import { InternalServerError } from '../../../common/error/errors';

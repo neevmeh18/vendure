@@ -43,7 +43,7 @@ import { getGraphQlInputName, summate } from '@vendure/common/lib/shared-utils';
 import { EntityManager, In, IsNull, LockNotSupportedOnGivenDriverError } from 'typeorm';
 import { FindOptionsUtils } from 'typeorm/find-options/FindOptionsUtils';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { RequestContextCacheService } from '../../cache/request-context-cache.service';
 import { CacheKey, TRANSACTION_MANAGER_KEY } from '../../common/constants';
@@ -77,7 +77,7 @@ import {
 } from '../../common/error/generated-graphql-shop-errors';
 import { Instrument } from '../../common/instrument-decorator';
 import { grossPriceOf, netPriceOf } from '../../common/tax-utils';
-import { ListQueryOptions } from '../../common/types/common-types';
+import { ListQueryOptions } from '../../common/types/shared-types';
 import { assertFound, idsAreEqual } from '../../common/utils';
 import { ConfigService } from '../../config/config.service';
 import { Logger } from '../../config/logger/vendure-logger';
@@ -1330,8 +1330,8 @@ export class OrderService implements OnApplicationBootstrap {
             try {
                 const result = await this.orderStateMachine.transition(txCtx, order, state);
                 finalize = result.finalize;
-            } catch (e: any) {
-                const transitionError = txCtx.translate(e.message, { fromState, toState: state });
+            } catch (caughtError: any) {
+                const transitionError = txCtx.translate(caughtError.message, { fromState, toState: state });
                 return new OrderStateTransitionError({ transitionError, fromState, toState: state });
             }
             await this.connection.getRepository(txCtx, Order).save(order, { reload: false });
@@ -1597,9 +1597,9 @@ export class OrderService implements OnApplicationBootstrap {
                         .setLock('pessimistic_write')
                         .where('promotion.id = :id', { id: promotion.id })
                         .getOne();
-                } catch (e) {
-                    if (!(e instanceof LockNotSupportedOnGivenDriverError)) {
-                        throw e;
+                } catch (caughtError) {
+                    if (!(caughtError instanceof LockNotSupportedOnGivenDriverError)) {
+                        throw caughtError;
                     }
                     // Lock not supported (e.g. SQLite) — continue without it
                 }
@@ -2101,10 +2101,10 @@ export class OrderService implements OnApplicationBootstrap {
             return {
                 result: DeletionResult.DELETED,
             };
-        } catch (e: any) {
+        } catch (caughtError: any) {
             return {
                 result: DeletionResult.NOT_DELETED,
-                message: e.message,
+                message: caughtError.message,
             };
         }
     }
@@ -2206,8 +2206,8 @@ export class OrderService implements OnApplicationBootstrap {
                         await this.connection.withTransaction(txCtx, async innerCtx => {
                             await this.deleteOrder(innerCtx, orderToDelete);
                         });
-                    } catch (e: any) {
-                        if (!isForeignKeyViolationError(e)) throw e;
+                    } catch (caughtError: any) {
+                        if (!isForeignKeyViolationError(caughtError)) throw caughtError;
                         if (!order)
                             throw new Error(
                                 `Cannot complete order merge: active order not found, while cancelling order ${orderToDelete.id}`,
@@ -2264,8 +2264,8 @@ export class OrderService implements OnApplicationBootstrap {
                         if (!isGraphQlErrorResult(result)) {
                             order = result;
                         }
-                    } catch (e: any) {
-                        Logger.error(e.message, undefined, e.stack);
+                    } catch (caughtError: any) {
+                        Logger.error(caughtError.message, undefined, caughtError.stack);
                     }
                 }
                 const customer = await this.customerService.findOneByUserId(txCtx, user.id);
@@ -2275,10 +2275,10 @@ export class OrderService implements OnApplicationBootstrap {
                 }
                 return order;
             });
-        } catch (e: unknown) {
+        } catch (caughtError: unknown) {
             // If the merge fails for any reason, log the error and return the existing order
             // unchanged rather than failing the entire login flow.
-            const error = e instanceof Error ? e : new Error(String(e));
+            const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
             Logger.error(`Failed to merge orders: ${error.message}`, undefined, error.stack);
             return existingOrder;
         }

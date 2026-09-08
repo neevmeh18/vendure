@@ -25,13 +25,13 @@ import { IsNull } from 'typeorm';
 import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
 import { camelCase } from 'typeorm/util/StringUtils';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { Instrument } from '../../common';
 import { isGraphQlErrorResult } from '../../common/error/error-result';
 import { ForbiddenError, InternalServerError } from '../../common/error/errors';
 import { MimeTypeError } from '../../common/error/generated-graphql-admin-errors';
-import { ChannelAware } from '../../common/types/common-types';
+import { ChannelAware } from '../../common/types/shared-types';
 import { Translated } from '../../common/types/locale-types';
 import { getAssetType, idsAreEqual } from '../../common/utils';
 import { ConfigService } from '../../config/config.service';

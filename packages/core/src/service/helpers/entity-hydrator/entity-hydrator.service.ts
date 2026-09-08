@@ -3,7 +3,7 @@ import { Type } from '@vendure/common/lib/shared-types';
 import { unique } from '@vendure/common/lib/unique';
 import { SelectQueryBuilder } from 'typeorm';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { InternalServerError } from '../../../common/error/errors';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { VendureEntity } from '../../../entity/base/base.entity';

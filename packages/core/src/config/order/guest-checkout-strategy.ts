@@ -1,6 +1,6 @@
 import { CreateCustomerInput, SetCustomerForOrderResult } from '@vendure/common/lib/generated-shop-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ErrorResultUnion } from '../../common/error/error-result';
 import { InjectableStrategy } from '../../common/types/injectable-strategy';
 import { Customer } from '../../entity/customer/customer.entity';

@@ -2,13 +2,13 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { pick } from '@vendure/common/lib/pick';
 
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
-import { PaymentMetadata } from '../../../common/types/common-types';
+import { PaymentMetadata } from '../../../common/types/shared-types';
 import { Payment } from '../../../entity/payment/payment.entity';
 import { Refund } from '../../../entity/refund/refund.entity';
 import { PaymentService } from '../../../service';
 import { OrderService } from '../../../service/services/order.service';
 import { ApiType } from '../../common/get-api-type';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Api } from '../../decorators/api.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 

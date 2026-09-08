@@ -7,10 +7,10 @@ export function DateTime({ value }: Readonly<{ value: string | Date }>) {
     try {
         renderedDate = formatDate(value);
         renderedTime = formatDate(value, { timeStyle: 'long' });
-    } catch (e) {
+    } catch (caughtError) {
         renderedDate = value.toString();
         renderedTime = '';
-        console.error(e);
+        console.error(caughtError);
     }
     return <div className="flex flex-col">
         <div className="text-sm">{renderedDate}</div>

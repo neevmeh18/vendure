@@ -2,7 +2,7 @@ import { LogicalOperator, SearchResult } from '@vendure/common/lib/generated-typ
 import { ID } from '@vendure/common/lib/shared-types';
 import { Brackets, SelectQueryBuilder } from 'typeorm';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { Injector } from '../../../common';
 import { UserInputError } from '../../../common/error/errors';
 import { TransactionalConnection } from '../../../connection/transactional-connection';

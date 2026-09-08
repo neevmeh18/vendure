@@ -14,7 +14,7 @@ import { PaginatedList } from '@vendure/common/lib/shared-types';
 import { Translated } from '../../../common/types/locale-types';
 import { Country } from '../../../entity/region/country.entity';
 import { CountryService } from '../../../service/services/country.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

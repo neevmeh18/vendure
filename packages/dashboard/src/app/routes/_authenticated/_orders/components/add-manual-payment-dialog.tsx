@@ -82,9 +82,9 @@ export function AddManualPaymentDialog({ order, onSuccess }: Readonly<AddManualP
             });
             setOpen(false);
             form.reset();
-        } catch (error) {
+        } catch (caughtError) {
             toast(t`Failed to add payment`, {
-                description: error instanceof Error ? error.message : 'Unknown error',
+                description: caughtError instanceof Error ? caughtError.message : 'Unknown error',
             });
         } finally {
             setIsSubmitting(false);

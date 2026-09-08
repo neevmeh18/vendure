@@ -62,7 +62,7 @@ export const jsonStringValueTransformer: ValueTransformer = {
                 default:
                     return parsed;
             }
-        } catch (error) {
+        } catch (caughtError) {
             // If parsing fails, try to handle as a plain string for certain types
             switch (fieldDef.type) {
                 case 'boolean':

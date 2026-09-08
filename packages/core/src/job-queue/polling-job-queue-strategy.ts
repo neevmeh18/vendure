@@ -127,9 +127,9 @@ class ActiveQueue<Data extends JobData<Data> = object> {
                         this.activeJobs.push(nextJob);
                         try {
                             await this.jobQueueStrategy.update(nextJob);
-                        } catch (err) {
+                        } catch (caughtError) {
                             this.removeJobFromActive(nextJob);
-                            throw err;
+                            throw caughtError;
                         }
                         const onProgress = (job: Job) => this.jobQueueStrategy.update(job);
                         nextJob.on('progress', onProgress);
@@ -175,12 +175,12 @@ class ActiveQueue<Data extends JobData<Data> = object> {
                             });
                     }
                 }
-            } catch (e: any) {
+            } catch (caughtError: any) {
                 this.errorNotifier$.next([
                     `Job queue "${
                         this.queueName
-                    }" encountered an error (set log level to Debug for trace): ${JSON.stringify(e.message)}`,
-                    e.stack,
+                    }" encountered an error (set log level to Debug for trace): ${JSON.stringify(caughtError.message)}`,
+                    caughtError.stack,
                 ]);
             }
             if (this.running) {

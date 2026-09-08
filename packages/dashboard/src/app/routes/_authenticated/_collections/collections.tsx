@@ -323,12 +323,12 @@ function CollectionListPage() {
             } else {
                 toast.success(t`Collection moved to new parent`);
             }
-        } catch (error) {
-            console.error('Failed to reorder collection:', error);
-            if (error instanceof Error && error.message !== 'Circular reference detected') {
+        } catch (caughtError) {
+            console.error('Failed to reorder collection:', caughtError);
+            if (caughtError instanceof Error && caughtError.message !== 'Circular reference detected') {
                 toast.error(t`Failed to update collection position`);
             }
-            throw error;
+            throw caughtError;
         }
     };
 

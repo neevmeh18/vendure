@@ -192,9 +192,9 @@ function ProductDetailPage() {
                 }
             }
             refreshEntity();
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to remove option groups`, {
-                description: error instanceof Error ? error.message : t`Unknown error`,
+                description: caughtError instanceof Error ? caughtError.message : t`Unknown error`,
             });
             refreshEntity();
         }

@@ -3,7 +3,7 @@ import { randomBytes } from 'crypto';
 import { DocumentNode } from 'graphql';
 import gql from 'graphql-tag';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Injector } from '../../common/injector';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 import { NativeAuthenticationMethod } from '../../entity/authentication-method/native-authentication-method.entity';

@@ -22,12 +22,12 @@ import { merge } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { In, IsNull, QueryRunner } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { TRANSACTION_MANAGER_KEY } from '../../common/constants';
 import { ForbiddenError, IllegalOperationError, UserInputError } from '../../common/error/errors';
 import { Instrument } from '../../common/instrument-decorator';
-import { ListQueryOptions } from '../../common/types/common-types';
+import { ListQueryOptions } from '../../common/types/shared-types';
 import { Translated } from '../../common/types/locale-types';
 import { assertFound, idsAreEqual } from '../../common/utils';
 import { ConfigService } from '../../config/config.service';

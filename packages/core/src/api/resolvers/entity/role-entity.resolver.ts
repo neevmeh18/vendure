@@ -3,7 +3,7 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Channel } from '../../../entity/channel/channel.entity';
 import { Role } from '../../../entity/role/role.entity';
 import { RoleService } from '../../../service/services/role.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('Role')

@@ -451,8 +451,8 @@ describe('SettingsStore system', () => {
                     key: 'invalid.nonExistentKey',
                 });
                 expect.fail('Should have thrown an error for invalid key');
-            } catch (error) {
-                expect((error as Error).message).toContain('not registered');
+            } catch (caughtError) {
+                expect((caughtError as Error).message).toContain('not registered');
             }
         });
 
@@ -477,8 +477,8 @@ describe('SettingsStore system', () => {
                     keys: ['test.globalSetting', 'invalid.nonExistentKey'],
                 });
                 expect.fail('Should have thrown an error for invalid key in bulk operation');
-            } catch (error) {
-                expect((error as Error).message).toContain('not registered');
+            } catch (caughtError) {
+                expect((caughtError as Error).message).toContain('not registered');
             }
         });
 
@@ -551,9 +551,9 @@ describe('SettingsStore system', () => {
             // Get the SettingsStoreService directly from the application
             try {
                 settingsStoreService = server.app.get(SettingsStoreService);
-            } catch (error) {
+            } catch (caughtError) {
                 // eslint-disable-next-line no-console
-                console.error('Failed to get SettingsStoreService:', error);
+                console.error('Failed to get SettingsStoreService:', caughtError);
                 // Try getting it from the service module
                 settingsStoreService = server.app.get('SettingsStoreService');
             }

@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '../config/config.module';
 
 import { CacheService } from './cache.service';
-import { RequestContextCacheService } from './request-context-cache.service';
+import { RequestContextCacheService } from './vendure-request-context-cache.service';
 
 @Module({
     imports: [ConfigModule],

@@ -3,7 +3,7 @@ import { LanguageCode } from '@vendure/common/lib/generated-types';
 import { normalizeString } from '@vendure/common/lib/normalize-string';
 import { ID, Type } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { Collection, Product } from '../../../entity';
 import { VendureEntity } from '../../../entity/base/base.entity';

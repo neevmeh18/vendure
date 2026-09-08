@@ -2,7 +2,7 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 import { isFieldResolver } from '../common/is-field-resolver';
 import { parseContext } from '../common/parse-context';
-import { internal_getRequestContext } from '../common/request-context';
+import { internal_getRequestContext } from '../common/vendure-request-context';
 
 /**
  * @description

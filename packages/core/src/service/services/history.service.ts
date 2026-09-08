@@ -10,7 +10,7 @@ import {
 } from '@vendure/common/lib/generated-types';
 import { ID, PaginatedList, Type } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { EntityNotFoundError } from '../../common/error/errors';
 import { Instrument } from '../../common/instrument-decorator';
 import { TransactionalConnection } from '../../connection/transactional-connection';

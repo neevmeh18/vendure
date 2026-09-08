@@ -4,7 +4,7 @@ import { DeepPartial, ID } from '@vendure/common/lib/shared-types';
 import { summate } from '@vendure/common/lib/shared-utils';
 import { In } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InternalServerError } from '../../common/error/errors';
 import {
     PaymentStateTransitionError,
@@ -13,7 +13,7 @@ import {
 } from '../../common/error/generated-graphql-admin-errors';
 import { IneligiblePaymentMethodError } from '../../common/error/generated-graphql-shop-errors';
 import { Instrument } from '../../common/instrument-decorator';
-import { PaymentMetadata } from '../../common/types/common-types';
+import { PaymentMetadata } from '../../common/types/shared-types';
 import { idsAreEqual } from '../../common/utils';
 import { Logger } from '../../config/logger/vendure-logger';
 import { PaymentMethodHandler } from '../../config/payment/payment-method-handler';
@@ -267,8 +267,8 @@ export class PaymentService {
                     toState,
                 );
                 finalize = result.finalize;
-            } catch (e: any) {
-                const transitionError = txCtx.translate(e.message, { fromState, toState });
+            } catch (caughtError: any) {
+                const transitionError = txCtx.translate(caughtError.message, { fromState, toState });
                 return new PaymentStateTransitionError({ transitionError, fromState, toState });
             }
             await this.connection.getRepository(txCtx, Payment).save(payment, { reload: false });
@@ -401,7 +401,7 @@ export class PaymentService {
                 );
                 paymentMethod = methodAndHandler.paymentMethod;
                 handler = methodAndHandler.handler;
-            } catch (e) {
+            } catch (caughtError) {
                 Logger.warn(
                     'Could not find a corresponding PaymentMethodHandler ' +
                         `when creating a refund for the Payment with method "${paymentToRefund.method}"`,
@@ -459,9 +459,9 @@ export class PaymentService {
                             createRefundResult.state,
                         );
                         finalize = result.finalize;
-                    } catch (e: any) {
+                    } catch (caughtError: any) {
                         return new RefundStateTransitionError({
-                            transitionError: e.message,
+                            transitionError: caughtError.message,
                             fromState,
                             toState: createRefundResult.state,
                         });

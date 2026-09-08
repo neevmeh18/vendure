@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { SearchInput, SearchResponse } from '@vendure/common/lib/generated-types';
 import { Omit } from '@vendure/common/lib/omit';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InternalServerError } from '../../common/error/errors';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 import { Collection, FacetValue } from '../../entity';

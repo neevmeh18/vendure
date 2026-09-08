@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RequestContextCacheService } from '../../cache/request-context-cache.service';
 import { Channel } from '../../entity/channel/channel.entity';
 import { StockLevel } from '../../entity/stock-level/stock-level.entity';

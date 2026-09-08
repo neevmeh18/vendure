@@ -1,6 +1,6 @@
 import { ConfigArg, RefundOrderInput } from '@vendure/common/lib/generated-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import {
     ConfigArgs,
     ConfigArgValues,
@@ -8,7 +8,7 @@ import {
     ConfigurableOperationDefOptions,
 } from '../../common/configurable-operation';
 import { OnTransitionStartFn, StateMachineConfig } from '../../common/finite-state-machine/types';
-import { PaymentMetadata } from '../../common/types/common-types';
+import { PaymentMetadata } from '../../common/types/shared-types';
 import { Order, Payment, PaymentMethod } from '../../entity';
 import {
     PaymentState,

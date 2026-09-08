@@ -28,8 +28,8 @@ export function useExtendedListQuery<T extends DocumentNode>(listQuery: T) {
                 (acc, extension) => extendDocument(acc, extension),
                 listQuery,
             ) as T;
-        } catch (err) {
-            const error = err instanceof Error ? err : new Error(String(err));
+        } catch (caughtError) {
+            const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
             // Continue with the original query instead of the extended one
             result = listQuery;
 

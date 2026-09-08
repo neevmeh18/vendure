@@ -49,9 +49,9 @@ const awesomeClient = new AwesomeGraphQLClient({
                     finalUrl = urlObj.toString();
                 }
             }
-        } catch (error) {
+        } catch (caughtError) {
             // eslint-disable-next-line no-console
-            console.warn('Failed to read content language from user settings:', error);
+            console.warn('Failed to read content language from user settings:', caughtError);
         }
 
         return fetch(finalUrl, {

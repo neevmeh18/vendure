@@ -40,12 +40,12 @@ export class RedisCacheStrategy implements CacheStrategy {
             if (retrieved) {
                 try {
                     return JSON.parse(retrieved);
-                } catch (e: any) {
-                    Logger.error(`Could not parse cache item ${key}: ${e.message as string}`, loggerCtx);
+                } catch (caughtError: any) {
+                    Logger.error(`Could not parse cache item ${key}: ${caughtError.message as string}`, loggerCtx);
                 }
             }
-        } catch (e: any) {
-            Logger.error(`Could not get cache item ${key}: ${e.message as string}`, loggerCtx);
+        } catch (caughtError: any) {
+            Logger.error(`Could not get cache item ${key}: ${caughtError.message as string}`, loggerCtx);
         }
     }
     async set<T extends JsonCompatible<T>>(
@@ -87,16 +87,16 @@ export class RedisCacheStrategy implements CacheStrategy {
             if (resultWithError) {
                 throw resultWithError[0];
             }
-        } catch (e: any) {
-            Logger.error(`Could not set cache item ${key}: ${e.message as string}`, loggerCtx);
+        } catch (caughtError: any) {
+            Logger.error(`Could not set cache item ${key}: ${caughtError.message as string}`, loggerCtx);
         }
     }
 
     async delete(key: string): Promise<void> {
         try {
             await this.client.del(this.namespace(key));
-        } catch (e: any) {
-            Logger.error(`Could not delete cache item ${key}: ${e.message as string}`, loggerCtx);
+        } catch (caughtError: any) {
+            Logger.error(`Could not delete cache item ${key}: ${caughtError.message as string}`, loggerCtx);
         }
     }
 
@@ -117,8 +117,8 @@ export class RedisCacheStrategy implements CacheStrategy {
             });
 
             await pipeline.exec();
-        } catch (err) {
-            return Promise.reject(err);
+        } catch (caughtError) {
+            return Promise.reject(caughtError);
         }
     }
 

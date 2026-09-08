@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Injector } from '../../common/injector';
 
-import { RequestContext } from './request-context';
+import { RequestContext } from './vendure-request-context';
 import { validateCustomFieldValue } from './validate-custom-field-value';
 
 describe('validateCustomFieldValue()', () => {

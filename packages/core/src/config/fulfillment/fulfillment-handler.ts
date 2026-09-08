@@ -1,6 +1,6 @@
 import { ConfigArg, OrderLineInput } from '@vendure/common/lib/generated-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import {
     ConfigArgs,
     ConfigArgValues,

@@ -3,7 +3,7 @@ import { retryWhen, take, tap } from 'rxjs/operators';
 import { DataSource, EntityManager, QueryRunner } from 'typeorm';
 import { TransactionAlreadyStartedError } from 'typeorm/error/TransactionAlreadyStartedError';
 
-import { RequestContext } from '../api/common/request-context';
+import { RequestContext } from '../api/common/vendure-request-context';
 import { TransactionIsolationLevel, TransactionMode } from '../api/decorators/transaction.decorator';
 import { TRANSACTION_MANAGER_KEY } from '../common/constants';
 
@@ -64,11 +64,11 @@ export class TransactionWrapper {
                 await queryRunner.commitTransaction();
             }
             return result;
-        } catch (error) {
+        } catch (caughtError) {
             if (queryRunner.isTransactionActive) {
                 await queryRunner.rollbackTransaction();
             }
-            throw error;
+            throw caughtError;
         } finally {
             // Only release the QueryRunner if we created it ourselves. If it was inherited
             // from an outer transaction (e.g. a @Transaction('manual') caller), releasing it
@@ -101,12 +101,12 @@ export class TransactionWrapper {
             try {
                 await queryRunner.startTransaction(isolationLevel);
                 return true;
-            } catch (err: any) {
-                lastError = err;
-                if (err instanceof TransactionAlreadyStartedError) {
+            } catch (caughtError: any) {
+                lastError = caughtError;
+                if (caughtError instanceof TransactionAlreadyStartedError) {
                     return false;
                 }
-                throw err;
+                throw caughtError;
             }
         }
 

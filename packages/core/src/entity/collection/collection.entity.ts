@@ -13,7 +13,7 @@ import {
     TreeParent,
 } from 'typeorm';
 
-import { ChannelAware, Orderable } from '../../common/types/common-types';
+import { ChannelAware, Orderable } from '../../common/types/shared-types';
 import { LocaleString, Translatable, Translation } from '../../common/types/locale-types';
 import { HasCustomFields } from '../../config/custom-field/custom-field-types';
 import { Asset } from '../asset/asset.entity';

@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InternalServerError } from '../../common/error/errors';
 
 import { AssetPreviewStrategy } from './asset-preview-strategy';

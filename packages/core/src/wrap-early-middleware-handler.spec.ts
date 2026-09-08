@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { Middleware } from './common/types/common-types';
+import { Middleware } from './common/types/shared-types';
 import { isGlobalRoute, wrapEarlyMiddlewareHandler } from './wrap-early-middleware-handler';
 
 /**

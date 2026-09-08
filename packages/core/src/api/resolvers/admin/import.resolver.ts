@@ -2,7 +2,7 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { MutationImportProductsArgs, Permission } from '@vendure/common/lib/generated-types';
 
 import { Importer } from '../../../data-import/providers/importer/importer';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 

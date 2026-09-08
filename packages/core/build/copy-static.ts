@@ -18,8 +18,8 @@ function copyFiles(sourceGlob: string, destinationDir: string) {
         try {
             fs.ensureDirSync(path.dirname(destFile));
             fs.copySync(path.join(srcDir, file), destFile);
-        } catch (error: any) {
-            console.error(`Error copying file ${file}:`, error);
+        } catch (caughtError: any) {
+            console.error(`Error copying file ${file}:`, caughtError);
         }
     }
 }
@@ -28,8 +28,8 @@ function copySchemas() {
     try {
         copyFiles(SCHEMAS_GLOB, DEST_DIR);
         console.log('Schemas copied successfully!');
-    } catch (error) {
-        console.error('Error copying schemas:', error);
+    } catch (caughtError) {
+        console.error('Error copying schemas:', caughtError);
     }
 }
 
@@ -37,8 +37,8 @@ function copyI18nMessages() {
     try {
         copyFiles(MESSAGES_GLOB, DEST_DIR);
         console.log('I18n messages copied successfully!');
-    } catch (error) {
-        console.error('Error copying i18n messages:', error);
+    } catch (caughtError) {
+        console.error('Error copying i18n messages:', caughtError);
     }
 }
 

@@ -12,7 +12,7 @@ import {
 } from '@vendure/common/lib/generated-types';
 
 import { StockLocationService } from '../../../service/services/stock-location.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 import { Transaction } from '../../decorators/transaction.decorator';

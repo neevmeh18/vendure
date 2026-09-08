@@ -160,8 +160,8 @@ export async function assertPublicUrl(
     } else if (literalFamily === 0 && hostname.length > 0) {
         try {
             addresses = await resolve(hostname);
-        } catch (e) {
-            const message = e instanceof Error ? e.message : String(e);
+        } catch (caughtError) {
+            const message = caughtError instanceof Error ? caughtError.message : String(caughtError);
             Logger.warn(
                 `Refusing to fetch ${safeForLog(urlString)}: DNS lookup failed (${safeForLog(message)})`,
                 loggerCtx,

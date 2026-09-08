@@ -40,8 +40,8 @@ export async function generateSchema({
                 });
                 const safeSchema = buildSchema(finalSchema);
                 resolve(safeSchema);
-            } catch (e) {
-                reject(e);
+            } catch (caughtError) {
+                reject(caughtError);
             }
         });
     }

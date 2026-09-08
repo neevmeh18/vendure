@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ID } from '@vendure/common/lib/shared-types';
 
 import { ApiType } from '../../api/common/get-api-type';
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InternalServerError } from '../../common/error/errors';
 import { InvalidCredentialsError } from '../../common/error/generated-graphql-admin-errors';
 import {

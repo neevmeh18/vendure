@@ -12,7 +12,7 @@ import { ProductVariant } from '../../entity/product-variant/product-variant.ent
 import { ProductPriceApplicator } from '../../service/helpers/product-price-applicator/product-price-applicator';
 import { TranslatorService } from '../../service/helpers/translator/translator.service';
 
-import { RequestContext } from './request-context';
+import { RequestContext } from './vendure-request-context';
 
 export interface ResolveRelationConfig {
     ctx: RequestContext;

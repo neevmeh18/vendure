@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { IllegalOperationError } from '../../../common/error/errors';
 import { FSM } from '../../../common/finite-state-machine/finite-state-machine';
 import { mergeTransitionDefinitions } from '../../../common/finite-state-machine/merge-transition-definitions';

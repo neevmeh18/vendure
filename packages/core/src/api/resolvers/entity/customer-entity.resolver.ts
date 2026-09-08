@@ -9,7 +9,7 @@ import { CustomerService } from '../../../service/services/customer.service';
 import { HistoryService } from '../../../service/services/history.service';
 import { OrderService } from '../../../service/services/order.service';
 import { ApiType } from '../../common/get-api-type';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Api } from '../../decorators/api.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

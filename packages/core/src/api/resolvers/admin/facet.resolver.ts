@@ -29,7 +29,7 @@ import { FacetValue } from '../../../entity/facet-value/facet-value.entity';
 import { Facet } from '../../../entity/facet/facet.entity';
 import { FacetValueService } from '../../../service/services/facet-value.service';
 import { FacetService } from '../../../service/services/facet.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

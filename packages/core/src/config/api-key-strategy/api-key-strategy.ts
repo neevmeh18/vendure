@@ -1,6 +1,6 @@
 import ms from 'ms';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InjectableStrategy } from '../../common/types/injectable-strategy';
 import { SessionService } from '../../service';
 import { PasswordHashingStrategy } from '../auth/password-hashing-strategy';

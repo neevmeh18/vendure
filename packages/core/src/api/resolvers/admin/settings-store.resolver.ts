@@ -3,7 +3,7 @@ import { Permission } from '@vendure/common/lib/generated-types';
 
 import { SetSettingsStoreValueResult } from '../../../config/settings-store/settings-store-types';
 import { SettingsStoreService } from '../../../service/helpers/settings-store/settings-store.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 
@@ -91,12 +91,12 @@ export class SettingsStoreAdminResolver {
                 };
             }
             return this.settingsStoreService.set(ctx, input.key, input.value);
-        } catch (error) {
+        } catch (caughtError) {
             // Handle validation errors (e.g., invalid keys) as structured errors
             return {
                 key: input.key,
                 result: false,
-                error: error instanceof Error ? error.message : 'Unknown error occurred',
+                error: caughtError instanceof Error ? caughtError.message : 'Unknown error occurred',
             };
         }
     }
@@ -128,12 +128,12 @@ export class SettingsStoreAdminResolver {
                     const result = await this.settingsStoreService.set(ctx, input.key, input.value);
                     results.push(result);
                 }
-            } catch (error) {
+            } catch (caughtError) {
                 // Handle validation errors (e.g., invalid keys) as structured errors
                 results.push({
                     key: input.key,
                     result: false,
-                    error: error instanceof Error ? error.message : 'Unknown error occurred',
+                    error: caughtError instanceof Error ? caughtError.message : 'Unknown error occurred',
                 });
             }
         }

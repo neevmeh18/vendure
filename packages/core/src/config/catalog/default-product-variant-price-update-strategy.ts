@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ProductVariantPrice } from '../../entity/product-variant/product-variant-price.entity';
 
 import { ProductVariantPriceUpdateStrategy } from './product-variant-price-update-strategy';

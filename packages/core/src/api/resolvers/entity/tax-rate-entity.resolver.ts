@@ -6,7 +6,7 @@ import { CustomerGroup } from '../../../entity/customer-group/customer-group.ent
 import { TaxRate } from '../../../entity/tax-rate/tax-rate.entity';
 import { RoleService } from '../../../service/services/role.service';
 import { TaxRateService } from '../../../service/services/tax-rate.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 

@@ -1,7 +1,7 @@
 import { Query, Resolver } from '@nestjs/graphql';
 
 import { Channel } from '../../../entity';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver()

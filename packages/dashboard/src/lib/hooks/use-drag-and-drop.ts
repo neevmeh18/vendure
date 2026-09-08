@@ -63,10 +63,10 @@ export function useDragAndDrop<TData = any>(options: UseDragAndDropOptions<TData
             try {
                 // Call the user's onReorder callback with all items for context
                 await onReorder(oldIndex, newIndex, localData[oldIndex], localData);
-            } catch (error) {
+            } catch (caughtError) {
                 // Revert on error
                 setLocalData(originalState);
-                options.onError?.(error as Error);
+                options.onError?.(caughtError as Error);
             } finally {
                 setIsReordering(false);
             }

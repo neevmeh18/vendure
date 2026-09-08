@@ -3,7 +3,7 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { Fulfillment } from '../../../entity/fulfillment/fulfillment.entity';
 import { FulfillmentService } from '../../../service/services/fulfillment.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('Fulfillment')

@@ -1,7 +1,7 @@
 import { JobState } from '@vendure/common/lib/generated-types';
 import { ID, JsonCompatible } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../api/common/request-context';
+import { RequestContext } from '../api/common/vendure-request-context';
 
 import { Job } from './job';
 

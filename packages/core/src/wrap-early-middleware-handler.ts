@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { Middleware, MiddlewareHandler } from './common/types/common-types';
+import { Middleware, MiddlewareHandler } from './common/types/shared-types';
 
 type RequestHandlerLike = (req: Request, res: Response, next: NextFunction) => void;
 

@@ -16,7 +16,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { CacheKey } from '../../../common/constants';
 import { InternalServerError, UserInputError } from '../../../common/error/errors';
-import { FilterParameter, ListQueryOptions, NullOptionals } from '../../../common/types/common-types';
+import { FilterParameter, ListQueryOptions, NullOptionals } from '../../../common/types/shared-types';
 import { Translated } from '../../../common/types/locale-types';
 import { VendureEntity } from '../../../entity/base/base.entity';
 import { Collection } from '../../../entity/collection/collection.entity';
@@ -27,7 +27,7 @@ import { FacetValueService } from '../../../service/services/facet-value.service
 import { ProductVariantService } from '../../../service/services/product-variant.service';
 import { ProductService } from '../../../service/services/product.service';
 import { isFieldInSelection } from '../../common/is-field-in-selection';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 

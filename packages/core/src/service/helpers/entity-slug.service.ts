@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityMetadata, ObjectLiteral, Repository } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { UserInputError } from '../../common/error/errors';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 

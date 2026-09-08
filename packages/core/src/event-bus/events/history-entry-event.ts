@@ -1,7 +1,7 @@
 import { HistoryEntryType } from '@vendure/common/lib/generated-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { HistoryEntry } from '../../entity/history-entry/history-entry.entity';
 import { VendureEntityEvent } from '../vendure-entity-event';
 

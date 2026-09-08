@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { SettingsStoreScopes } from '../../config/settings-store/settings-store-types';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 import { SettingsStoreService } from '../../service/helpers/settings-store/settings-store.service';

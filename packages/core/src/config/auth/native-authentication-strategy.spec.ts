@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 
 import { NativeAuthenticationStrategy } from './native-authentication-strategy';

@@ -2,7 +2,7 @@ import { ConfigArg } from '@vendure/common/lib/generated-types';
 import { Json } from '@vendure/common/lib/shared-types';
 import { createHash } from 'crypto';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { CacheService } from '../../cache/index';
 import {
     ConfigArgs,

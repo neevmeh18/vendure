@@ -73,9 +73,9 @@ export function AddOptionGroupDialog({
             toast.success(t`Successfully assigned option group`);
             setOpen(false);
             onSuccess?.();
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to assign option group`, {
-                description: error instanceof Error ? error.message : t`Unknown error`,
+                description: caughtError instanceof Error ? caughtError.message : t`Unknown error`,
             });
         }
     };
@@ -115,9 +115,9 @@ export function AddOptionGroupDialog({
             toast.success(t`Successfully created option group`);
             setOpen(false);
             onSuccess?.();
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to create option group`, {
-                description: error instanceof Error ? error.message : t`Unknown error`,
+                description: caughtError instanceof Error ? caughtError.message : t`Unknown error`,
             });
         }
     });

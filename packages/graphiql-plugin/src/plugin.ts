@@ -147,8 +147,8 @@ export class GraphiqlPlugin implements NestModule {
                 }
 
                 throw new Error(`GraphiQL UI not found: ${indexHtmlPath}`);
-            } catch (e) {
-                const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+            } catch (caughtError) {
+                const errorMessage = caughtError instanceof Error ? caughtError.message : 'Unknown error';
                 Logger.error(`Error serving GraphiQL: ${errorMessage}`, 'GraphiQLPlugin');
                 return res.status(500).send('An error occurred while rendering GraphiQL');
             }
@@ -169,8 +169,8 @@ export class GraphiqlPlugin implements NestModule {
                 } else {
                     return res.status(404).send('Asset not found');
                 }
-            } catch (e: unknown) {
-                const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+            } catch (caughtError: unknown) {
+                const errorMessage = caughtError instanceof Error ? caughtError.message : 'Unknown error';
                 Logger.error(`Error serving static asset: ${errorMessage}`, loggerCtx);
                 return res.status(500).send('An error occurred while serving static asset');
             }

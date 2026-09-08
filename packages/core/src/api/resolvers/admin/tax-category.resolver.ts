@@ -13,7 +13,7 @@ import { PaginatedList } from '@vendure/common/lib/shared-types';
 
 import { TaxCategory } from '../../../entity/tax-category/tax-category.entity';
 import { TaxCategoryService } from '../../../service/services/tax-category.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 import { Transaction } from '../../decorators/transaction.decorator';

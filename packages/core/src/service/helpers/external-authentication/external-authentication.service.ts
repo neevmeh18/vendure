@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HistoryEntryType } from '@vendure/common/lib/generated-types';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { UnverifiedExternalEmailError } from '../../../common/error/errors';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { Administrator } from '../../../entity/administrator/administrator.entity';

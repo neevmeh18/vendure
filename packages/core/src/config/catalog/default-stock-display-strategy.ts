@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ProductVariant } from '../../entity/product-variant/product-variant.entity';
 
 import { StockDisplayStrategy } from './stock-display-strategy';

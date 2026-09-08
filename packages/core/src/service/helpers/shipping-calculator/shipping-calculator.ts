@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ID } from '@vendure/common/lib/shared-types';
 import { notNullOrUndefined } from '@vendure/common/lib/shared-utils';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { ShippingCalculationResult } from '../../../config/shipping-method/shipping-calculator';
 import { Order } from '../../../entity/order/order.entity';
 import { ShippingMethod } from '../../../entity/shipping-method/shipping-method.entity';

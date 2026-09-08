@@ -4,7 +4,7 @@ import ms from 'ms';
 import { filter } from 'rxjs/operators';
 import type { GlobalSettingsService } from '../../service/index';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Cache, CacheService, RequestContextCacheService } from '../../cache/index';
 import { Injector } from '../../common/injector';
 import { ProductVariant } from '../../entity/index';

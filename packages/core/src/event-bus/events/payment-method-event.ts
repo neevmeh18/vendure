@@ -1,7 +1,7 @@
 import { CreatePaymentMethodInput, UpdatePaymentMethodInput } from '@vendure/common/lib/generated-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { PaymentMethod } from '../../entity';
 import { VendureEntityEvent } from '../vendure-entity-event';
 

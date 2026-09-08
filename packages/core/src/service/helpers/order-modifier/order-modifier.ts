@@ -12,7 +12,7 @@ import { ID } from '@vendure/common/lib/shared-types';
 import { getGraphQlInputName, summate } from '@vendure/common/lib/shared-utils';
 import { IsNull } from 'typeorm';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { isGraphQlErrorResult, JustErrorResults } from '../../../common/error/error-result';
 import { EntityNotFoundError, InternalServerError, UserInputError } from '../../../common/error/errors';
 import {

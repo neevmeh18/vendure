@@ -80,9 +80,9 @@ export const config: VendureConfig = {
         cleanup: () => {
             try {
                 rmSync(projectDir, { recursive: true, force: true });
-            } catch (error) {
+            } catch (caughtError) {
                 // Ignore cleanup errors - use stderr to avoid no-console lint error
-                const errorMessage = error instanceof Error ? error.message : String(error);
+                const errorMessage = caughtError instanceof Error ? caughtError.message : String(caughtError);
                 process.stderr.write(`Failed to cleanup test project at ${projectDir}: ${errorMessage}\n`);
             }
         },

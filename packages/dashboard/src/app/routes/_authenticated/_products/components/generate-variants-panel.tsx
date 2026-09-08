@@ -180,9 +180,9 @@ export function GenerateVariantsPanel({
             await createVariantsMutation.mutateAsync({ input: variantsToCreate });
             toast.success(t`Successfully created variants`);
             onSuccess?.();
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to create variants`, {
-                description: error instanceof Error ? error.message : t`Unknown error`,
+                description: caughtError instanceof Error ? caughtError.message : t`Unknown error`,
             });
         }
     });

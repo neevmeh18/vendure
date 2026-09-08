@@ -808,8 +808,8 @@ describe('Custom fields', () => {
                     `),
                     );
                     fail('Should have thrown');
-                } catch (e) {
-                    expect(e.message).toContain(
+                } catch (caughtError) {
+                    expect(caughtError.message).toContain(
                         'The custom field "validateInt" value [11] is greater than the maximum [10]',
                     );
                 }
@@ -845,8 +845,8 @@ describe('Custom fields', () => {
                     `),
                     );
                     fail('Should have thrown');
-                } catch (e) {
-                    expect(e.message).toContain(
+                } catch (caughtError) {
+                    expect(caughtError.message).toContain(
                         'The custom field "validateInt" value [11] is greater than the maximum [10]',
                     );
                 }
@@ -1058,7 +1058,7 @@ describe('Custom fields', () => {
             try {
                 await adminClient.query(createProductUniqueStringDocument, { uniqueString: 'foo' });
                 fail('Should have thrown');
-            } catch (e: any) {
+            } catch (caughtError: any) {
                 let duplicateKeyErrMessage = 'unassigned';
                 switch (customConfig.dbConnectionOptions.type) {
                     case 'mariadb':
@@ -1073,7 +1073,7 @@ describe('Custom fields', () => {
                         duplicateKeyErrMessage = 'UNIQUE constraint failed: product.customFieldsUniquestring';
                         break;
                 }
-                expect(e.message).toContain(duplicateKeyErrMessage);
+                expect(caughtError.message).toContain(duplicateKeyErrMessage);
             }
         });
     });

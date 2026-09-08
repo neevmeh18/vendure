@@ -14,7 +14,7 @@ import { ForbiddenError, InternalServerError } from '../../../common/error/error
 import { idsAreEqual } from '../../../common/utils';
 import { Address, Customer } from '../../../entity';
 import { CustomerService } from '../../../service/services/customer.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 import { Transaction } from '../../decorators/transaction.decorator';

@@ -17,7 +17,7 @@ import { PaginatedList } from '@vendure/common/lib/shared-types';
 import { Translated } from '../../../common/types/locale-types';
 import { PaymentMethod } from '../../../entity/payment-method/payment-method.entity';
 import { PaymentMethodService } from '../../../service/services/payment-method.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

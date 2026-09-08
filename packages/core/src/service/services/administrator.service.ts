@@ -9,11 +9,11 @@ import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { unique } from '@vendure/common/lib/unique';
 import { IsNull, SelectQueryBuilder } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { Instrument } from '../../common';
 import { EntityNotFoundError, InternalServerError, UserInputError } from '../../common/error/errors';
-import { ListQueryOptions } from '../../common/types/common-types';
+import { ListQueryOptions } from '../../common/types/shared-types';
 import { assertFound, idsAreEqual, normalizeEmailAddress } from '../../common/utils';
 import { API_KEY_AUTH_STRATEGY_NAME, ConfigService, Logger } from '../../config';
 import { TransactionalConnection } from '../../connection/transactional-connection';

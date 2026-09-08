@@ -1,7 +1,7 @@
 import { DeepPartial } from '@vendure/common/lib/shared-types';
 import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 
-import { PaymentMetadata } from '../../common/types/common-types';
+import { PaymentMetadata } from '../../common/types/shared-types';
 import { HasCustomFields } from '../../config/index';
 import { PaymentState } from '../../service/helpers/payment-state-machine/payment-state';
 import { VendureEntity } from '../base/base.entity';
