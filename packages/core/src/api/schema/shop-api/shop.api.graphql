@@ -107,6 +107,8 @@ type Mutation {
     addPaymentToOrder(input: PaymentInput!): AddPaymentToOrderResult!
     "Set the Customer for the Order. Required only if the Customer is not currently logged in"
     setCustomerForOrder(input: CreateCustomerInput!): SetCustomerForOrderResult!
+    "Requests a return of the given quantities of OrderLines from a previously placed Order. The corresponding Refund is created against the Order's Payment."
+    requestOrderReturn(input: RequestOrderReturnInput!): Refund!
     """
     Authenticates the user using the native authentication strategy. This mutation is an alias for authenticate({ native: { ... }})
 
@@ -318,4 +320,15 @@ type UpdateMultipleOrderItemsResult  {
 input AddItemInput {
     productVariantId: ID!
     quantity: Int!
+}
+
+input OrderReturnLineInput {
+    orderLineId: ID!
+    quantity: Int!
+}
+
+input RequestOrderReturnInput {
+    orderCode: String!
+    lines: [OrderReturnLineInput!]!
+    reason: String
 }

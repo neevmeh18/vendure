@@ -796,6 +796,15 @@ export interface OrderOptions {
      * @default []
      */
     orderInterceptors?: OrderInterceptor[];
+    /**
+     * @description
+     * The number of days after an Order is placed during which a Customer may
+     * request a return of items from that Order via the Shop API.
+     *
+     * @default 30
+     * @since 3.6.0
+     */
+    returnWindowDays?: number;
 }
 
 /**
