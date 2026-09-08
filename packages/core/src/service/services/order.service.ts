@@ -229,6 +229,7 @@ export class OrderService implements OnApplicationBootstrap {
                 ],
                 channelId: ctx.channelId,
                 customPropertyMap: {
+                    customerEmailAddress: 'customer.emailAddress',
                     customerLastName: 'customer.lastName',
                     transactionId: 'payments.transactionId',
                 },
