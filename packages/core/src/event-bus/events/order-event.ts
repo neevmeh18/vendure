@@ -1,10 +1,10 @@
-import { ModifyOrderInput } from '@vendure/common/lib/generated-types';
+import { CancelOrderInput, ModifyOrderInput } from '@vendure/common/lib/generated-types';
 
 import { RequestContext } from '../../api';
 import { Customer, Order } from '../../entity';
 import { VendureEntityEvent } from '../vendure-entity-event';
 
-type OrderInputTypes = Customer | ModifyOrderInput | { customFields: any };
+type OrderInputTypes = Customer | ModifyOrderInput | CancelOrderInput | { customFields: any };
 
 /**
  * @description
