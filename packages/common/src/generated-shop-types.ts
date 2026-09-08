@@ -1861,6 +1861,8 @@ export type Mutation = {
     removeCouponCode?: Maybe<Order>;
     /** Remove an OrderLine from the Order */
     removeOrderLine: RemoveOrderItemsResult;
+    /** Requests a return of the given quantities of OrderLines from a previously placed Order. The corresponding Refund is created against the Order's Payment. */
+    requestOrderReturn: Refund;
     /** Requests a password reset email to be sent */
     requestPasswordReset?: Maybe<RequestPasswordResetResult>;
     /**
@@ -1972,6 +1974,10 @@ export type MutationRemoveCouponCodeArgs = {
 
 export type MutationRemoveOrderLineArgs = {
     orderLineId: Scalars['ID']['input'];
+};
+
+export type MutationRequestOrderReturnArgs = {
+    input: RequestOrderReturnInput;
 };
 
 export type MutationRequestPasswordResetArgs = {
@@ -2332,6 +2338,11 @@ export type OrderPaymentStateError = ErrorResult & {
     __typename?: 'OrderPaymentStateError';
     errorCode: ErrorCode;
     message: Scalars['String']['output'];
+};
+
+export type OrderReturnLineInput = {
+    orderLineId: Scalars['ID']['input'];
+    quantity: Scalars['Int']['input'];
 };
 
 export type OrderSortParameter = {
@@ -3214,6 +3225,12 @@ export type RelationCustomFieldConfig = CustomField & {
 };
 
 export type RemoveOrderItemsResult = Order | OrderInterceptorError | OrderModificationError;
+
+export type RequestOrderReturnInput = {
+    lines: Array<OrderReturnLineInput>;
+    orderCode: Scalars['String']['input'];
+    reason?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type RequestPasswordResetResult = NativeAuthStrategyError | Success;
 

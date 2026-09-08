@@ -496,6 +496,29 @@ export class PaymentService {
 
     /**
      * @description
+     * Returns the quantity of each OrderLine which has already been returned via a Refund on the
+     * given Order, keyed by OrderLine id.
+     */
+    async getRefundedQuantitiesForOrder(ctx: RequestContext, orderId: ID): Promise<Map<ID, number>> {
+        const refunds = await this.connection.getRepository(ctx, Refund).find({
+            relations: ['lines'],
+            where: {
+                payment: { order: { id: orderId } },
+                state: 'Settled',
+            },
+        });
+        const quantities = new Map<ID, number>();
+        for (const refund of refunds) {
+            for (const line of refund.lines) {
+                const existing = quantities.get(line.orderLineId) ?? 0;
+                quantities.set(line.orderLineId, existing + line.quantity);
+            }
+        }
+        return quantities;
+    }
+
+    /**
+     * @description
      * Returns the total amount of all Refunds against the given Payment.
      */
     private getPaymentRefundTotal(payment: Payment): number {

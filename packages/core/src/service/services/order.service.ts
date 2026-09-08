@@ -6,6 +6,7 @@ import {
     PaymentInput,
     PaymentMethodQuote,
     RemoveOrderItemsResult,
+    RequestOrderReturnInput,
     SetOrderShippingMethodResult,
     UpdateOrderItemsResult,
 } from '@vendure/common/lib/generated-shop-types';
@@ -2011,6 +2012,75 @@ export class OrderService implements OnApplicationBootstrap {
             await this.eventBus.publish(new RefundEvent(ctx, order, createdRefund, 'created'));
         }
         return createdRefund;
+    }
+
+    /**
+     * @description
+     * Requests a return of the given quantities of OrderLines from a previously placed Order
+     * and creates the corresponding Refund against the Order's Payment.
+     */
+    async requestOrderReturn(
+        ctx: RequestContext,
+        order: Order,
+        input: RequestOrderReturnInput,
+    ): Promise<Refund> {
+        if (!this.isWithinReturnWindow(ctx, order)) {
+            throw new UserInputError('The return window for this Order has closed');
+        }
+        if (input.lines.length === 0) {
+            throw new UserInputError('At least one OrderLine must be specified');
+        }
+        const payments = await this.getOrderPayments(ctx, order.id);
+        const payment = payments.find(p => p.state === 'Settled') ?? payments[0];
+        if (!payment) {
+            throw new UserInputError('No Payment found for this Order');
+        }
+        const alreadyReturnedQuantities = await this.paymentService.getRefundedQuantitiesForOrder(
+            ctx,
+            order.id,
+        );
+        let total = 0;
+        const lines: OrderLineInput[] = [];
+        for (const line of input.lines) {
+            const orderLine = order.lines.find(l => idsAreEqual(l.id, line.orderLineId));
+            if (!orderLine) {
+                throw new UserInputError('The Order does not contain the specified OrderLine');
+            }
+            if (line.quantity < 1) {
+                throw new UserInputError('Quantity must be at least 1');
+            }
+            const alreadyReturned = alreadyReturnedQuantities.get(orderLine.id) ?? 0;
+            const returnable = orderLine.orderPlacedQuantity - alreadyReturned;
+            if (returnable < line.quantity) {
+                throw new UserInputError(
+                    'Requested quantity exceeds the returnable quantity for this OrderLine',
+                );
+            }
+            total += line.quantity * orderLine.proratedUnitPriceWithTax;
+            lines.push({ orderLineId: line.orderLineId, quantity: line.quantity });
+        }
+        const result = await this.refundOrder(ctx, {
+            paymentId: payment.id,
+            amount: total,
+            reason: input.reason ?? 'Customer return',
+            lines,
+        });
+        if (isGraphQlErrorResult(result)) {
+            throw new InternalServerError(result.message);
+        }
+        const note = `Customer return of ${input.lines
+            .map(l => `${l.quantity} of line ${l.orderLineId}`)
+            .join(', ')}. Reason: ${input.reason ?? 'Customer return'}`;
+        await this.historyService.createHistoryEntryForOrder(
+            {
+                ctx,
+                orderId: order.id,
+                type: HistoryEntryType.ORDER_NOTE,
+                data: { note },
+            },
+            true,
+        );
+        return result;
     }
 
     /**

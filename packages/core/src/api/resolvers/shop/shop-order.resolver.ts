@@ -9,6 +9,7 @@ import {
     MutationAdjustOrderLineArgs,
     MutationApplyCouponCodeArgs,
     MutationRemoveOrderLineArgs,
+    MutationRequestOrderReturnArgs,
     MutationSetCurrencyCodeForOrderArgs,
     MutationSetCustomerForOrderArgs,
     MutationSetOrderBillingAddressArgs,
@@ -39,6 +40,7 @@ import { idsAreEqual } from '../../../common/utils';
 import { ACTIVE_ORDER_INPUT_FIELD_NAME, ConfigService, LogLevel } from '../../../config';
 import { Country } from '../../../entity';
 import { Order } from '../../../entity/order/order.entity';
+import { Refund } from '../../../entity/refund/refund.entity';
 import { ActiveOrderService, CountryService } from '../../../service';
 import { OrderState } from '../../../service/helpers/order-state-machine/order-state';
 import { CustomerService } from '../../../service/services/customer.service';
@@ -530,5 +532,30 @@ export class ShopOrderResolver {
             }
         }
         return new NoActiveOrderError();
+    }
+
+    @Transaction()
+    @Mutation()
+    @Allow(Permission.Owner)
+    async requestOrderReturn(
+        @Ctx() ctx: RequestContext,
+        @Args() args: MutationRequestOrderReturnArgs,
+    ): Promise<Refund> {
+        if (ctx.authorizedAsOwnerOnly) {
+            const requiredRelations: RelationPaths<Order> = ['customer', 'customer.user'];
+            const order = await this.orderService.findOneByCode(
+                ctx,
+                args.input.orderCode,
+                unique([...requiredRelations, 'lines', 'payments']),
+            );
+
+            if (
+                order &&
+                (await this.configService.orderOptions.orderByCodeAccessStrategy.canAccessOrder(ctx, order))
+            ) {
+                return this.orderService.requestOrderReturn(ctx, order, args.input);
+            }
+            throw new ForbiddenError(LogLevel.Verbose);
+        }
     }
 }
