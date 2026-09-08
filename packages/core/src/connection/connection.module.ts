@@ -8,7 +8,8 @@ import { TypeOrmLogger } from '../config/logger/typeorm-logger';
 
 import { CustomFieldsValidationSubscriber } from './custom-fields-validation-subscriber';
 import { EntityReadAdapter } from './entity-read-adapter';
-import { QueryPlan } from './query-plan';
+import { ReadBoundary } from './read-boundary';
+import { ReadQueryFactory } from './read-query-factory';
 import { TransactionSubscriber } from './transaction-subscriber';
 import { TransactionWrapper } from './transaction-wrapper';
 import { TransactionalConnection } from './transactional-connection';
@@ -22,7 +23,8 @@ let defaultTypeOrmModule: DynamicModule;
         TransactionWrapper,
         CustomFieldsValidationSubscriber,
         EntityReadAdapter,
-        QueryPlan,
+        ReadQueryFactory,
+        ReadBoundary,
     ],
     exports: [
         TransactionalConnection,
@@ -30,7 +32,6 @@ let defaultTypeOrmModule: DynamicModule;
         TransactionWrapper,
         CustomFieldsValidationSubscriber,
         EntityReadAdapter,
-        QueryPlan,
     ],
 })
 export class ConnectionCoreModule {}

@@ -2,13 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { Type } from '@vendure/common/lib/shared-types';
 
 import { RequestContext } from '../../api/common/request-context';
-import { EntityReadAdapter, EntityReadInput } from '../../connection/entity-read-adapter';
+import { ChannelAware } from '../../common/types/common-types';
+import { EntityReadAdapter } from '../../connection/entity-read-adapter';
+import { EntityReadInput } from '../../connection/read-query-factory';
 import { VendureEntity } from '../../entity/base/base.entity';
 
-export type EntityReadRequest<T extends VendureEntity> = EntityReadInput<T>;
+export type EntityReadRequest<T extends ChannelAware & VendureEntity> = EntityReadInput<T>;
 
-export interface EntityReadHandle<T extends VendureEntity> {
-    one(request: EntityReadRequest<T>): Promise<T | undefined>;
+export class EntityReadHandle<T extends ChannelAware & VendureEntity> {
+    constructor(
+        private readonly ctx: RequestContext,
+        private readonly entityType: Type<T>,
+        private readonly adapter: EntityReadAdapter,
+    ) {}
+
+    one(request: EntityReadRequest<T>): Promise<T | undefined> {
+        return this.adapter.one(this.ctx, this.entityType, request);
+    }
 }
 
 /**
@@ -20,16 +30,10 @@ export interface EntityReadHandle<T extends VendureEntity> {
 export class EntityReader {
     constructor(private adapter: EntityReadAdapter) {}
 
-    for<T extends VendureEntity>(ctx: RequestContext, entityType: Type<T>): EntityReadHandle<T> {
-        const handle: EntityReadHandle<T> = {
-            one: request => this.adapter.one(ctx, entityType, request),
-        };
-
-        return new Proxy(handle, {
-            get(target, property, receiver) {
-                const value = Reflect.get(target, property, receiver);
-                return typeof value === 'function' ? value.bind(target) : value;
-            },
-        });
+    for<T extends ChannelAware & VendureEntity>(
+        ctx: RequestContext,
+        entityType: Type<T>,
+    ): EntityReadHandle<T> {
+        return new EntityReadHandle(ctx, entityType, this.adapter);
     }
 }

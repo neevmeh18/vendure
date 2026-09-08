@@ -95,7 +95,6 @@ import { ShopCustomerResolver } from './resolvers/shop/shop-customer.resolver';
 import { ShopEnvironmentResolver } from './resolvers/shop/shop-environment.resolver';
 import { ShopOrderResolver } from './resolvers/shop/shop-order.resolver';
 import { ShopPaymentMethodsResolver } from './resolvers/shop/shop-payment-methods.resolver';
-import { ShopProductLookupService } from './resolvers/shop/shop-product-lookup.service';
 import { ShopProductsResolver } from './resolvers/shop/shop-products.resolver';
 import { ShopShippingMethodsResolver } from './resolvers/shop/shop-shipping-methods.resolver';
 
@@ -225,7 +224,7 @@ export class AdminApiModule {}
  */
 @Module({
     imports: [ApiSharedModule, ...createDynamicGraphQlModulesForPlugins('shop')],
-    providers: [...shopResolvers, ...entityResolvers, ShopProductLookupService],
+    providers: [...shopResolvers, ...entityResolvers],
     exports: [...shopResolvers],
 })
 export class ShopApiModule {}
