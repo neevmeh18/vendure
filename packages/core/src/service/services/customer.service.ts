@@ -61,6 +61,7 @@ import { IdentifierChangeRequestEvent } from '../../event-bus/events/identifier-
 import { PasswordResetEvent } from '../../event-bus/events/password-reset-event';
 import { PasswordResetVerifiedEvent } from '../../event-bus/events/password-reset-verified-event';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
+import { findCustomerInChannelByEmailAddress } from '../helpers/customer-email-address-query/customer-email-address-query';
 import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
 import { TranslatorService } from '../helpers/translator/translator.service';
 import { addressToLine } from '../helpers/utils/address-to-line';
@@ -215,14 +216,11 @@ export class CustomerService {
         input.emailAddress = normalizeEmailAddress(input.emailAddress);
         const customer = new Customer(input);
 
-        const existingCustomerInChannel = await this.connection
-            .getRepository(ctx, Customer)
-            .createQueryBuilder('customer')
-            .leftJoin('customer.channels', 'channel')
-            .where('channel.id = :channelId', { channelId: ctx.channelId })
-            .andWhere('customer.emailAddress = :emailAddress', { emailAddress: input.emailAddress })
-            .andWhere('customer.deletedAt is null')
-            .getOne();
+        const existingCustomerInChannel = await findCustomerInChannelByEmailAddress(
+            this.connection,
+            ctx,
+            input.emailAddress,
+        );
 
         if (existingCustomerInChannel) {
             return new EmailAddressConflictAdminError();
@@ -315,17 +313,12 @@ export class CustomerService {
         if (hasEmailAddress(input)) {
             input.emailAddress = normalizeEmailAddress(input.emailAddress);
             if (input.emailAddress !== customer.emailAddress) {
-                const existingCustomerInChannel = await this.connection
-                    .getRepository(ctx, Customer)
-                    .createQueryBuilder('customer')
-                    .leftJoin('customer.channels', 'channel')
-                    .where('channel.id = :channelId', { channelId: ctx.channelId })
-                    .andWhere('customer.emailAddress = :emailAddress', {
-                        emailAddress: input.emailAddress,
-                    })
-                    .andWhere('customer.id != :customerId', { customerId: input.id })
-                    .andWhere('customer.deletedAt is null')
-                    .getOne();
+                const existingCustomerInChannel = await findCustomerInChannelByEmailAddress(
+                    this.connection,
+                    ctx,
+                    input.emailAddress,
+                    input.id,
+                );
 
                 if (existingCustomerInChannel) {
                     return new EmailAddressConflictAdminError();

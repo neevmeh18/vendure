@@ -31,6 +31,9 @@ import { RequestContext } from '../../common/request-context';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 
+import { normalizeShopProductLookup } from './shop-product-lookup';
+import { ShopProductLookupService } from './shop-product-lookup.service';
+
 @Resolver()
 export class ShopProductsResolver {
     constructor(
@@ -40,6 +43,7 @@ export class ShopProductsResolver {
         private collectionService: CollectionService,
         private facetService: FacetService,
         private requestContextCache: RequestContextCacheService,
+        private shopProductLookupService: ShopProductLookupService,
     ) {}
 
     @Query()
@@ -58,22 +62,8 @@ export class ShopProductsResolver {
         @Args() args: QueryProductArgs,
         @Relations({ entity: Product, omit: ['variants', 'assets'] }) relations: RelationPaths<Product>,
     ): Promise<Translated<Product> | undefined> {
-        let result: Translated<Product> | undefined;
-        if (args.id) {
-            result = await this.productService.findOne(ctx, args.id, relations);
-        } else if (args.slug) {
-            result = await this.productService.findOneBySlug(ctx, args.slug, relations);
-        } else {
-            throw new UserInputError('error.product-id-or-slug-must-be-provided');
-        }
-        if (!result) {
-            return;
-        }
-        if (result.enabled === false) {
-            return;
-        }
-        result.facetValues = result.facetValues?.filter(fv => !fv.facet.isPrivate) as any;
-        return result;
+        const lookup = normalizeShopProductLookup(args);
+        return this.shopProductLookupService.findOne(ctx, lookup, relations);
     }
 
     @Query()
