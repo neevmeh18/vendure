@@ -17,7 +17,7 @@ export class SecurityAuditService {
     async record(
         ctx: RequestContext,
         input: SecurityAuditInput,
-        options: SecurityAuditOptions,
+        options: SecurityAuditOptions = {},
     ): Promise<void> {
         const sanitizedRecord = buildSanitizedSecurityAuditRecord(ctx, input);
         await writeSanitizedSecurityAuditRecord(sanitizedRecord);
