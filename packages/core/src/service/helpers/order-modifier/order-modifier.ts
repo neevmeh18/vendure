@@ -274,29 +274,47 @@ export class OrderModifier {
 
         const allocatedLines: OrderLineInput[] = [];
         const fulfilledLines: OrderLineInput[] = [];
+        const orderLineIds = lineInputs.map(l => l.orderLineId);
+        const allocations = await this.connection
+            .getRepository(ctx, Allocation)
+            .createQueryBuilder('allocation')
+            .leftJoinAndSelect('allocation.orderLine', 'orderLine')
+            .where('orderLine.id IN (:...orderLineIds)', { orderLineIds })
+            .getMany();
+        const sales = await this.connection
+            .getRepository(ctx, Sale)
+            .createQueryBuilder('sale')
+            .leftJoinAndSelect('sale.orderLine', 'orderLine')
+            .where('orderLine.id IN (:...orderLineIds)', { orderLineIds })
+            .getMany();
+        const releases = await this.connection
+            .getRepository(ctx, Release)
+            .createQueryBuilder('release')
+            .leftJoinAndSelect('release.orderLine', 'orderLine')
+            .where('orderLine.id IN (:...orderLineIds)', { orderLineIds })
+            .getMany();
+        const fulfillments = await this.connection
+            .getRepository(ctx, FulfillmentLine)
+            .createQueryBuilder('fulfillmentLine')
+            .leftJoinAndSelect('fulfillmentLine.orderLine', 'orderLine')
+            .where('orderLine.id IN (:...orderLineIds)', { orderLineIds })
+            .getMany();
+        const cancellations = await this.connection
+            .getRepository(ctx, Cancellation)
+            .createQueryBuilder('cancellation')
+            .leftJoinAndSelect('cancellation.orderLine', 'orderLine')
+            .where('orderLine.id IN (:...orderLineIds)', { orderLineIds })
+            .getMany();
         for (const lineInput of lineInputs) {
             const orderLine = fullOrder.lines.find(l => idsAreEqual(l.id, lineInput.orderLineId));
             if (orderLine && orderLine.quantity < lineInput.quantity) {
                 return new QuantityTooGreatError();
             }
-            const allocationsForLine = await this.connection
-                .getRepository(ctx, Allocation)
-                .createQueryBuilder('allocation')
-                .leftJoinAndSelect('allocation.orderLine', 'orderLine')
-                .where('orderLine.id = :orderLineId', { orderLineId: lineInput.orderLineId })
-                .getMany();
-            const salesForLine = await this.connection
-                .getRepository(ctx, Sale)
-                .createQueryBuilder('sale')
-                .leftJoinAndSelect('sale.orderLine', 'orderLine')
-                .where('orderLine.id = :orderLineId', { orderLineId: lineInput.orderLineId })
-                .getMany();
-            const releasesForLine = await this.connection
-                .getRepository(ctx, Release)
-                .createQueryBuilder('release')
-                .leftJoinAndSelect('release.orderLine', 'orderLine')
-                .where('orderLine.id = :orderLineId', { orderLineId: lineInput.orderLineId })
-                .getMany();
+            const allocationsForLine = allocations.filter(a =>
+                idsAreEqual(a.orderLine.id, lineInput.orderLineId),
+            );
+            const salesForLine = sales.filter(s => idsAreEqual(s.orderLine.id, lineInput.orderLineId));
+            const releasesForLine = releases.filter(r => idsAreEqual(r.orderLine.id, lineInput.orderLineId));
             const totalAllocated =
                 summate(allocationsForLine, 'quantity') +
                 summate(salesForLine, 'quantity') -
@@ -307,18 +325,12 @@ export class OrderModifier {
                     quantity: Math.min(totalAllocated, lineInput.quantity),
                 });
             }
-            const fulfillmentsForLine = await this.connection
-                .getRepository(ctx, FulfillmentLine)
-                .createQueryBuilder('fulfillmentLine')
-                .leftJoinAndSelect('fulfillmentLine.orderLine', 'orderLine')
-                .where('orderLine.id = :orderLineId', { orderLineId: lineInput.orderLineId })
-                .getMany();
-            const cancellationsForLine = await this.connection
-                .getRepository(ctx, Cancellation)
-                .createQueryBuilder('cancellation')
-                .leftJoinAndSelect('cancellation.orderLine', 'orderLine')
-                .where('orderLine.id = :orderLineId', { orderLineId: lineInput.orderLineId })
-                .getMany();
+            const fulfillmentsForLine = fulfillments.filter(f =>
+                idsAreEqual(f.orderLine.id, lineInput.orderLineId),
+            );
+            const cancellationsForLine = cancellations.filter(c =>
+                idsAreEqual(c.orderLine.id, lineInput.orderLineId),
+            );
             const totalFulfilled =
                 summate(fulfillmentsForLine, 'quantity') - summate(cancellationsForLine, 'quantity');
             if (0 < totalFulfilled) {
@@ -377,6 +389,15 @@ export class OrderModifier {
                 shippingCancelled: !!input.cancelShipping,
             },
         });
+
+        await this.eventBus.publish(new OrderEvent(ctx, orderWithLines, 'updated', input));
+
+        if (
+            this.configService.orderOptions.autoRefundOnCancellation === true &&
+            order.state !== 'Modifying'
+        ) {
+            await this.createRefundsForCancelledOrderLines(ctx, orderWithLines, lineInputs, input.reason);
+        }
 
         return orderLinesAreAllCancelled(orderWithLines);
     }
@@ -818,6 +839,69 @@ export class OrderModifier {
                 order: { id: orderId } as any,
             },
         });
+    }
+
+    private async createRefundsForCancelledOrderLines(
+        ctx: RequestContext,
+        order: Order,
+        lineInputs: OrderLineInput[],
+        reason?: string | null,
+    ): Promise<void> {
+        const orderLineIds = lineInputs.map(l => l.orderLineId);
+        const orderLines = await this.connection
+            .getRepository(ctx, OrderLine)
+            .createQueryBuilder('orderLine')
+            .where('orderLine.id IN (:...orderLineIds)', { orderLineIds })
+            .getMany();
+        let cancelledValue = 0;
+        for (const lineInput of lineInputs) {
+            const orderLine = orderLines.find(line => idsAreEqual(line.id, lineInput.orderLineId));
+            if (!orderLine) {
+                continue;
+            }
+            cancelledValue += orderLine.proratedUnitPriceWithTax * lineInput.quantity;
+        }
+        if (!(0 < cancelledValue)) {
+            return;
+        }
+
+        const payments = await this.getOrderPayments(ctx, order.id);
+        const candidates = payments.filter(payment => {
+            const alreadyRefunded = summate(
+                (payment.refunds ?? []).filter(refund => refund.state !== 'Failed'),
+                'total',
+            );
+            return 0 < payment.amount - alreadyRefunded;
+        });
+
+        let outstanding = cancelledValue;
+        for (const payment of candidates) {
+            const alreadyRefunded = summate(
+                (payment.refunds ?? []).filter(refund => refund.state !== 'Failed'),
+                'total',
+            );
+            const unrefundedValue = payment.amount - alreadyRefunded;
+            const amount = Math.min(outstanding, unrefundedValue);
+            if (amount === 0) {
+                continue;
+            }
+            const refundInput: RefundOrderInput = {
+                lines: [],
+                adjustment: 0,
+                shipping: 0,
+                paymentId: payment.id,
+                amount,
+                reason: reason || undefined,
+            };
+            const refund = await this.paymentService.createRefund(ctx, refundInput, order, payment);
+            if (isGraphQlErrorResult(refund)) {
+                throw new InternalServerError(refund.message);
+            }
+            outstanding -= amount;
+            if (outstanding <= 0) {
+                break;
+            }
+        }
     }
 
     private async customFieldsAreEqual(

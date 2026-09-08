@@ -796,6 +796,15 @@ export interface OrderOptions {
      * @default []
      */
     orderInterceptors?: OrderInterceptor[];
+    /**
+     * @description
+     * When enabled, cancelling order lines on a placed Order will automatically create Refunds for the
+     * value of the cancelled lines, so that support staff do not have to issue the refund as a separate step.
+     *
+     * @since 3.7.0
+     * @default false
+     */
+    autoRefundOnCancellation?: boolean;
 }
 
 /**

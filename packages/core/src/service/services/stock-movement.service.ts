@@ -156,8 +156,14 @@ export class StockMovementService {
     ): Promise<Allocation[]> {
         const allocations: Allocation[] = [];
         const globalTrackInventory = (await this.globalSettingsService.getSettings(ctx)).trackInventory;
+        const orderLines = await this.connection
+            .getRepository(ctx, OrderLine)
+            .find({ where: { id: In(lines.map(line => line.orderLineId)) } });
         for (const { orderLineId, quantity } of lines) {
-            const orderLine = await this.connection.getEntityOrThrow(ctx, OrderLine, orderLineId);
+            const orderLine = orderLines.find(line => idsAreEqual(line.id, orderLineId));
+            if (!orderLine) {
+                continue;
+            }
             const productVariant = await this.connection.getEntityOrThrow(
                 ctx,
                 ProductVariant,
