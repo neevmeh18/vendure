@@ -76,11 +76,13 @@ type Order {
 }
 
 input OrderFilterParameter {
+    customerEmailAddress: StringOperators
     customerLastName: StringOperators
     transactionId: StringOperators
 }
 
 input OrderSortParameter {
+    customerEmailAddress: SortOrder
     customerLastName: SortOrder
     transactionId: SortOrder
 }

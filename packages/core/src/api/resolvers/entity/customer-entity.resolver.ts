@@ -65,6 +65,7 @@ export class CustomerAdminEntityResolver {
     constructor(
         private customerService: CustomerService,
         private historyService: HistoryService,
+        private orderService: OrderService,
     ) {}
 
     @ResolveField()
@@ -88,5 +89,10 @@ export class CustomerAdminEntityResolver {
             options.sort = { createdAt: SortOrder.ASC };
         }
         return this.historyService.getHistoryForCustomer(ctx, order.id, publicOnly, options);
+    }
+
+    @ResolveField()
+    purchaseSummary(@Ctx() ctx: RequestContext, @Parent() customer: Customer) {
+        return this.orderService.getPurchaseSummaryForCustomer(ctx, customer.id);
     }
 }

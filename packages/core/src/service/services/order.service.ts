@@ -17,6 +17,7 @@ import {
     CancelOrderResult,
     CancelPaymentResult,
     CreateAddressInput,
+    CustomerPurchaseSummary,
     DeletionResponse,
     DeletionResult,
     FulfillOrderInput,
@@ -40,7 +41,7 @@ import {
 import { omit } from '@vendure/common/lib/omit';
 import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { getGraphQlInputName, summate } from '@vendure/common/lib/shared-utils';
-import { EntityManager, In, IsNull, LockNotSupportedOnGivenDriverError } from 'typeorm';
+import { EntityManager, In, IsNull, LockNotSupportedOnGivenDriverError, Not } from 'typeorm';
 import { FindOptionsUtils } from 'typeorm/find-options/FindOptionsUtils';
 
 import { RequestContext } from '../../api/common/request-context';
@@ -229,6 +230,7 @@ export class OrderService implements OnApplicationBootstrap {
                 ],
                 channelId: ctx.channelId,
                 customPropertyMap: {
+                    customerEmailAddress: 'customer.emailAddress',
                     customerLastName: 'customer.lastName',
                     transactionId: 'payments.transactionId',
                 },
@@ -396,6 +398,37 @@ export class OrderService implements OnApplicationBootstrap {
                 order: { id: orderId } as any,
             },
         });
+    }
+
+    /**
+     * @description
+     * Returns a summary of the Customer's completed orders, including the order count,
+     * total spent, average order value, and first and last order details.
+     */
+    async getPurchaseSummaryForCustomer(
+        ctx: RequestContext,
+        customerId: ID,
+    ): Promise<CustomerPurchaseSummary> {
+        const orders = await this.connection.getRepository(ctx, Order).find({
+            where: {
+                customer: { id: customerId },
+                orderPlacedAt: Not(IsNull()),
+            },
+            order: { orderPlacedAt: 'DESC' },
+        });
+        const orderCount = orders.length;
+        const totalSpent = summate(orders, 'totalWithTax');
+        const averageOrderValue = orderCount === 0 ? 0 : Math.round(totalSpent / orderCount);
+        const last = orders[0];
+        const first = orders[orderCount - 1];
+        return {
+            orderCount,
+            totalSpent,
+            averageOrderValue,
+            firstOrderPlacedAt: first?.orderPlacedAt ?? null,
+            lastOrderPlacedAt: last?.orderPlacedAt ?? null,
+            lastOrderCode: last?.code ?? null,
+        };
     }
 
     /**

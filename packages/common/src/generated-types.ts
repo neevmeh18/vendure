@@ -1553,6 +1553,8 @@ export type Customer = Node & {
   lastName: Scalars['String']['output'];
   orders: OrderList;
   phoneNumber?: Maybe<Scalars['String']['output']>;
+  /** A summary of the customer's completed orders */
+  purchaseSummary: CustomerPurchaseSummary;
   title?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
   user?: Maybe<User>;
@@ -1649,6 +1651,16 @@ export type CustomerListOptions = {
   sort?: InputMaybe<CustomerSortParameter>;
   /** Takes n results, for use in pagination */
   take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type CustomerPurchaseSummary = {
+  __typename?: 'CustomerPurchaseSummary';
+  averageOrderValue: Scalars['Money']['output'];
+  firstOrderPlacedAt?: Maybe<Scalars['DateTime']['output']>;
+  lastOrderCode?: Maybe<Scalars['String']['output']>;
+  lastOrderPlacedAt?: Maybe<Scalars['DateTime']['output']>;
+  orderCount: Scalars['Int']['output'];
+  totalSpent: Scalars['Money']['output'];
 };
 
 export type CustomerSortParameter = {
@@ -4327,6 +4339,7 @@ export type OrderFilterParameter = {
   code?: InputMaybe<StringOperators>;
   createdAt?: InputMaybe<DateOperators>;
   currencyCode?: InputMaybe<StringOperators>;
+  customerEmailAddress?: InputMaybe<StringOperators>;
   customerLastName?: InputMaybe<StringOperators>;
   id?: InputMaybe<IdOperators>;
   /**
@@ -4508,6 +4521,7 @@ export type OrderSortParameter = {
   /** A unique code for the Order */
   code?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  customerEmailAddress?: InputMaybe<SortOrder>;
   customerLastName?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   /**
