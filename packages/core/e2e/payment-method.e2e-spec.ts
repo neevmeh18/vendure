@@ -306,6 +306,7 @@ describe('PaymentMethod resolver', () => {
     describe('channels', () => {
         const SECOND_CHANNEL_TOKEN = 'SECOND_CHANNEL_TOKEN';
         const THIRD_CHANNEL_TOKEN = 'THIRD_CHANNEL_TOKEN';
+        let channel2PaymentMethodId: string;
 
         beforeAll(async () => {
             await adminClient.query(createChannelDocument, {
@@ -353,6 +354,25 @@ describe('PaymentMethod resolver', () => {
             });
 
             expect(createPaymentMethod.code).toBe('channel-2-method');
+            channel2PaymentMethodId = createPaymentMethod.id;
+        });
+
+        it('method can be read in channel2', async () => {
+            adminClient.setChannelToken(SECOND_CHANNEL_TOKEN);
+            const { paymentMethod } = await adminClient.query(getPaymentMethodDocument, {
+                id: channel2PaymentMethodId,
+            });
+
+            expect(paymentMethod?.code).toBe('channel-2-method');
+        });
+
+        it('method is not readable in channel3', async () => {
+            adminClient.setChannelToken(THIRD_CHANNEL_TOKEN);
+            const { paymentMethod } = await adminClient.query(getPaymentMethodDocument, {
+                id: channel2PaymentMethodId,
+            });
+
+            expect(paymentMethod).toBeNull();
         });
 
         it('method is listed in channel2', async () => {
