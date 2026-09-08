@@ -1,4 +1,15 @@
 type Customer implements Node {
     groups: [CustomerGroup!]!
     history(options: HistoryEntryListOptions): HistoryEntryList!
+    "A summary of the customer's completed orders"
+    purchaseSummary: CustomerPurchaseSummary!
+}
+
+type CustomerPurchaseSummary {
+    orderCount: Int!
+    totalSpent: Money!
+    averageOrderValue: Money!
+    firstOrderPlacedAt: DateTime
+    lastOrderPlacedAt: DateTime
+    lastOrderCode: String
 }
