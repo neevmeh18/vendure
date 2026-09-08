@@ -4,6 +4,7 @@ import { SortOrder } from '@vendure/common/lib/generated-types';
 import { RequestContext } from '../../api/common/request-context';
 import { Instrument } from '../../common/instrument-decorator';
 import { TransactionalConnection } from '../../connection/transactional-connection';
+import { resolveReportOrdering } from '../helpers/order-report/report-ordering';
 
 export enum SalesSummaryReportBucket {
     DAY = 'DAY',
@@ -35,12 +36,6 @@ export interface SalesSummaryReport {
     items: SalesSummaryReportRow[];
     totalItems: number;
 }
-
-const SORT_COLUMNS: Record<string, string> = {
-    date: 'periodStart',
-    revenue: 'totalRevenue',
-    orders: 'orderCount',
-};
 
 interface SalesSummaryReportSqlRow {
     periodStart?: Date | string;
@@ -76,8 +71,10 @@ export class OrderReportService {
         const joinTable = esc('order_channels_channel');
         const orderPlacedAtCol = `o.${esc('orderPlacedAt')}`;
         const bucketExpr = this.getBucketExpression(orderPlacedAtCol, input.bucket);
-        const sortColumn = SORT_COLUMNS[input.sort.key] ?? 'periodStart';
-        const sortDir = input.sort.order === SortOrder.DESC ? 'DESC' : 'ASC';
+        const orderBy = resolveReportOrdering(
+            input.sort.key,
+            input.sort.order === SortOrder.DESC ? 'DESC' : 'ASC',
+        );
         const take = Math.max(0, Math.trunc(Number(input.take ?? 10)));
         const skip = Math.max(0, Math.trunc(Number(input.skip ?? 0)));
 
@@ -100,7 +97,7 @@ export class OrderReportService {
                   AND occ.${esc('channelId')} = ${p(2)}
                 GROUP BY ${bucketExpr}
             ) buckets
-            ORDER BY ${sortColumn} ${sortDir}
+            ORDER BY ${orderBy}
             LIMIT ${take} OFFSET ${skip}
         `;
 
