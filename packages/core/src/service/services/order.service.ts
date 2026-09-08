@@ -348,6 +348,19 @@ export class OrderService implements OnApplicationBootstrap {
         return order ? this.findOne(ctx, order.id, relations) : undefined;
     }
 
+    /**
+     * @description
+     * Returns whether the given Order is still within the configured return window,
+     * measured from `orderPlacedAt`.
+     */
+    isWithinReturnWindow(ctx: RequestContext, order: Order): boolean {
+        const returnWindowDays = this.configService.orderOptions.returnWindowDays ?? 30;
+        if (!order.orderPlacedAt) {
+            return false;
+        }
+        return Date.now() - order.orderPlacedAt.getTime() <= returnWindowDays * 24 * 60 * 60 * 1000;
+    }
+
     async findOneByOrderLineId(
         ctx: RequestContext,
         orderLineId: ID,

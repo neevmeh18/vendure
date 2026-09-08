@@ -190,6 +190,7 @@ export const defaultConfig: RuntimeVendureConfig = {
         orderSellerStrategy: new DefaultOrderSellerStrategy(),
         guestCheckoutStrategy: new DefaultGuestCheckoutStrategy(),
         orderInterceptors: [],
+        returnWindowDays: 30,
     },
     paymentOptions: {
         paymentMethodEligibilityCheckers: [],
