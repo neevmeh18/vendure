@@ -70,6 +70,16 @@ export interface HardenPluginOptions {
      * @default true
      */
     hideFieldSuggestions?: boolean;
+
+    /**
+     * @description
+     * Selects the validation-error formatting profile. Supported profiles are `hide-suggestions`
+     * and `strict-redaction`. Unknown values fall back to the built-in `hide-suggestions` profile. This is intentionally accepted as a string so
+     * configuration supplied by environment-driven applications can be handled at runtime.
+     *
+     * @default 'hide-suggestions'
+     */
+    validationProfile?: string;
     /**
      * @description
      * When set to `'prod'`, the plugin will disable dev-mode features of the GraphQL APIs:

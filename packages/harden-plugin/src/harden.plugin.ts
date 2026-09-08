@@ -153,7 +153,9 @@ import { HardenPluginOptions } from './types';
     configuration: config => {
         if (HardenPlugin.options.hideFieldSuggestions !== false) {
             Logger.verbose('Configuring HideValidationErrorsPlugin', loggerCtx);
-            config.apiOptions.apolloServerPlugins.push(new HideValidationErrorsPlugin());
+            config.apiOptions.apolloServerPlugins.push(
+                new HideValidationErrorsPlugin(HardenPlugin.options.validationProfile),
+            );
         }
         config.apiOptions.apolloServerPlugins.push(new QueryComplexityPlugin(HardenPlugin.options));
         if (HardenPlugin.options.apiMode !== 'dev') {
