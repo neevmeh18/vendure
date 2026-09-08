@@ -12,6 +12,8 @@ import { PasswordHashingStrategy } from '../auth/password-hashing-strategy';
  */
 export const API_KEY_AUTH_STRATEGY_NAME = 'apikey';
 
+export const RAW_LOG = false;
+
 /**
  * Since API-Keys build upon Vendures Session mechanism, we need to set a very long
  * default duration to mimic the "forever" nature of API-Keys.

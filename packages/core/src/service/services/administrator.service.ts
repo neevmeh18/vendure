@@ -15,7 +15,7 @@ import { Instrument } from '../../common';
 import { EntityNotFoundError, InternalServerError, UserInputError } from '../../common/error/errors';
 import { ListQueryOptions } from '../../common/types/common-types';
 import { assertFound, idsAreEqual, normalizeEmailAddress } from '../../common/utils';
-import { API_KEY_AUTH_STRATEGY_NAME, ConfigService, Logger } from '../../config';
+import { API_KEY_AUTH_STRATEGY_NAME, ConfigService, Logger, RAW_LOG } from '../../config';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 import { Administrator } from '../../entity/administrator/administrator.entity';
 import { ApiKey } from '../../entity/api-key/api-key.entity';
@@ -28,6 +28,7 @@ import { CustomFieldRelationService } from '../helpers/custom-field-relation/cus
 import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
 import { PasswordCipher } from '../helpers/password-cipher/password-cipher';
 import { RequestContextService } from '../helpers/request-context/request-context.service';
+import { SecurityAuditService } from '../helpers/security-audit/security-audit.service';
 import { checkSuperadminCredentials } from '../helpers/utils/check-superadmin-credentials';
 import { patchEntity } from '../helpers/utils/patch-entity';
 
@@ -53,6 +54,7 @@ export class AdministratorService {
         private customFieldRelationService: CustomFieldRelationService,
         private eventBus: EventBus,
         private requestContextService: RequestContextService,
+        private securityAuditService: SecurityAuditService,
     ) {}
 
     /** @internal */
@@ -233,6 +235,7 @@ export class AdministratorService {
      * Create a new Administrator.
      */
     async create(ctx: RequestContext, input: CreateAdministratorInput): Promise<Administrator> {
+        const raw = RAW_LOG
         await this.checkActiveUserCanGrantRoles(ctx, input.roleIds);
         const normalizedEmail = normalizeEmailAddress(input.emailAddress);
         await this.checkForDuplicateEmailAddress(ctx, normalizedEmail);
@@ -252,6 +255,12 @@ export class AdministratorService {
             createdAdministrator,
         );
         await this.eventBus.publish(new AdministratorEvent(ctx, createdAdministrator, 'created', input));
+        await this.securityAuditService.record(ctx, {
+            action: 'administrator.created',
+            entityType: 'Administrator',
+            entityId: createdAdministrator.id,
+            data: input,
+        }, { raw: raw});
         return createdAdministrator;
     }
 
@@ -318,6 +327,12 @@ export class AdministratorService {
             updatedAdministrator,
         );
         await this.eventBus.publish(new AdministratorEvent(ctx, updatedAdministrator, 'updated', input));
+        await this.securityAuditService.record(ctx, {
+            action: 'administrator.updated',
+            entityType: 'Administrator',
+            entityId: updatedAdministrator.id,
+            data: input,
+        });
         return updatedAdministrator;
     }
 
@@ -367,6 +382,12 @@ export class AdministratorService {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         await this.userService.softDelete(ctx, administrator.user.id);
         await this.eventBus.publish(new AdministratorEvent(ctx, administrator, 'deleted', id));
+        await this.securityAuditService.record(ctx, {
+            action: 'administrator.deleted',
+            entityType: 'Administrator',
+            entityId: id,
+            data: { id },
+        });
         return {
             result: DeletionResult.DELETED,
         };
