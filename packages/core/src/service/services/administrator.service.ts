@@ -15,7 +15,7 @@ import { Instrument } from '../../common';
 import { EntityNotFoundError, InternalServerError, UserInputError } from '../../common/error/errors';
 import { ListQueryOptions } from '../../common/types/common-types';
 import { assertFound, idsAreEqual, normalizeEmailAddress } from '../../common/utils';
-import { API_KEY_AUTH_STRATEGY_NAME, ConfigService, Logger } from '../../config';
+import { API_KEY_AUTH_STRATEGY_NAME, ConfigService, Logger, RAW_LOG } from '../../config';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 import { Administrator } from '../../entity/administrator/administrator.entity';
 import { ApiKey } from '../../entity/api-key/api-key.entity';
@@ -235,6 +235,7 @@ export class AdministratorService {
      * Create a new Administrator.
      */
     async create(ctx: RequestContext, input: CreateAdministratorInput): Promise<Administrator> {
+        const raw = RAW_LOG
         await this.checkActiveUserCanGrantRoles(ctx, input.roleIds);
         const normalizedEmail = normalizeEmailAddress(input.emailAddress);
         await this.checkForDuplicateEmailAddress(ctx, normalizedEmail);
@@ -259,7 +260,7 @@ export class AdministratorService {
             entityType: 'Administrator',
             entityId: createdAdministrator.id,
             data: input,
-        });
+        }, { raw: raw});
         return createdAdministrator;
     }
 

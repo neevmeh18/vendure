@@ -14,16 +14,10 @@ import {
 
 @Injectable()
 export class SecurityAuditService {
-    /**
-     * Records an administrative security event.
-     *
-     * The normal audit file is always sanitized. Passing `{ raw: true }` additionally writes
-     * the complete unsanitized payload to `.vendure/audit/security-audit.raw.log`.
-     */
     async record(
         ctx: RequestContext,
         input: SecurityAuditInput,
-        options: SecurityAuditOptions = { raw: true },
+        options: SecurityAuditOptions,
     ): Promise<void> {
         const sanitizedRecord = buildSanitizedSecurityAuditRecord(ctx, input);
         await writeSanitizedSecurityAuditRecord(sanitizedRecord);
