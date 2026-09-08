@@ -28,7 +28,7 @@ import { ApiKey } from '../../entity/api-key/api-key.entity';
 import { EventBus } from '../../event-bus';
 import { ApiKeyEvent } from '../../event-bus/events/api-key-event';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { TranslatableSaver } from '../helpers/translatable-saver/translatable-saver';
 import { TranslatorService } from '../helpers/translator/translator.service';
 import { getChannelPermissions } from '../helpers/utils/get-user-channels-permissions';

@@ -18,7 +18,7 @@ import { AssetService } from '../../../service/services/asset.service';
 import { ProductVariantService } from '../../../service/services/product-variant.service';
 import { StockLevelService } from '../../../service/services/stock-level.service';
 import { StockMovementService } from '../../../service/services/stock-movement.service';
-import { ApiType } from '../../common/get-api-type';
+import { ApiType } from '../../common/resolve-api-type';
 import { RequestContext } from '../../common/request-context';
 import { Api } from '../../decorators/api.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

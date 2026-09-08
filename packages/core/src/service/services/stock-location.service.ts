@@ -25,7 +25,7 @@ import { StockLevel } from '../../entity/stock-level/stock-level.entity';
 import { StockLocation } from '../../entity/stock-location/stock-location.entity';
 import { EventBus, StockLocationEvent } from '../../event-bus/index';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { RequestContextService } from '../helpers/request-context/request-context.service';
 import { patchEntity } from '../helpers/utils/patch-entity';
 

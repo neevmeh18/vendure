@@ -1,5 +1,5 @@
 export * from './common/extract-session-token';
-export { ApiType } from './common/get-api-type';
+export { ApiType } from './common/resolve-api-type';
 export * from './common/parse-context';
 export * from './common/request-context';
 export * from './common/set-session-token';

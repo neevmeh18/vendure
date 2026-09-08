@@ -15,7 +15,7 @@ import { TransactionalConnection } from '../../connection/transactional-connecti
 import { Seller } from '../../entity/seller/seller.entity';
 import { EventBus, SellerEvent } from '../../event-bus/index';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { patchEntity } from '../helpers/utils/patch-entity';
 /**
  * @description

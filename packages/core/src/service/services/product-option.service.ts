@@ -24,7 +24,7 @@ import { ProductVariant } from '../../entity/product-variant/product-variant.ent
 import { EventBus } from '../../event-bus';
 import { ProductOptionEvent } from '../../event-bus/events/product-option-event';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { TranslatableSaver } from '../helpers/translatable-saver/translatable-saver';
 import { TranslatorService } from '../helpers/translator/translator.service';
 

@@ -26,7 +26,7 @@ import { StockAdjustment } from '../../entity/stock-movement/stock-adjustment.en
 import { StockMovement } from '../../entity/stock-movement/stock-movement.entity';
 import { EventBus } from '../../event-bus/event-bus';
 import { StockMovementEvent } from '../../event-bus/events/stock-movement-event';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 
 import { GlobalSettingsService } from './global-settings.service';
 import { StockLevelService } from './stock-level.service';

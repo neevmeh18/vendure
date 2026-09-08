@@ -8,7 +8,7 @@ export * from './helpers/entity-slug.service';
 export * from './helpers/external-authentication/external-authentication.service';
 export * from './helpers/facet-value-checker/facet-value-checker';
 export * from './helpers/fulfillment-state-machine/fulfillment-state';
-export * from './helpers/list-query-builder/list-query-builder';
+export * from './helpers/list-query-builder/query-builder';
 export * from './helpers/locale-string-hydrator/locale-string-hydrator';
 export * from './helpers/order-calculator/order-calculator';
 export * from './helpers/order-calculator/prorate';

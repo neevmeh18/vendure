@@ -8,7 +8,7 @@ import { Logger } from '../../config/logger/vendure-logger';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 import { Job, JobData, JobQueueStrategyJobOptions } from '../../job-queue';
 import { PollingJobQueueStrategy } from '../../job-queue/polling-job-queue-strategy';
-import { ListQueryBuilder } from '../../service/helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../../service/helpers/list-query-builder/query-builder';
 
 import { JobRecord } from './job-record.entity';
 

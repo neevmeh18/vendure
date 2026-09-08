@@ -20,7 +20,7 @@ import { Logger } from '../../config/logger/vendure-logger';
 import { Region } from '../../entity/region/region.entity';
 import { getPluginAPIExtensions } from '../../plugin/plugin-metadata';
 import { CustomFieldRelationResolverService } from '../common/custom-field-relation-resolver.service';
-import { ApiType } from '../common/get-api-type';
+import { ApiType } from '../common/resolve-api-type';
 import { internal_getRequestContext } from '../common/request-context';
 import { userHasPermissionsOnCustomField } from '../common/user-has-permissions-on-custom-field';
 

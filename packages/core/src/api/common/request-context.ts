@@ -15,7 +15,7 @@ import { idsAreEqual } from '../../common/utils';
 import { CachedSession } from '../../config/session-cache/session-cache-strategy';
 import { Channel } from '../../entity/channel/channel.entity';
 
-import { ApiType } from './get-api-type';
+import { ApiType } from './resolve-api-type';
 
 export type SerializedRequestContext = {
     _req?: any;

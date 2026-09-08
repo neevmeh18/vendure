@@ -17,7 +17,7 @@ import { TaxCategory } from '../../entity/tax-category/tax-category.entity';
 import { TaxRate } from '../../entity/tax-rate/tax-rate.entity';
 import { EventBus } from '../../event-bus';
 import { TaxCategoryEvent } from '../../event-bus/events/tax-category-event';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { patchEntity } from '../helpers/utils/patch-entity';
 
 /**

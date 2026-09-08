@@ -24,7 +24,7 @@ import { EventBus } from '../../event-bus/event-bus';
 import { CustomerGroupChangeEvent } from '../../event-bus/events/customer-group-change-event';
 import { CustomerGroupEvent } from '../../event-bus/events/customer-group-event';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { patchEntity } from '../helpers/utils/patch-entity';
 
 import { HistoryService } from './history.service';

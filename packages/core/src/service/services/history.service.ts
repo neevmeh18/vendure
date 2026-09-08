@@ -22,7 +22,7 @@ import { OrderHistoryEntry } from '../../entity/history-entry/order-history-entr
 import { EventBus } from '../../event-bus';
 import { HistoryEntryEvent } from '../../event-bus/events/history-entry-event';
 import { FulfillmentState } from '../helpers/fulfillment-state-machine/fulfillment-state';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { OrderState } from '../helpers/order-state-machine/order-state';
 import { PaymentState } from '../helpers/payment-state-machine/payment-state';
 import { RefundState } from '../helpers/refund-state-machine/refund-state';

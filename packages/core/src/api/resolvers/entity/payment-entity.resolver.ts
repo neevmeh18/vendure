@@ -7,7 +7,7 @@ import { Payment } from '../../../entity/payment/payment.entity';
 import { Refund } from '../../../entity/refund/refund.entity';
 import { PaymentService } from '../../../service';
 import { OrderService } from '../../../service/services/order.service';
-import { ApiType } from '../../common/get-api-type';
+import { ApiType } from '../../common/resolve-api-type';
 import { RequestContext } from '../../common/request-context';
 import { Api } from '../../decorators/api.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

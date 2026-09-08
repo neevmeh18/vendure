@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GraphQLResolveInfo } from 'graphql';
 
-import { getApiType } from '../common/get-api-type';
+import { getApiType } from '../common/resolve-api-type';
 
 /**
  * @description

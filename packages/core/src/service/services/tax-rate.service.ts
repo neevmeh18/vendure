@@ -25,7 +25,7 @@ import { EventBus } from '../../event-bus/event-bus';
 import { TaxRateEvent } from '../../event-bus/events/tax-rate-event';
 import { TaxRateModificationEvent } from '../../event-bus/events/tax-rate-modification-event';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { patchEntity } from '../helpers/utils/patch-entity';
 
 /**

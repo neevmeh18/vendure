@@ -37,7 +37,7 @@ import {
 import { ShippingMethodService } from '../../services/shipping-method.service';
 import { TaxRateService } from '../../services/tax-rate.service';
 import { ZoneService } from '../../services/zone.service';
-import { ListQueryBuilder } from '../list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../list-query-builder/query-builder';
 import { ShippingCalculator } from '../shipping-calculator/shipping-calculator';
 
 import { OrderCalculator } from './order-calculator';

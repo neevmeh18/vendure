@@ -18,7 +18,7 @@ import { AssetService } from '../../../service/services/asset.service';
 import { CollectionService } from '../../../service/services/collection.service';
 import { ProductVariantService } from '../../../service/services/product-variant.service';
 import { ConfigurableOperationCodec } from '../../common/configurable-operation-codec';
-import { ApiType } from '../../common/get-api-type';
+import { ApiType } from '../../common/resolve-api-type';
 import { RequestContext } from '../../common/request-context';
 import { Api } from '../../decorators/api.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';

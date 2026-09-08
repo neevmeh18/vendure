@@ -19,7 +19,7 @@ import { FacetValueService } from '../../../service/services/facet-value.service
 import { ProductOptionGroupService } from '../../../service/services/product-option-group.service';
 import { ProductVariantService } from '../../../service/services/product-variant.service';
 import { ProductService } from '../../../service/services/product.service';
-import { ApiType } from '../../common/get-api-type';
+import { ApiType } from '../../common/resolve-api-type';
 import { RequestContext } from '../../common/request-context';
 import { Api } from '../../decorators/api.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';

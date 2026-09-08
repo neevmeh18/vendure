@@ -19,7 +19,7 @@ import { RegionTranslation } from '../../entity/region/region-translation.entity
 import { Region } from '../../entity/region/region.entity';
 import { EventBus } from '../../event-bus';
 import { ProvinceEvent } from '../../event-bus/events/province-event';
-import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
+import { ListQueryBuilder } from '../helpers/list-query-builder/query-builder';
 import { TranslatableSaver } from '../helpers/translatable-saver/translatable-saver';
 import { TranslatorService } from '../helpers/translator/translator.service';
 

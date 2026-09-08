@@ -28,7 +28,7 @@ import { ApiKeyService } from '../../../service/services/api-key.service';
 import { AuthService } from '../../../service/services/auth.service';
 import { UserService } from '../../../service/services/user.service';
 import { extractSessionToken } from '../../common/extract-session-token';
-import { ApiType } from '../../common/get-api-type';
+import { ApiType } from '../../common/resolve-api-type';
 import { RequestContext } from '../../common/request-context';
 import { setSessionToken } from '../../common/set-session-token';
 

@@ -15,7 +15,7 @@ import { RequestContextService } from '../../service/helpers/request-context/req
 import { ApiKeyService } from '../../service/services/api-key.service';
 import { SessionService } from '../../service/services/session.service';
 import { extractSessionToken, ExtractTokenResult } from '../common/extract-session-token';
-import { getApiType } from '../common/get-api-type';
+import { getApiType } from '../common/resolve-api-type';
 import { isFieldResolver } from '../common/is-field-resolver';
 import { parseContext } from '../common/parse-context';
 import {

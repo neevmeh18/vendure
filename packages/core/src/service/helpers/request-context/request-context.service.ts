@@ -5,7 +5,7 @@ import { Request } from 'express';
 import { GraphQLResolveInfo } from 'graphql';
 import ms from 'ms';
 
-import { ApiType, getApiType } from '../../../api/common/get-api-type';
+import { ApiType, getApiType } from '../../../api/common/resolve-api-type';
 import { RequestContext } from '../../../api/common/request-context';
 import { UserInputError } from '../../../common/error/errors';
 import { idsAreEqual } from '../../../common/utils';

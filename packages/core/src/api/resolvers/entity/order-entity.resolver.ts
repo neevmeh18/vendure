@@ -6,7 +6,7 @@ import { Order } from '../../../entity/order/order.entity';
 import { CustomerService, TranslatorService } from '../../../service/index';
 import { HistoryService } from '../../../service/services/history.service';
 import { OrderService } from '../../../service/services/order.service';
-import { ApiType } from '../../common/get-api-type';
+import { ApiType } from '../../common/resolve-api-type';
 import { RequestContext } from '../../common/request-context';
 import { Api } from '../../decorators/api.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
