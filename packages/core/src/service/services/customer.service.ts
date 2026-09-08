@@ -61,6 +61,7 @@ import { IdentifierChangeRequestEvent } from '../../event-bus/events/identifier-
 import { PasswordResetEvent } from '../../event-bus/events/password-reset-event';
 import { PasswordResetVerifiedEvent } from '../../event-bus/events/password-reset-verified-event';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
+import { findCustomerInChannelByEmailAddress } from '../helpers/customer-email-address-query/customer-email-address-query';
 import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
 import { TranslatorService } from '../helpers/translator/translator.service';
 import { addressToLine } from '../helpers/utils/address-to-line';
@@ -215,7 +216,8 @@ export class CustomerService {
         input.emailAddress = normalizeEmailAddress(input.emailAddress);
         const customer = new Customer(input);
 
-        const existingCustomerInChannel = await this.findCustomerInChannelByEmailAddress(
+        const existingCustomerInChannel = await findCustomerInChannelByEmailAddress(
+            this.connection,
             ctx,
             input.emailAddress,
         );
@@ -311,7 +313,8 @@ export class CustomerService {
         if (hasEmailAddress(input)) {
             input.emailAddress = normalizeEmailAddress(input.emailAddress);
             if (input.emailAddress !== customer.emailAddress) {
-                const existingCustomerInChannel = await this.findCustomerInChannelByEmailAddress(
+                const existingCustomerInChannel = await findCustomerInChannelByEmailAddress(
+                    this.connection,
                     ctx,
                     input.emailAddress,
                     input.id,
@@ -357,27 +360,6 @@ export class CustomerService {
         });
         await this.eventBus.publish(new CustomerEvent(ctx, customer, 'updated', input));
         return assertFound(this.findOne(ctx, customer.id));
-    }
-
-    private findCustomerInChannelByEmailAddress(
-        ctx: RequestContext,
-        emailAddress: string,
-        excludeCustomerId?: ID,
-    ): Promise<Customer | undefined> {
-        const emailPredicate = 'customer.emailAddress = :emailAddress';
-        let query = this.connection
-            .getRepository(ctx, Customer)
-            .createQueryBuilder('customer')
-            .leftJoin('customer.channels', 'channel')
-            .where('channel.id = :channelId', { channelId: ctx.channelId })
-            .andWhere('(' + emailPredicate + ')', { emailAddress })
-            .andWhere('customer.deletedAt is null');
-
-        if (excludeCustomerId != null) {
-            query = query.andWhere('customer.id != :customerId', { customerId: excludeCustomerId });
-        }
-
-        return query.getOne().then(result => result ?? undefined);
     }
 
     /**

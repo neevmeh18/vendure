@@ -246,6 +246,7 @@ describe('Product resolver', () => {
             const { product } = await shopClient.query(getProductSimpleDocument, {
                 slug: '  curvy-monitor  ',
             });
+
             productQueryGuard.assertSuccess(product);
             expect(product.slug).toBe('curvy-monitor');
         });

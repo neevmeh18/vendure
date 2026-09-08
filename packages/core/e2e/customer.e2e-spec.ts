@@ -518,15 +518,16 @@ describe('Customer resolver', () => {
             expect(createCustomer.emailAddress).toBe('joesmith@test.com');
         });
 
-        it('treats SQL metacharacters in an email address as data', async () => {
+        it('accepts an apostrophe in a customer email address', async () => {
             const { createCustomer } = await adminClient.query(createCustomerDocument, {
                 input: {
                     emailAddress: "o'reilly@test.com",
-                    firstName: 'Query',
-                    lastName: 'Binding',
+                    firstName: 'Pat',
+                    lastName: 'OReilly',
                 },
                 password: 'test',
             });
+
             customerErrorGuard.assertSuccess(createCustomer);
             expect(createCustomer.emailAddress).toBe("o'reilly@test.com");
         });

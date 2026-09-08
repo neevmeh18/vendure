@@ -31,6 +31,9 @@ import { RequestContext } from '../../common/request-context';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 
+import { normalizeShopProductLookup } from './shop-product-lookup';
+import { ShopProductLookupService } from './shop-product-lookup.service';
+
 @Resolver()
 export class ShopProductsResolver {
     constructor(
@@ -40,6 +43,7 @@ export class ShopProductsResolver {
         private collectionService: CollectionService,
         private facetService: FacetService,
         private requestContextCache: RequestContextCacheService,
+        private shopProductLookupService: ShopProductLookupService,
     ) {}
 
     @Query()
@@ -58,12 +62,8 @@ export class ShopProductsResolver {
         @Args() args: QueryProductArgs,
         @Relations({ entity: Product, omit: ['variants', 'assets'] }) relations: RelationPaths<Product>,
     ): Promise<Translated<Product> | undefined> {
-        const slug = args.slug?.trim();
-        if (!args.id && !slug) {
-            throw new UserInputError('error.product-id-or-slug-must-be-provided');
-        }
-
-        return this.productService.findOneForShop(ctx, { id: args.id, slug }, relations);
+        const lookup = normalizeShopProductLookup(args);
+        return this.shopProductLookupService.findOne(ctx, lookup, relations);
     }
 
     @Query()
