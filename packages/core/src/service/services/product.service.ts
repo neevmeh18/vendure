@@ -150,6 +150,24 @@ export class ProductService {
         return this.translator.translate(product, ctx, ['facetValues', ['facetValues', 'facet']]);
     }
 
+    /**
+     * Resolves a Product for the Shop API and applies Shop-specific visibility rules.
+     */
+    async findOneForShop(
+        ctx: RequestContext,
+        identifier: { id?: ID; slug?: string },
+        relations?: RelationPaths<Product>,
+    ): Promise<Translated<Product> | undefined> {
+        const result = identifier.id
+            ? await this.findOne(ctx, identifier.id, relations)
+            : await this.findOneBySlug(ctx, identifier.slug!, relations);
+        if (!result || result.enabled === false) {
+            return;
+        }
+        result.facetValues = result.facetValues?.filter(fv => !fv.facet.isPrivate) as any;
+        return result;
+    }
+
     async findByIds(
         ctx: RequestContext,
         productIds: ID[],

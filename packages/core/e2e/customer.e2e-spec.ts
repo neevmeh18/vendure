@@ -517,6 +517,19 @@ describe('Customer resolver', () => {
             customerErrorGuard.assertSuccess(createCustomer);
             expect(createCustomer.emailAddress).toBe('joesmith@test.com');
         });
+
+        it('treats SQL metacharacters in an email address as data', async () => {
+            const { createCustomer } = await adminClient.query(createCustomerDocument, {
+                input: {
+                    emailAddress: "o'reilly@test.com",
+                    firstName: 'Query',
+                    lastName: 'Binding',
+                },
+                password: 'test',
+            });
+            customerErrorGuard.assertSuccess(createCustomer);
+            expect(createCustomer.emailAddress).toBe("o'reilly@test.com");
+        });
     });
 
     describe('update', () => {

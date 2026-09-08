@@ -102,8 +102,9 @@ export class ProductResolver {
     async productVariant(
         @Ctx() ctx: RequestContext,
         @Args() args: QueryProductVariantArgs,
+        @Relations({ entity: ProductVariant, omit: ['assets'] }) relations: RelationPaths<ProductVariant>,
     ): Promise<Translated<ProductVariant> | undefined> {
-        return this.productVariantService.findOne(ctx, args.id);
+        return this.productVariantService.findOne(ctx, args.id, relations);
     }
 
     @Transaction()

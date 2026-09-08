@@ -215,14 +215,10 @@ export class CustomerService {
         input.emailAddress = normalizeEmailAddress(input.emailAddress);
         const customer = new Customer(input);
 
-        const existingCustomerInChannel = await this.connection
-            .getRepository(ctx, Customer)
-            .createQueryBuilder('customer')
-            .leftJoin('customer.channels', 'channel')
-            .where('channel.id = :channelId', { channelId: ctx.channelId })
-            .andWhere('customer.emailAddress = :emailAddress', { emailAddress: input.emailAddress })
-            .andWhere('customer.deletedAt is null')
-            .getOne();
+        const existingCustomerInChannel = await this.findCustomerInChannelByEmailAddress(
+            ctx,
+            input.emailAddress,
+        );
 
         if (existingCustomerInChannel) {
             return new EmailAddressConflictAdminError();
@@ -315,17 +311,11 @@ export class CustomerService {
         if (hasEmailAddress(input)) {
             input.emailAddress = normalizeEmailAddress(input.emailAddress);
             if (input.emailAddress !== customer.emailAddress) {
-                const existingCustomerInChannel = await this.connection
-                    .getRepository(ctx, Customer)
-                    .createQueryBuilder('customer')
-                    .leftJoin('customer.channels', 'channel')
-                    .where('channel.id = :channelId', { channelId: ctx.channelId })
-                    .andWhere('customer.emailAddress = :emailAddress', {
-                        emailAddress: input.emailAddress,
-                    })
-                    .andWhere('customer.id != :customerId', { customerId: input.id })
-                    .andWhere('customer.deletedAt is null')
-                    .getOne();
+                const existingCustomerInChannel = await this.findCustomerInChannelByEmailAddress(
+                    ctx,
+                    input.emailAddress,
+                    input.id,
+                );
 
                 if (existingCustomerInChannel) {
                     return new EmailAddressConflictAdminError();
@@ -367,6 +357,27 @@ export class CustomerService {
         });
         await this.eventBus.publish(new CustomerEvent(ctx, customer, 'updated', input));
         return assertFound(this.findOne(ctx, customer.id));
+    }
+
+    private findCustomerInChannelByEmailAddress(
+        ctx: RequestContext,
+        emailAddress: string,
+        excludeCustomerId?: ID,
+    ): Promise<Customer | undefined> {
+        const emailPredicate = 'customer.emailAddress = :emailAddress';
+        let query = this.connection
+            .getRepository(ctx, Customer)
+            .createQueryBuilder('customer')
+            .leftJoin('customer.channels', 'channel')
+            .where('channel.id = :channelId', { channelId: ctx.channelId })
+            .andWhere('(' + emailPredicate + ')', { emailAddress })
+            .andWhere('customer.deletedAt is null');
+
+        if (excludeCustomerId != null) {
+            query = query.andWhere('customer.id != :customerId', { customerId: excludeCustomerId });
+        }
+
+        return query.getOne().then(result => result ?? undefined);
     }
 
     /**

@@ -242,6 +242,14 @@ describe('Product resolver', () => {
             expect(product.slug).toBe('curvy-monitor');
         });
 
+        it('normalizes surrounding whitespace in Shop API slug lookups', async () => {
+            const { product } = await shopClient.query(getProductSimpleDocument, {
+                slug: '  curvy-monitor  ',
+            });
+            productQueryGuard.assertSuccess(product);
+            expect(product.slug).toBe('curvy-monitor');
+        });
+
         // https://github.com/vendurehq/vendure/issues/820
         it('by slug with multiple assets', async () => {
             const { product: product1 } = await adminClient.query(getProductSimpleDocument, { id: 'T_1' });
