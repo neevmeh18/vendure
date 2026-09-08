@@ -4,6 +4,7 @@ export * from './helpers/custom-field-relation/custom-field-relation.service';
 export * from './helpers/entity-duplicator/entity-duplicator.service';
 export * from './helpers/entity-hydrator/entity-hydrator.service';
 export * from './helpers/entity-hydrator/merge-deep';
+export * from './helpers/entity-reader';
 export * from './helpers/entity-slug.service';
 export * from './helpers/external-authentication/external-authentication.service';
 export * from './helpers/facet-value-checker/facet-value-checker';

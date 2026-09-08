@@ -31,6 +31,7 @@ import { EventBus } from '../../event-bus/event-bus';
 import { PaymentMethodEvent } from '../../event-bus/events/payment-method-event';
 import { ConfigArgService } from '../helpers/config-arg/config-arg.service';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
+import { EntityReader } from '../helpers/entity-reader';
 import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
 import { TranslatableSaver } from '../helpers/translatable-saver/translatable-saver';
 import { TranslatorService } from '../helpers/translator/translator.service';
@@ -49,6 +50,7 @@ import { RoleService } from './role.service';
 export class PaymentMethodService {
     constructor(
         private connection: TransactionalConnection,
+        private entityReader: EntityReader,
         private configService: ConfigService,
         private roleService: RoleService,
         private listQueryBuilder: ListQueryBuilder,
@@ -82,9 +84,11 @@ export class PaymentMethodService {
         paymentMethodId: ID,
         relations: RelationPaths<PaymentMethod> = [],
     ): Promise<PaymentMethod | undefined> {
-        return this.connection
-            .findOneInChannel(ctx, PaymentMethod, paymentMethodId, ctx.channelId, {
-                relations,
+        return this.entityReader
+            .for(ctx, PaymentMethod)
+            .one({
+                id: paymentMethodId,
+                options: { relations },
             })
             .then(paymentMethod => {
                 if (paymentMethod) {

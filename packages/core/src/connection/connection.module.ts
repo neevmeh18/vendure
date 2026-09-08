@@ -7,6 +7,9 @@ import { ConfigService } from '../config/config.service';
 import { TypeOrmLogger } from '../config/logger/typeorm-logger';
 
 import { CustomFieldsValidationSubscriber } from './custom-fields-validation-subscriber';
+import { EntityReadAdapter } from './entity-read-adapter';
+import { ReadBoundary } from './read-boundary';
+import { ReadQueryFactory } from './read-query-factory';
 import { TransactionSubscriber } from './transaction-subscriber';
 import { TransactionWrapper } from './transaction-wrapper';
 import { TransactionalConnection } from './transactional-connection';
@@ -19,12 +22,16 @@ let defaultTypeOrmModule: DynamicModule;
         TransactionSubscriber,
         TransactionWrapper,
         CustomFieldsValidationSubscriber,
+        EntityReadAdapter,
+        ReadQueryFactory,
+        ReadBoundary,
     ],
     exports: [
         TransactionalConnection,
         TransactionSubscriber,
         TransactionWrapper,
         CustomFieldsValidationSubscriber,
+        EntityReadAdapter,
     ],
 })
 export class ConnectionCoreModule {}
