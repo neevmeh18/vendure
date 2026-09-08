@@ -1,5 +1,7 @@
 import { ApolloServerPlugin, GraphQLRequestListener } from '@apollo/server';
-import { GraphQLError } from 'graphql/error/index';
+
+import { resolveValidationProfile } from '../validation/validation-profile';
+import { loadValidationProfile } from '../validation/validation-profile-loader';
 
 /**
  * @description
@@ -7,18 +9,16 @@ import { GraphQLError } from 'graphql/error/index';
  * Based on ideas discussed in https://github.com/apollographql/apollo-server/issues/3919
  */
 export class HideValidationErrorsPlugin implements ApolloServerPlugin {
+    constructor(private readonly requestedProfile?: string) {}
+
     async requestDidStart(): Promise<GraphQLRequestListener<any>> {
         return {
             willSendResponse: async requestContext => {
                 const { errors } = requestContext;
                 if (errors) {
-                    (requestContext.response as any).errors = errors.map(err => {
-                        if (err.message.includes('Did you mean')) {
-                            return new GraphQLError('Invalid request');
-                        } else {
-                            return err;
-                        }
-                    });
+                    const selectedProfile = resolveValidationProfile(this.requestedProfile);
+                    const validationProfile = await loadValidationProfile(selectedProfile);
+                    (requestContext.response as any).errors = errors.map(err => validationProfile.format(err));
                 }
             },
         };
