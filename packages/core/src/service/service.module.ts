@@ -24,6 +24,7 @@ import { OrderMerger } from './helpers/order-merger/order-merger';
 import { OrderModifier } from './helpers/order-modifier/order-modifier';
 import { OrderSplitter } from './helpers/order-splitter/order-splitter';
 import { OrderStateMachine } from './helpers/order-state-machine/order-state-machine';
+import { OrderTimelineBuilder } from './helpers/order-timeline/order-timeline-builder';
 import { PasswordCipher } from './helpers/password-cipher/password-cipher';
 import { PaymentStateMachine } from './helpers/payment-state-machine/payment-state-machine';
 import { ProductPriceApplicator } from './helpers/product-price-applicator/product-price-applicator';
@@ -126,6 +127,7 @@ const helpers = [
     OrderMerger,
     OrderModifier,
     OrderSplitter,
+    OrderTimelineBuilder,
     PaymentStateMachine,
     ListQueryBuilder,
     ShippingCalculator,
