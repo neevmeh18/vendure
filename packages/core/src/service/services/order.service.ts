@@ -107,6 +107,10 @@ import { OrderLineEvent } from '../../event-bus/events/order-line-event';
 import { OrderStateTransitionEvent } from '../../event-bus/events/order-state-transition-event';
 import { RefundEvent } from '../../event-bus/events/refund-event';
 import { RefundStateTransitionEvent } from '../../event-bus/events/refund-state-transition-event';
+import {
+    CheckoutRequirementCode,
+    getCheckoutReadiness as evaluateCheckoutReadiness,
+} from '../helpers/checkout-readiness/checkout-readiness';
 import { CustomFieldRelationService } from '../helpers/custom-field-relation/custom-field-relation.service';
 import { FulfillmentState } from '../helpers/fulfillment-state-machine/fulfillment-state';
 import { ListQueryBuilder } from '../helpers/list-query-builder/list-query-builder';
@@ -1245,6 +1249,15 @@ export class OrderService implements OnApplicationBootstrap {
         this.requestCache.set(ctx, CacheKey.ActiveTaxZone(ctx.channelId), undefined);
         this.requestCache.set(ctx, CacheKey.ActiveTaxZone_PPA(ctx.channelId), undefined);
         return this.applyPriceAdjustments(ctx, order, order.lines);
+    }
+
+    /**
+     * @description
+     * Returns the checkout requirement codes that are currently unmet on the given Order.
+     */
+    async getCheckoutReadiness(ctx: RequestContext, orderId: ID): Promise<CheckoutRequirementCode[]> {
+        const order = await this.getOrderOrThrow(ctx, orderId);
+        return evaluateCheckoutReadiness(order);
     }
 
     /**

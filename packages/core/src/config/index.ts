@@ -58,6 +58,7 @@ export * from './logger/vendure-logger';
 export * from './merge-config';
 export * from './order/active-order-strategy';
 export * from './order/changed-price-handling-strategy';
+export * from './order/checkout-order-process';
 export * from './order/default-active-order-strategy';
 export * from './order/default-changed-price-handling-strategy';
 export * from './order/default-guest-checkout-strategy';

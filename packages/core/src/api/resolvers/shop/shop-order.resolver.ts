@@ -52,6 +52,11 @@ import { Transaction } from '../../decorators/transaction.decorator';
 
 type ActiveOrderArgs = { [ACTIVE_ORDER_INPUT_FIELD_NAME]?: any };
 
+type CheckoutReadiness = {
+    unmetRequirements: string[];
+    ready: boolean;
+};
+
 @Resolver()
 export class ShopOrderResolver {
     constructor(
@@ -218,6 +223,28 @@ export class ShopOrderResolver {
             }
         }
         return new NoActiveOrderError();
+    }
+
+    @Query()
+    @Allow(Permission.Owner)
+    async checkoutReadiness(
+        @Ctx() ctx: RequestContext,
+        @Args() args: ActiveOrderArgs,
+    ): Promise<CheckoutReadiness> {
+        if (ctx.authorizedAsOwnerOnly) {
+            const sessionOrder = await this.activeOrderService.getActiveOrder(
+                ctx,
+                args[ACTIVE_ORDER_INPUT_FIELD_NAME],
+            );
+            if (sessionOrder) {
+                const unmetRequirements = await this.orderService.getCheckoutReadiness(ctx, sessionOrder.id);
+                return {
+                    unmetRequirements,
+                    ready: unmetRequirements.length === 0,
+                };
+            }
+        }
+        return { unmetRequirements: [], ready: false };
     }
 
     @Query()
