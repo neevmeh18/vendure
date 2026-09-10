@@ -146,7 +146,7 @@ export interface ApiOptions {
      * The maximum number of items that may be returned by a query which returns a `PaginatedList` response. In other words,
      * this is the upper limit of the `take` input option.
      *
-     * @default 100
+     * @default 500
      */
     shopListQueryLimit?: number;
     /**
@@ -514,7 +514,7 @@ export interface AuthOptions {
      * If passed as a number should represent seconds and if passed as a string describes a time span per
      * [zeit/ms](https://github.com/zeit/ms.js). Eg: `60`, `'2 days'`, `'10h'`, `'7d'`
      *
-     * @default 300
+     * @default 600
      */
     sessionCacheTTL?: string | number;
     /**
@@ -534,7 +534,7 @@ export interface AuthOptions {
      * If passed as a number should represent milliseconds and if passed as a string describes a time span per
      * [zeit/ms](https://github.com/zeit/ms.js).  Eg: `60`, `'2 days'`, `'10h'`, `'7d'`
      *
-     * @default '7d'
+     * @default '90d'
      */
     verificationTokenDuration?: string | number;
     /**
@@ -1224,7 +1224,7 @@ export interface EntityOptions {
      * smaller value here will prevent data inconsistencies between instances.
      *
      * @since 1.3.0
-     * @default 30000
+     * @default 60000
      */
     channelCacheTtl?: number;
     /**
@@ -1235,7 +1235,7 @@ export interface EntityOptions {
      * smaller value here will prevent data inconsistencies between instances.
      *
      * @since 1.3.0
-     * @default 30000
+     * @default 60000
      */
     zoneCacheTtl?: number;
     /**

@@ -11,6 +11,7 @@ import { randomBytes } from 'crypto';
 import { InMemoryJobQueueStrategy } from '../job-queue/in-memory-job-queue-strategy';
 import { InMemoryJobBufferStorageStrategy } from '../job-queue/job-buffer/in-memory-job-buffer-storage-strategy';
 import { NoopSchedulerStrategy } from '../scheduler/noop-scheduler-strategy';
+import { cleanInactiveApiKeysTask } from '../scheduler/tasks/clean-inactive-api-keys-task';
 import { cleanSessionsTask } from '../scheduler/tasks/clean-sessions-task';
 
 import { RandomBytesApiKeyStrategy } from './api-key-strategy/random-bytes-api-key-strategy';
@@ -86,7 +87,7 @@ export const defaultConfig: RuntimeVendureConfig = {
         shopApiPath: 'shop-api',
         shopApiPlayground: false,
         shopApiDebug: false,
-        shopListQueryLimit: 100,
+        shopListQueryLimit: 500,
         shopApiValidationRules: [],
         channelTokenKey: DEFAULT_CHANNEL_TOKEN_KEY,
         cors: {
@@ -112,9 +113,9 @@ export const defaultConfig: RuntimeVendureConfig = {
         apiKeyHeaderKey: DEFAULT_APIKEY_HEADER_KEY,
         sessionDuration: '1y',
         sessionCacheStrategy: new DefaultSessionCacheStrategy(),
-        sessionCacheTTL: 300,
+        sessionCacheTTL: 600,
         requireVerification: true,
-        verificationTokenDuration: '7d',
+        verificationTokenDuration: '90d',
         superadminCredentials: {
             identifier: SUPER_ADMIN_USER_IDENTIFIER,
             password: SUPER_ADMIN_USER_PASSWORD,
@@ -155,8 +156,8 @@ export const defaultConfig: RuntimeVendureConfig = {
         entityIdStrategy: new AutoIncrementIdStrategy(),
         moneyStrategy: new DefaultMoneyStrategy(),
         entityDuplicators: defaultEntityDuplicators,
-        channelCacheTtl: 30000,
-        zoneCacheTtl: 30000,
+        channelCacheTtl: 60000,
+        zoneCacheTtl: 60000,
         taxRateCacheTtl: 30000,
         metadataModifiers: [],
         slugStrategy: new DefaultSlugStrategy(),
@@ -215,7 +216,7 @@ export const defaultConfig: RuntimeVendureConfig = {
     },
     schedulerOptions: {
         schedulerStrategy: new NoopSchedulerStrategy(),
-        tasks: [cleanSessionsTask, cleanOrphanedSettingsStoreTask],
+        tasks: [cleanSessionsTask, cleanOrphanedSettingsStoreTask, cleanInactiveApiKeysTask],
         runTasksInWorkerOnly: true,
     },
     customFields: {
@@ -259,7 +260,7 @@ export const defaultConfig: RuntimeVendureConfig = {
     settingsStoreFields: {},
     plugins: [],
     systemOptions: {
-        cacheStrategy: new InMemoryCacheStrategy({ cacheSize: 10_000 }),
+        cacheStrategy: new InMemoryCacheStrategy({ cacheSize: 20_000 }),
         healthChecks: [],
         errorHandlers: [],
         instrumentationStrategy: new NoopInstrumentationStrategy(),
