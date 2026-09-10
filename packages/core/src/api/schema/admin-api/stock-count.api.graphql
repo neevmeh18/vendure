@@ -1,0 +1,26 @@
+type Query {
+    "Returns the current stock levels at the given StockLocation, for use as a stock count worksheet."
+    stockCountSheet(stockLocationId: ID!, productVariantIds: [ID!]): [StockCountSheetLine!]!
+}
+
+type Mutation {
+    "Applies the result of a physical stock count, setting stockOnHand at the given StockLocation to the counted quantity for each ProductVariant."
+    applyStockCount(input: ApplyStockCountInput!): [StockCountSheetLine!]!
+}
+
+type StockCountSheetLine {
+    productVariantId: ID!
+    sku: String!
+    stockOnHand: Int!
+    stockAllocated: Int!
+}
+
+input StockCountLineInput {
+    productVariantId: ID!
+    countedQuantity: Int!
+}
+
+input ApplyStockCountInput {
+    stockLocationId: ID!
+    lines: [StockCountLineInput!]!
+}

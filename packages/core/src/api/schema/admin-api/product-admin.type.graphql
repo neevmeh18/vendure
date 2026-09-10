@@ -15,7 +15,7 @@ type ProductVariant implements Node {
     outOfStockThreshold: Int!
     useGlobalOutOfStockThreshold: Boolean!
     prices: [ProductVariantPrice!]!
-    stockLevels: [StockLevel!]!
+    stockLevels(stockLocationId: ID): [StockLevel!]!
     stockMovements(options: StockMovementListOptions): StockMovementList!
     channels: [Channel!]!
 }

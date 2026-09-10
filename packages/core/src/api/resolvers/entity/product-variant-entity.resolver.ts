@@ -5,7 +5,7 @@ import {
     StockMovementListOptions,
 } from '@vendure/common/lib/generated-types';
 import { DEFAULT_CHANNEL_CODE } from '@vendure/common/lib/shared-constants';
-import { PaginatedList } from '@vendure/common/lib/shared-types';
+import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { Translated } from '../../../common/types/locale-types';
@@ -201,8 +201,15 @@ export class ProductVariantAdminEntityResolver {
     async stockLevels(
         @Ctx() ctx: RequestContext,
         @Parent() productVariant: ProductVariant,
+        @Args() args: { stockLocationId?: ID },
     ): Promise<StockLevel[]> {
-        return this.stockLevelService.getStockLevelsForVariant(ctx, productVariant.id);
+        const stockLevels = await this.stockLevelService.getStockLevelsForVariant(ctx, productVariant.id);
+        if (args.stockLocationId) {
+            return stockLevels.filter(stockLevel =>
+                idsAreEqual(stockLevel.stockLocationId, args.stockLocationId),
+            );
+        }
+        return stockLevels;
     }
 
     @ResolveField()

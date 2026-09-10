@@ -259,6 +259,11 @@ export type ApiKeyTranslation = Node & {
 
 export type ApplyCouponCodeResult = CouponCodeExpiredError | CouponCodeInvalidError | CouponCodeLimitError | Order;
 
+export type ApplyStockCountInput = {
+  lines: Array<StockCountLineInput>;
+  stockLocationId: Scalars['ID']['input'];
+};
+
 export type Asset = Node & {
   __typename?: 'Asset';
   createdAt: Scalars['DateTime']['output'];
@@ -2920,6 +2925,8 @@ export type Mutation = {
   adjustDraftOrderLine: UpdateOrderItemsResult;
   /** Applies the given coupon code to the draft Order */
   applyCouponCodeToDraftOrder: ApplyCouponCodeResult;
+  /** Applies the result of a physical stock count, setting stockOnHand at the given StockLocation to the counted quantity for each ProductVariant. */
+  applyStockCount: Array<StockCountSheetLine>;
   /** Assign assets to channel */
   assignAssetsToChannel: Array<Asset>;
   /** Assigns Collections to the specified Channel */
@@ -3307,6 +3314,11 @@ export type MutationAdjustDraftOrderLineArgs = {
 export type MutationApplyCouponCodeToDraftOrderArgs = {
   couponCode: Scalars['String']['input'];
   orderId: Scalars['ID']['input'];
+};
+
+
+export type MutationApplyStockCountArgs = {
+  input: ApplyStockCountInput;
 };
 
 
@@ -5569,6 +5581,8 @@ export type Query = {
   shippingMethods: ShippingMethodList;
   /** Generate slug for entity */
   slugForEntity: Scalars['String']['output'];
+  /** Returns the current stock levels at the given StockLocation, for use as a stock count worksheet. */
+  stockCountSheet: Array<StockCountSheetLine>;
   stockLocation?: Maybe<StockLocation>;
   stockLocations: StockLocationList;
   tag: Tag;
@@ -5851,6 +5865,12 @@ export type QueryShippingMethodsArgs = {
 
 export type QuerySlugForEntityArgs = {
   input: SlugForEntityInput;
+};
+
+
+export type QueryStockCountSheetArgs = {
+  productVariantIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  stockLocationId: Scalars['ID']['input'];
 };
 
 
@@ -6502,6 +6522,19 @@ export type StockAdjustment = Node & StockMovement & {
   quantity: Scalars['Int']['output'];
   type: StockMovementType;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type StockCountLineInput = {
+  countedQuantity: Scalars['Int']['input'];
+  productVariantId: Scalars['ID']['input'];
+};
+
+export type StockCountSheetLine = {
+  __typename?: 'StockCountSheetLine';
+  productVariantId: Scalars['ID']['output'];
+  sku: Scalars['String']['output'];
+  stockAllocated: Scalars['Int']['output'];
+  stockOnHand: Scalars['Int']['output'];
 };
 
 export type StockLevel = Node & {
