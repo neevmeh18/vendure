@@ -37,6 +37,11 @@ export class OrderEntityResolver {
     }
 
     @ResolveField()
+    async shippingStatus(@Ctx() ctx: RequestContext, @Parent() order: Order) {
+        return this.orderService.getShippingStatus(ctx, order);
+    }
+
+    @ResolveField()
     async surcharges(@Ctx() ctx: RequestContext, @Parent() order: Order) {
         if (order.surcharges) {
             return order.surcharges;

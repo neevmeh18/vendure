@@ -16,6 +16,7 @@ import {
     MutationSetOrderShippingAddressArgs,
     MutationSetOrderShippingMethodArgs,
     MutationTransitionOrderToStateArgs,
+    OrderAddress,
     PaymentMethodQuote,
     Permission,
     QueryOrderArgs,
@@ -29,6 +30,7 @@ import {
     UpdateOrderItemsResult,
 } from '@vendure/common/lib/generated-shop-types';
 import { QueryCountriesArgs } from '@vendure/common/lib/generated-types';
+import { ID } from '@vendure/common/lib/shared-types';
 import { unique } from '@vendure/common/lib/unique';
 
 import { ErrorResultUnion, isGraphQlErrorResult } from '../../../common/error/error-result';
@@ -41,6 +43,7 @@ import { Country } from '../../../entity';
 import { Order } from '../../../entity/order/order.entity';
 import { ActiveOrderService, CountryService } from '../../../service';
 import { OrderState } from '../../../service/helpers/order-state-machine/order-state';
+import { ShippingStatus } from '../../../service/helpers/order-tracking/shipping-status';
 import { CustomerService } from '../../../service/services/customer.service';
 import { OrderService } from '../../../service/services/order.service';
 import { SessionService } from '../../../service/services/session.service';
@@ -49,6 +52,24 @@ import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';
 import { Transaction } from '../../decorators/transaction.decorator';
+
+interface OrderTrackingParcel {
+    fulfillmentId: ID;
+    method: string;
+    state: string;
+    trackingCode?: string;
+    updatedAt: Date;
+}
+
+interface OrderTracking {
+    orderId: ID;
+    code: string;
+    state: string;
+    orderPlacedAt: Date;
+    shippingStatus: ShippingStatus;
+    shippingAddress: OrderAddress;
+    parcels: OrderTrackingParcel[];
+}
 
 type ActiveOrderArgs = { [ACTIVE_ORDER_INPUT_FIELD_NAME]?: any };
 
@@ -141,6 +162,38 @@ export class ShopOrderResolver {
             // We throw even if the order does not exist, since giving a different response
             // opens the door to an enumeration attack to find valid order codes.
             throw new ForbiddenError(LogLevel.Verbose);
+        }
+    }
+
+    @Query()
+    @Allow(Permission.Owner)
+    async orderTracking(
+        @Ctx() ctx: RequestContext,
+        @Args() args: { orderId: ID },
+    ): Promise<OrderTracking | undefined> {
+        if (ctx.authorizedAsOwnerOnly) {
+            const order = await this.orderService.findOne(ctx, args.orderId, [
+                'fulfillments',
+                'shippingLines',
+            ]);
+            if (!order || !order.orderPlacedAt) {
+                return;
+            }
+            return {
+                orderId: order.id,
+                code: order.code,
+                state: order.state,
+                orderPlacedAt: order.orderPlacedAt,
+                shippingStatus: await this.orderService.getShippingStatus(ctx, order),
+                shippingAddress: order.shippingAddress,
+                parcels: (order.fulfillments ?? []).map(f => ({
+                    fulfillmentId: f.id,
+                    method: f.method,
+                    state: f.state,
+                    trackingCode: f.trackingCode || undefined,
+                    updatedAt: f.updatedAt,
+                })),
+            };
         }
     }
 
