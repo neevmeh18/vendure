@@ -13,7 +13,7 @@ import {
     NullOptionals,
     NumberOperators,
     StringOperators,
-} from '../../../common/types/common-types';
+} from '../../../common/types/shared-types';
 import { VendureEntity } from '../../../entity/base/base.entity';
 
 import { escapeCalculatedColumnExpression, getColumnMetadata } from './connection-utils';

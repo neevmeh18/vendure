@@ -88,7 +88,7 @@ export class TypeOrmLogger implements TypeOrmLoggerInterface {
     private stringifyParams(parameters: any[]) {
         try {
             return JSON.stringify(parameters);
-        } catch (error) {
+        } catch (caughtError) {
             // most probably circular objects in parameters
             return parameters;
         }

@@ -11,7 +11,7 @@ import { Column, Entity, Index, JoinTable, ManyToMany, ManyToOne, OneToMany } fr
 
 import { Calculated } from '../../common/calculated-decorator';
 import { InternalServerError } from '../../common/error/errors';
-import { ChannelAware } from '../../common/types/common-types';
+import { ChannelAware } from '../../common/types/shared-types';
 import { getConfig } from '../../config/config-helpers';
 import { HasCustomFields } from '../../config/custom-field/custom-field-types';
 import { OrderState } from '../../service/helpers/order-state-machine/order-state';

@@ -50,9 +50,9 @@ export function useRemoveOptionGroup(productId: string, options?: UseRemoveOptio
             }
             toast.success(t`Option group removed`);
             options?.onRemoved?.();
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to remove option group`, {
-                description: error instanceof Error ? error.message : t`Unknown error`,
+                description: caughtError instanceof Error ? caughtError.message : t`Unknown error`,
             });
         }
     };
@@ -66,11 +66,11 @@ export function useRemoveOptionGroup(productId: string, options?: UseRemoveOptio
             setInUseGroupId(null);
             toast.success(t`Option group removed`);
             options?.onRemoved?.();
-        } catch (error) {
+        } catch (caughtError) {
             // Keep the dialog open on failure so the user can retry the force-remove
             // without restarting the whole flow; only a success clears `inUseGroupId`.
             toast.error(t`Failed to remove option group`, {
-                description: error instanceof Error ? error.message : t`Unknown error`,
+                description: caughtError instanceof Error ? caughtError.message : t`Unknown error`,
             });
         }
     };

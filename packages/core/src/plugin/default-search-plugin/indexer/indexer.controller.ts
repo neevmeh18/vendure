@@ -6,7 +6,7 @@ import { unique } from '@vendure/common/lib/unique';
 import { Observable } from 'rxjs';
 import { Equal, FindManyOptions, FindOptionsWhere, In, IsNull } from 'typeorm';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { AsyncQueue } from '../../../common/async-queue';
 import { Translatable, Translation } from '../../../common/types/locale-types';

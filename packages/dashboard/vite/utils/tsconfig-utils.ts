@@ -52,15 +52,15 @@ async function findRawTsConfig(configPath: string, logger: Logger): Promise<RawT
                         rawTsConfigCache.set(configPath, result);
                         return result;
                     }
-                } catch (e) {
+                } catch (caughtError) {
                     logger.warn(
-                        `Could not read or parse tsconfig file ${tsConfigFilePath}: ${e instanceof Error ? e.message : String(e)}`,
+                        `Could not read or parse tsconfig file ${tsConfigFilePath}: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`,
                     );
                 }
             }
-        } catch (e) {
+        } catch (caughtError) {
             logger.warn(
-                `Could not read directory ${currentDir}: ${e instanceof Error ? e.message : String(e)}`,
+                `Could not read directory ${currentDir}: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`,
             );
         }
         currentDir = path.dirname(currentDir);

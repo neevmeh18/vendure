@@ -1052,7 +1052,7 @@ jump straight to v8) to keep the install clean.
 ### Changes
 
 Removed `body-parser` from `@vendure/core/package.json` and updated the
-documented user-facing pattern in `packages/core/src/common/types/common-types.ts`
+documented user-facing pattern in `packages/core/src/common/types/shared-types.ts`
 (JSDoc on the `Middleware` interface) to recommend `import { json } from 'express'`
 instead of `import { json } from 'body-parser'`. Regenerated
 `docs/docs/reference/typescript-api/common/middleware.mdx` from the new JSDoc.

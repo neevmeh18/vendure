@@ -1,7 +1,7 @@
 export * from './common/extract-session-token';
 export { ApiType } from './common/get-api-type';
 export * from './common/parse-context';
-export * from './common/request-context';
+export * from './common/vendure-request-context';
 export * from './common/set-session-token';
 export * from './config/get-final-vendure-schema';
 export * from './constants';

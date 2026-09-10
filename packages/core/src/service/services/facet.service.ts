@@ -12,10 +12,10 @@ import {
 } from '@vendure/common/lib/generated-types';
 import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { ErrorResultUnion, FacetInUseError, ForbiddenError, Instrument, UserInputError } from '../../common';
-import { ListQueryOptions } from '../../common/types/common-types';
+import { ListQueryOptions } from '../../common/types/shared-types';
 import { Translated } from '../../common/types/locale-types';
 import { assertFound, idsAreEqual } from '../../common/utils';
 import { ConfigService } from '../../config/config.service';

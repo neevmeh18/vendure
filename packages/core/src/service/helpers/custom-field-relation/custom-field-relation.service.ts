@@ -4,7 +4,7 @@ import { ID, Type } from '@vendure/common/lib/shared-types';
 import { getGraphQlInputName } from '@vendure/common/lib/shared-utils';
 import { In } from 'typeorm';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { ConfigService } from '../../../config/config.service';
 import {
     CustomFieldConfig,

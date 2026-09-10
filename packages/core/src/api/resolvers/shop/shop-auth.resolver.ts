@@ -41,7 +41,7 @@ import { AuthService } from '../../../service/services/auth.service';
 import { CustomerService } from '../../../service/services/customer.service';
 import { HistoryService } from '../../../service/services/history.service';
 import { UserService } from '../../../service/services/user.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { setSessionToken } from '../../common/set-session-token';
 import { Allow } from '../../decorators/allow.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

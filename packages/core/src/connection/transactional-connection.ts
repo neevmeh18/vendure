@@ -14,11 +14,11 @@ import {
     SelectQueryBuilder,
 } from 'typeorm';
 
-import { RequestContext } from '../api/common/request-context';
+import { RequestContext } from '../api/common/vendure-request-context';
 import { TransactionIsolationLevel } from '../api/decorators/transaction.decorator';
 import { TRANSACTION_MANAGER_KEY } from '../common/constants';
 import { EntityNotFoundError } from '../common/error/errors';
-import { ChannelAware, SoftDeletable } from '../common/types/common-types';
+import { ChannelAware, SoftDeletable } from '../common/types/shared-types';
 import { EntityAccessControlStrategy } from '../config/auth/entity-access-control-strategy';
 import { ConfigService } from '../config/config.service';
 import { VendureEntity } from '../entity/base/base.entity';

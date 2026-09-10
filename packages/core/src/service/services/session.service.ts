@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import ms, { type StringValue } from 'ms';
 import { Brackets, EntitySubscriberInterface, InsertEvent, RemoveEvent, UpdateEvent } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Instrument } from '../../common/instrument-decorator';
 import { API_KEY_AUTH_STRATEGY_DEFAULT_DURATION_MS, API_KEY_AUTH_STRATEGY_NAME, Logger } from '../../config';
 import { ConfigService } from '../../config/config.service';

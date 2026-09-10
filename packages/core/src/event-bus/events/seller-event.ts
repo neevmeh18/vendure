@@ -1,7 +1,7 @@
 import { CreateSellerInput, UpdateSellerInput } from '@vendure/common/lib/generated-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Role } from '../../entity';
 import { Seller } from '../../entity/seller/seller.entity';
 import { VendureEntityEvent } from '../vendure-entity-event';

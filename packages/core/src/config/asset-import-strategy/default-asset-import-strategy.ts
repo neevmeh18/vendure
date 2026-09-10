@@ -170,8 +170,8 @@ export class DefaultAssetImportStrategy implements AssetImportStrategy {
                 try {
                     const stream = fs.createReadStream(filename);
                     return stream;
-                } catch (err) {
-                    throw err;
+                } catch (caughtError) {
+                    throw caughtError;
                 }
             } else {
                 throw new Error(`Could not find file "${filename}"`);

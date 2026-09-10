@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { TaxRate } from '../../entity';
 import { VendureEvent } from '../vendure-event';
 

@@ -1,7 +1,7 @@
 import { LogicalOperator } from '@vendure/common/lib/generated-types';
 import { describe, expect, it } from 'vitest';
 
-import { FilterParameter } from '../../../common/types/common-types';
+import { FilterParameter } from '../../../common/types/shared-types';
 import { ProductTranslation } from '../../../entity/product/product-translation.entity';
 import { Product } from '../../../entity/product/product.entity';
 

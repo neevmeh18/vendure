@@ -114,7 +114,7 @@ export function useLocalFormat() {
                 return (
                     new Intl.DisplayNames([locale], { type: 'language' }).of(value.replace('_', '-')) ?? value
                 );
-            } catch (e: any) {
+            } catch (caughtError: any) {
                 return value;
             }
         },
@@ -125,7 +125,7 @@ export function useLocalFormat() {
         (value: string): string => {
             try {
                 return new Intl.DisplayNames([locale], { type: 'region' }).of(value) ?? value;
-            } catch (e: any) {
+            } catch (caughtError: any) {
                 return value;
             }
         },
@@ -154,7 +154,7 @@ export function useLocalFormat() {
                         : '';
 
                 return display === 'full' ? `${name} (${symbol})` : display === 'name' ? name : symbol;
-            } catch (e) {
+            } catch (caughtError) {
                 return currencyCode;
             }
         },

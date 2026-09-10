@@ -103,8 +103,8 @@ export interface ChannelContext {
 function getChannelTokenFromLocalStorage(): string | null {
     try {
         return localStorage.getItem(LS_KEY_SELECTED_CHANNEL_TOKEN);
-    } catch (e) {
-        console.error('Failed to retrieve channel token from localStorage', e);
+    } catch (caughtError) {
+        console.error('Failed to retrieve channel token from localStorage', caughtError);
         return null;
     }
 }
@@ -116,8 +116,8 @@ function getChannelTokenFromLocalStorage(): string | null {
 function setChannelTokenInLocalStorage(channelToken: string) {
     try {
         localStorage.setItem(LS_KEY_SELECTED_CHANNEL_TOKEN, channelToken);
-    } catch (e) {
-        console.error('Failed to store selected channel in localStorage', e);
+    } catch (caughtError) {
+        console.error('Failed to store selected channel in localStorage', caughtError);
     }
 }
 

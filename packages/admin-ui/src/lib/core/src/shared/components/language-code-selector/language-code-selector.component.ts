@@ -40,7 +40,7 @@ export class LanguageCodeSelectorComponent implements ControlValueAccessor, OnDe
                 new Intl.DisplayNames([this.locale], {
                     type: 'language',
                 }).of(languagePart) ?? item;
-        } catch (e) {
+        } catch (caughtError) {
             // ignore
         }
         return languageCodeName?.toLowerCase().includes(term.toLowerCase());

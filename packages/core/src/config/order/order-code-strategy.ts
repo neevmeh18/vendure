@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { generatePublicId } from '../../common/generate-public-id';
 import { InjectableStrategy } from '../../common/types/injectable-strategy';
 

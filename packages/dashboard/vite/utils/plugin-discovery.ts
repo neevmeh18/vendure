@@ -142,8 +142,8 @@ export async function discoverPlugins({
                     ...(sourcePluginPath && { sourcePluginPath }),
                 });
             }
-        } catch (e) {
-            logger.error(`Failed to parse ${filePath}: ${e instanceof Error ? e.message : String(e)}`);
+        } catch (caughtError) {
+            logger.error(`Failed to parse ${filePath}: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`);
         }
     }
 
@@ -187,9 +187,9 @@ async function expandPackageImports(
         let pkgJson: any;
         try {
             pkgJson = await fs.readJson(path.join(nodeModulesRoot, pkg, 'package.json'));
-        } catch (e) {
+        } catch (caughtError) {
             logger.debug(
-                `[expandPackageImports] Could not read package.json for ${pkg}: ${e instanceof Error ? e.message : String(e)}`,
+                `[expandPackageImports] Could not read package.json for ${pkg}: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`,
             );
             continue;
         }
@@ -242,7 +242,7 @@ async function isSymlinkedLocalPackage(
                 return realPath;
             }
         }
-    } catch (e) {
+    } catch (caughtError) {
         // Package doesn't exist or other error - not a local package
         return undefined;
     }
@@ -362,8 +362,8 @@ export async function analyzeSourceFiles(
                     await processFile(resolved);
                 }
             }
-        } catch (e) {
-            const message = e instanceof Error ? e.message : String(e);
+        } catch (caughtError) {
+            const message = caughtError instanceof Error ? caughtError.message : String(caughtError);
             logger.error(`Failed to process ${filePath}: ${message}`);
         }
     }
@@ -487,8 +487,8 @@ export async function findVendurePluginFiles({
                     } finally {
                         await fileHandle.close();
                     }
-                } catch (e: any) {
-                    logger.warn(`Failed to read file ${file}: ${e instanceof Error ? e.message : String(e)}`);
+                } catch (caughtError: any) {
+                    logger.warn(`Failed to read file ${file}: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`);
                 }
                 return null;
             }),
@@ -517,8 +517,8 @@ function guessNodeModulesRoot(vendureConfigPath: string, logger: Logger): string
         const corePath = fileURLToPath(coreUrl);
         logger.debug(`Found core path: ${corePath}`);
         nodeModulesRoot = path.join(path.dirname(corePath), '..', '..', '..');
-    } catch (e) {
-        logger.warn(`Failed to resolve @vendure/core: ${e instanceof Error ? e.message : String(e)}`);
+    } catch (caughtError) {
+        logger.warn(`Failed to resolve @vendure/core: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`);
         nodeModulesRoot = path.dirname(vendureConfigPath);
     }
     return nodeModulesRoot;

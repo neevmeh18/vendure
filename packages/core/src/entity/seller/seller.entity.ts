@@ -2,7 +2,7 @@ import { DeepPartial } from '@vendure/common/lib/shared-types';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 import { Channel } from '..';
-import { SoftDeletable } from '../../common/types/common-types';
+import { SoftDeletable } from '../../common/types/shared-types';
 import { HasCustomFields } from '../../config/custom-field/custom-field-types';
 import { VendureEntity } from '../base/base.entity';
 import { CustomSellerFields } from '../custom-entity-fields';

@@ -85,8 +85,8 @@ export const UserSettingsProvider: React.FC<UserSettingsProviderProps> = ({ quer
             if (storedSettings) {
                 return { ...defaultSettings, ...JSON.parse(storedSettings) };
             }
-        } catch (e) {
-            console.error('Failed to load user settings from localStorage', e);
+        } catch (caughtError) {
+            console.error('Failed to load user settings from localStorage', caughtError);
         }
         return { ...defaultSettings };
     };
@@ -155,8 +155,8 @@ export const UserSettingsProvider: React.FC<UserSettingsProviderProps> = ({ quer
                     setServerSettings(settings);
                     setIsReady(true);
                 }
-            } catch (e) {
-                console.error('Failed to parse server settings:', e);
+            } catch (caughtError) {
+                console.error('Failed to parse server settings:', caughtError);
                 setServerSettings(settings);
                 setIsReady(true);
             }
@@ -167,8 +167,8 @@ export const UserSettingsProvider: React.FC<UserSettingsProviderProps> = ({ quer
     useEffect(() => {
         try {
             localStorage.setItem(LS_KEY_USER_SETTINGS, JSON.stringify(settings));
-        } catch (e) {
-            console.error('Failed to save user settings to localStorage', e);
+        } catch (caughtError) {
+            console.error('Failed to save user settings to localStorage', caughtError);
         }
     }, [settings]);
 

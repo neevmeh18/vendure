@@ -121,10 +121,10 @@ export class DefaultSchedulerStrategy implements SchedulerStrategy {
                 },
             );
             Logger.verbose(`Scheduled task "${task.id}" completed successfully`);
-        } catch (error) {
+        } catch (caughtError) {
             let errorMessage = 'Unknown error';
-            if (error instanceof Error) {
-                errorMessage = error.message;
+            if (caughtError instanceof Error) {
+                errorMessage = caughtError.message;
             }
             Logger.error(`Scheduled task "${task.id}" failed with error: ${errorMessage}`);
             await this.connection.rawConnection.getRepository(ScheduledTaskRecord).update(
@@ -200,10 +200,10 @@ export class DefaultSchedulerStrategy implements SchedulerStrategy {
                 .createQueryBuilder('task')
                 .where('task.manuallyTriggeredAt IS NOT NULL')
                 .getMany();
-        } catch (e) {
+        } catch (caughtError) {
             // This branch can be reached if the connection is closed and then this method
             // is called on the interval. Usually encountered in tests.
-            const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+            const errorMessage = caughtError instanceof Error ? caughtError.message : 'Unknown error';
             Logger.error(`Error checking for manually triggered tasks: ${errorMessage}`);
         }
 

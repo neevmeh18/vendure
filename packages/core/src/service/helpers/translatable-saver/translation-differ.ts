@@ -1,6 +1,6 @@
 import { DeepPartial, ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { InternalServerError } from '../../../common/error/errors';
 import { Translatable, Translation, TranslationInput } from '../../../common/types/locale-types';
 import { foundIn, not } from '../../../common/utils';

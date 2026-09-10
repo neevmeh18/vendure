@@ -1,6 +1,6 @@
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Zone } from '../../entity';
 import { VendureEvent } from '../vendure-event';
 

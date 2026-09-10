@@ -136,9 +136,9 @@ export function translationsPlugin(options: TranslationsPluginOptions): Plugin {
                     cachedCatalogs ?? (await getLinguiCatalogs(linguiConfig, pluginTranslations));
 
                 await compileTranslations(options, pluginTranslations, linguiConfig, catalogs, this.emitFile);
-            } catch (error) {
+            } catch (caughtError) {
                 this.error(
-                    `Translation plugin error: ${error instanceof Error ? error.message : String(error)}`,
+                    `Translation plugin error: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`,
                 );
             }
         },

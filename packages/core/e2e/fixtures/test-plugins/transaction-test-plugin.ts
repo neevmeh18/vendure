@@ -259,7 +259,7 @@ class TestResolver {
                 );
 
                 result.push(...admins);
-            } catch (e) {
+            } catch (caughtError) {
                 /* */
             }
         }
@@ -363,8 +363,8 @@ export class TransactionTestPlugin implements OnApplicationBootstrap {
                 administrator.lastName = 'modified';
                 try {
                     await adminRepository.save(administrator);
-                } catch (e: any) {
-                    TransactionTestPlugin.errorHandler(e);
+                } catch (caughtError: any) {
+                    TransactionTestPlugin.errorHandler(caughtError);
                 } finally {
                     TransactionTestPlugin.eventHandlerComplete$.complete();
                 }
@@ -375,8 +375,8 @@ export class TransactionTestPlugin implements OnApplicationBootstrap {
                 const adminRepository = this.connection.getRepository(Administrator);
                 try {
                     await adminRepository.findOneOrFail({ where: { id: administrator.id } });
-                } catch (e: any) {
-                    TransactionTestPlugin.errorHandler(e);
+                } catch (caughtError: any) {
+                    TransactionTestPlugin.errorHandler(caughtError);
                 } finally {
                     TransactionTestPlugin.eventHandlerComplete$.complete();
                 }

@@ -192,13 +192,13 @@ export class JobQueueService implements OnModuleDestroy {
         return async (job: Job<Data>) => {
             try {
                 return await processFn(job);
-            } catch (e) {
+            } catch (caughtError) {
                 for (const handler of errorHandlers) {
-                    if (e instanceof Error) {
-                        void handler.handleWorkerError(e, { job });
+                    if (caughtError instanceof Error) {
+                        void handler.handleWorkerError(caughtError, { job });
                     }
                 }
-                throw e;
+                throw caughtError;
             }
         };
     }

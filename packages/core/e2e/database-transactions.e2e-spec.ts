@@ -66,8 +66,8 @@ describe('Transaction infrastructure', () => {
                 fail: true,
             });
             fail('Should have thrown');
-        } catch (e: any) {
-            expect(e.message).toContain('Failed!');
+        } catch (caughtError: any) {
+            expect(caughtError.message).toContain('Failed!');
         }
 
         const { verify } = await adminClient.query(verifyTestDocument);
@@ -86,8 +86,8 @@ describe('Transaction infrastructure', () => {
                 n: 10,
             });
             fail('Should have thrown');
-        } catch (e) {
-            expect(e.message).toContain('Failed!');
+        } catch (caughtError) {
+            expect(caughtError.message).toContain('Failed!');
         }
 
         const { verify } = await adminClient.query(verifyTestDocument);
@@ -105,8 +105,8 @@ describe('Transaction infrastructure', () => {
                 fail: true,
             });
             fail('Should have thrown');
-        } catch (e: any) {
-            expect(e.message).toContain('Failed!');
+        } catch (caughtError: any) {
+            expect(caughtError.message).toContain('Failed!');
         }
 
         const { verify } = await adminClient.query(verifyTestDocument);
@@ -124,8 +124,8 @@ describe('Transaction infrastructure', () => {
                 fail: true,
             });
             fail('Should have thrown');
-        } catch (e: any) {
-            expect(e.message).toContain('Failed!');
+        } catch (caughtError: any) {
+            expect(caughtError.message).toContain('Failed!');
         }
 
         const { verify } = await adminClient.query(verifyTestDocument);
@@ -144,8 +144,8 @@ describe('Transaction infrastructure', () => {
                 noContext: false,
             });
             fail('Should have thrown');
-        } catch (e: any) {
-            expect(e.message).toContain('Failed!');
+        } catch (caughtError: any) {
+            expect(caughtError.message).toContain('Failed!');
         }
 
         const { verify } = await adminClient.query(verifyTestDocument);
@@ -166,8 +166,8 @@ describe('Transaction infrastructure', () => {
                     n: 10,
                 });
                 fail('Should have thrown');
-            } catch (e) {
-                expect(e.message).toMatch(
+            } catch (caughtError) {
+                expect(caughtError.message).toMatch(
                     /^Failed!|Query runner already released. Cannot run queries anymore.$/,
                 );
             }
@@ -189,8 +189,8 @@ describe('Transaction infrastructure', () => {
                 noContext: true,
             });
             fail('Should have thrown');
-        } catch (e: any) {
-            expect(e.message).toContain('Failed!');
+        } catch (caughtError: any) {
+            expect(caughtError.message).toContain('Failed!');
         }
 
         const { verify } = await adminClient.query(verifyTestDocument);
@@ -225,8 +225,8 @@ describe('Transaction infrastructure', () => {
                 n: 2,
             });
             fail('Should have thrown');
-        } catch (e) {
-            expect(e.message).toContain('Failed!');
+        } catch (caughtError) {
+            expect(caughtError.message).toContain('Failed!');
         }
 
         // Wait a bit to see an events in handler

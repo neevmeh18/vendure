@@ -77,7 +77,7 @@ function decodeIds(idsString: string | string[]): string[] {
     }
     try {
         return JSON.parse(idsString);
-    } catch (error) {
+    } catch (caughtError) {
         return [];
     }
 }

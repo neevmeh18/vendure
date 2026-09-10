@@ -15,7 +15,7 @@ import { Injector } from '../../common/injector';
 import { ConfigService } from '../../config/config.service';
 import { CustomFieldConfig, CustomFields } from '../../config/custom-field/custom-field-types';
 import { parseContext } from '../common/parse-context';
-import { internal_getRequestContext, RequestContext } from '../common/request-context';
+import { internal_getRequestContext, RequestContext } from '../common/vendure-request-context';
 import { validateCustomFieldValue } from '../common/validate-custom-field-value';
 
 /**

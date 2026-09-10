@@ -298,9 +298,9 @@ export function useRefundOrder(order: Order, onSuccess?: () => void): UseRefundO
 
             toast.success(t`Refund processed successfully`);
             onSuccess?.();
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to process refund`, {
-                description: error instanceof Error ? error.message : t`Unknown error`,
+                description: caughtError instanceof Error ? caughtError.message : t`Unknown error`,
             });
         } finally {
             setIsSubmitting(false);

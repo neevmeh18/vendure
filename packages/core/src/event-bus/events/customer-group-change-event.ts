@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Customer } from '../../entity/customer/customer.entity';
 import { CustomerGroup } from '../../entity/customer-group/customer-group.entity';
 import { VendureEvent } from '../vendure-event';

@@ -73,8 +73,8 @@ export async function downloadIntrospectionSchema(apiType: 'shop' | 'admin'): Pr
         writeFileSync(outFile, JSON.stringify(jsonSchema));
         console.log(`Generated schema: ${outFile}`);
         return true;
-    } catch (error) {
+    } catch (caughtError) {
         console.error('An error occured when generating Introspection Schema');
-        throw error;
+        throw caughtError;
     }
 }

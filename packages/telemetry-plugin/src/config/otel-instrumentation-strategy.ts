@@ -50,11 +50,11 @@ export class OtelInstrumentationStrategy implements InstrumentationStrategy {
                     hooks.post({ args, result, span, instance });
                 }
                 return result;
-            } catch (error) {
-                recordException(span, error);
+            } catch (caughtError) {
+                recordException(span, caughtError);
 
                 // throw for further propagation
-                throw error;
+                throw caughtError;
             } finally {
                 span.end();
             }

@@ -8,7 +8,7 @@ import {
 import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { In } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Instrument } from '../../common/instrument-decorator';
 import { idsAreEqual } from '../../common/utils';
 import { ShippingCalculator } from '../../config/shipping-method/shipping-calculator';

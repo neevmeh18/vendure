@@ -1,6 +1,6 @@
 import { CreateProductVariantInput, UpdateProductVariantInput } from '@vendure/common/lib/generated-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ProductVariantPrice } from '../../entity';
 import { VendureEntityEvent } from '../vendure-entity-event';
 

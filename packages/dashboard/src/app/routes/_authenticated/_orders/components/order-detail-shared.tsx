@@ -146,9 +146,9 @@ export function OrderDetailShared({
             });
             await refreshPage();
             await navigate({ to: `/orders/$id/modify`, params: { id: entity.id } });
-        } catch (error) {
+        } catch (caughtError) {
             toast(t`Failed to modify order`, {
-                description: error instanceof Error ? error.message : 'Unknown error',
+                description: caughtError instanceof Error ? caughtError.message : 'Unknown error',
             });
         }
     }, [entity, transitionOrderToStateMutation, refreshPage, navigate, t]);

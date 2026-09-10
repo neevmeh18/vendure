@@ -2,7 +2,7 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 
 import { ShippingMethod } from '../../../entity/shipping-method/shipping-method.entity';
 import { LocaleStringHydrator } from '../../../service/helpers/locale-string-hydrator/locale-string-hydrator';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('ShippingMethod')

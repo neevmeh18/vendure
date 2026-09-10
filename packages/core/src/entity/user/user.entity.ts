@@ -2,7 +2,7 @@ import { DeepPartial } from '@vendure/common/lib/shared-types';
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 import { InternalServerError } from '../../common/error/errors';
-import { SoftDeletable } from '../../common/types/common-types';
+import { SoftDeletable } from '../../common/types/shared-types';
 import { HasCustomFields } from '../../config/custom-field/custom-field-types';
 import { AuthenticationMethod } from '../authentication-method/authentication-method.entity';
 import { NativeAuthenticationMethod } from '../authentication-method/native-authentication-method.entity';

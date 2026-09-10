@@ -3,7 +3,7 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { Administrator } from '../../../entity/administrator/administrator.entity';
 import { User } from '../../../entity/user/user.entity';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('Administrator')

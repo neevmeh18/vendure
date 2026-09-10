@@ -12,7 +12,7 @@ import {
 } from '@vendure/common/lib/generated-types';
 import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { UserInputError } from '../../common/error/errors';
 import { Instrument } from '../../common/instrument-decorator';

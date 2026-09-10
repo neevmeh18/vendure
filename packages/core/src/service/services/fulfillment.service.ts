@@ -5,7 +5,7 @@ import { isObject } from '@vendure/common/lib/shared-utils';
 import { unique } from '@vendure/common/lib/unique';
 import { In, Not } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { EntityNotFoundError } from '../../common/error/errors';
 import {

@@ -15,7 +15,7 @@ import { MimeTypeError } from '../../../common/error/generated-graphql-admin-err
 import { Translated } from '../../../common/types/locale-types';
 import { Asset } from '../../../entity/asset/asset.entity';
 import { AssetService } from '../../../service/services/asset.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

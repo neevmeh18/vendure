@@ -19,7 +19,7 @@ import { unique } from '@vendure/common/lib/unique';
 import { FindOptionsWhere } from 'typeorm';
 
 import { RelationPaths } from '../../api';
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ErrorResultUnion, isGraphQlErrorResult } from '../../common/error/error-result';
 import {
     ChannelNotFoundError,
@@ -31,7 +31,7 @@ import {
 import { LanguageNotAvailableError } from '../../common/error/generated-graphql-admin-errors';
 import { Instrument } from '../../common/instrument-decorator';
 import { createSelfRefreshingCache, SelfRefreshingCache } from '../../common/self-refreshing-cache';
-import { ChannelAware, ListQueryOptions } from '../../common/types/common-types';
+import { ChannelAware, ListQueryOptions } from '../../common/types/shared-types';
 import { assertFound, idsAreEqual } from '../../common/utils';
 import { ConfigService } from '../../config/config.service';
 import { TransactionalConnection } from '../../connection/transactional-connection';

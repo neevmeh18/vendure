@@ -25,7 +25,7 @@ describe('core published type dependencies', () => {
     it('exposes express types in its public API', () => {
         // Guards the premise: if a future refactor removes these types from the public
         // surface, this fails and the runtime-dependency requirement should be revisited.
-        expect(read('api/common/request-context.ts')).toContain(`from 'express'`);
+        expect(read('api/common/vendure-request-context.ts')).toContain(`from 'express'`);
         expect(read('plugin/plugin-utils.ts')).toContain(`from 'express'`);
     });
 

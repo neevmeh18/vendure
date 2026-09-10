@@ -3,7 +3,7 @@ import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Country } from '../../../entity/region/country.entity';
 import { Zone } from '../../../entity/zone/zone.entity';
 import { ZoneService } from '../../../service/services/zone.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('Zone')

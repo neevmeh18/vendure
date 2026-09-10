@@ -168,9 +168,9 @@ export async function createVendureApp(
     try {
         port = await findAvailablePort(SERVER_PORT, PORT_SCAN_RANGE);
         portSpinner.stop(`Using port ${port}`);
-    } catch (e: any) {
+    } catch (caughtError: any) {
         portSpinner.stop(pc.red('Could not find an available port'));
-        outro(e.message);
+        outro(caughtError.message);
         process.exit(1);
     }
     // Read back by the generated vendure-config when the dashboard build introspects it later in
@@ -234,9 +234,9 @@ export async function createVendureApp(
             const storefrontStartPort = Math.max(STOREFRONT_PORT, port + 1);
             storefrontPort = await findAvailablePort(storefrontStartPort, PORT_SCAN_RANGE);
             storefrontPortSpinner.stop(`Using storefront port ${storefrontPort}`);
-        } catch (e: any) {
+        } catch (caughtError: any) {
             storefrontPortSpinner.stop(pc.red('Could not find an available storefront port'));
-            outro(e.message);
+            outro(caughtError.message);
             process.exit(1);
         }
     }
@@ -354,10 +354,10 @@ export async function createVendureApp(
             );
 
             storefrontSpinner.stop(`Downloaded ${storefront.name} storefront`);
-        } catch (e: any) {
+        } catch (caughtError: any) {
             storefrontSpinner.stop(pc.red(`Failed to download storefront`));
-            log(e.message, { level: 'verbose' });
-            outro(pc.red(`Failed to download storefront: ${e.message as string}`));
+            log(caughtError.message, { level: 'verbose' });
+            outro(pc.red(`Failed to download storefront: ${caughtError.message as string}`));
             process.exit(1);
         }
     }
@@ -448,8 +448,8 @@ export async function createVendureApp(
             .then(() => writeFileIfMissing(path.join(root, 'AGENTS.md'), agentsSource))
             .then(() => createDirectoryStructure(serverRoot))
             .then(() => copyEmailTemplates(serverRoot));
-    } catch (e: any) {
-        outro(pc.red(`Failed to create app scaffold: ${e.message as string}`));
+    } catch (caughtError: any) {
+        outro(pc.red(`Failed to create app scaffold: ${caughtError.message as string}`));
         process.exit(1);
     }
     scaffoldSpinner.stop(`Generated app scaffold`);
@@ -613,7 +613,7 @@ export async function createVendureApp(
                         cwd: root,
                         stdio: 'inherit',
                     });
-                } catch (e: any) {
+                } catch (caughtError: any) {
                     /* empty */
                 }
 
@@ -643,11 +643,11 @@ export async function createVendureApp(
                     await open(dashboardUrl, {
                         newInstance: true,
                     });
-                } catch (e: any) {
+                } catch (caughtError: any) {
                     /* empty */
                 }
-            } catch (e: any) {
-                log(pc.red(`Failed to start the server: ${e.message as string}`), {
+            } catch (caughtError: any) {
+                log(pc.red(`Failed to start the server: ${caughtError.message as string}`), {
                     newline: 'after',
                     level: 'verbose',
                 });
@@ -665,8 +665,8 @@ export async function createVendureApp(
             });
             process.exit(0);
         }
-    } catch (e: any) {
-        log(e.toString());
+    } catch (caughtError: any) {
+        log(caughtError.toString());
         outro(pc.red(`Failed to initialize server. Please try again.`));
         process.exit(1);
     }
@@ -708,8 +708,8 @@ async function installDependenciesWithSpinner(installOptions: InstallDependencie
         await installPackages({ dependencies, isDevDependencies, packageManager, logLevel, cwd });
         installSpinner.stop(successMessage);
         return true;
-    } catch (e) {
-        const detail = e instanceof Error ? e.message : String(e);
+    } catch (caughtError) {
+        const detail = caughtError instanceof Error ? caughtError.message : String(caughtError);
         if (warnOnFailure) {
             installSpinner.stop(pc.yellow(`Warning: ${failureMessage}`));
             log(detail);
@@ -821,8 +821,8 @@ function runPreChecks(name: string | undefined): name is string {
     const root = path.resolve(name);
     try {
         fs.ensureDirSync(name);
-    } catch (e: any) {
-        log(pc.red(`Could not create project directory ${name}: ${e.message as string}`));
+    } catch (caughtError: any) {
+        log(pc.red(`Could not create project directory ${name}: ${caughtError.message as string}`));
         return false;
     }
     if (!isSafeToCreateProjectIn(root, name)) {
@@ -847,9 +847,9 @@ async function copyEmailTemplates(root: string) {
     const templateDir = path.join(emailPackageDirname, 'templates');
     try {
         await fs.copy(templateDir, path.join(root, 'static', 'email', 'templates'));
-    } catch (err: any) {
+    } catch (caughtError: any) {
         log(pc.red('Failed to copy email templates.'));
-        log(err);
+        log(caughtError);
         process.exit(0);
     }
 }

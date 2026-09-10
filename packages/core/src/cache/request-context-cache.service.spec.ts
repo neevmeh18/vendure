@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { RequestContext } from '../api';
 
-import { RequestContextCacheService } from './request-context-cache.service';
+import { RequestContextCacheService } from './vendure-request-context-cache.service';
 
 describe('Request context cache', () => {
     let cache: RequestContextCacheService;

@@ -13,11 +13,11 @@ import { omit } from '@vendure/common/lib/omit';
 import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { IsNull } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { RelationPaths } from '../../api/decorators/relations.decorator';
 import { EntityNotFoundError, ForbiddenError, UserInputError } from '../../common/error/errors';
 import { Instrument } from '../../common/instrument-decorator';
-import { ListQueryOptions } from '../../common/types/common-types';
+import { ListQueryOptions } from '../../common/types/shared-types';
 import { Translated } from '../../common/types/locale-types';
 import { assertFound, idsAreEqual } from '../../common/utils';
 import { ConfigService } from '../../config/config.service';

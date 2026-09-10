@@ -7,7 +7,7 @@ import {
 } from '@vendure/common/lib/generated-types';
 import { Omit } from '@vendure/common/lib/omit';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { Allow } from '../../../api/decorators/allow.decorator';
 import { Ctx } from '../../../api/decorators/request-context.decorator';
 import { SearchResolver as BaseSearchResolver } from '../../../api/resolvers/admin/search.resolver';

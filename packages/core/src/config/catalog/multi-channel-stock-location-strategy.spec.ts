@@ -2,7 +2,7 @@ import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Cache } from '../../cache/cache';
 import { RequestContextCacheService } from '../../cache/request-context-cache.service';
 import { Channel } from '../../entity/channel/channel.entity';

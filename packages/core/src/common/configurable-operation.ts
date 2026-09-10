@@ -16,7 +16,7 @@ import {
 } from '@vendure/common/lib/shared-types';
 import { assertNever } from '@vendure/common/lib/shared-utils';
 
-import { RequestContext } from '../api/common/request-context';
+import { RequestContext } from '../api/common/vendure-request-context';
 
 import { DEFAULT_LANGUAGE_CODE } from './constants';
 import { InternalServerError } from './error/errors';

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ID } from '@vendure/common/lib/shared-types';
 import { notNullOrUndefined } from '@vendure/common/lib/shared-utils';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { idsAreEqual } from '../../../common/utils';
 import { ConfigService } from '../../../config/config.service';
 import { MergedOrderLine } from '../../../config/order/order-merge-strategy';

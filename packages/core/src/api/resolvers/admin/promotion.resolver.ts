@@ -21,7 +21,7 @@ import { PromotionCondition } from '../../../config/promotion/promotion-conditio
 import { Promotion } from '../../../entity/promotion/promotion.entity';
 import { PromotionService } from '../../../service/services/promotion.service';
 import { ConfigurableOperationCodec } from '../../common/configurable-operation-codec';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

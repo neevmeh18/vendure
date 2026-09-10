@@ -1,6 +1,6 @@
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InjectableStrategy } from '../../common/types/injectable-strategy';
 import { OrderLine } from '../../entity/order-line/order-line.entity';
 import { StockLevel } from '../../entity/stock-level/stock-level.entity';

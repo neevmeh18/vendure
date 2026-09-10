@@ -37,7 +37,7 @@ async function isRedisAvailable(host: string, port: number): Promise<boolean> {
         await testClient.ping();
         await testClient.quit();
         return true;
-    } catch (error) {
+    } catch (caughtError) {
         return false;
     }
 }

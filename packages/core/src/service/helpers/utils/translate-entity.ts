@@ -2,7 +2,7 @@ import { LanguageCode } from '@vendure/common/lib/generated-types';
 
 import { DEFAULT_LANGUAGE_CODE } from '../../../common/constants';
 import { InternalServerError } from '../../../common/error/errors';
-import { UnwrappedArray } from '../../../common/types/common-types';
+import { UnwrappedArray } from '../../../common/types/shared-types';
 import { Translatable, Translated, Translation } from '../../../common/types/locale-types';
 import { VendureEntity } from '../../../entity/base/base.entity';
 

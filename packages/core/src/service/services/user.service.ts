@@ -3,7 +3,7 @@ import { ModuleRef } from '@nestjs/core';
 import { VerifyCustomerAccountResult } from '@vendure/common/lib/generated-shop-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ErrorResultUnion, isGraphQlErrorResult } from '../../common/error/error-result';
 import { EntityNotFoundError, InternalServerError } from '../../common/error/errors';
 import {

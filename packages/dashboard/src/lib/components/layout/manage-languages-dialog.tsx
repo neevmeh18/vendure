@@ -205,7 +205,7 @@ export function ManageLanguagesDialog({ open, onClose }: ManageLanguagesDialogPr
         try {
             await Promise.all(promises);
             onClose();
-        } catch (error) {
+        } catch (caughtError) {
             // Error handling is done in mutation callbacks
         }
     };

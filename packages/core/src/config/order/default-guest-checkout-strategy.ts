@@ -1,6 +1,6 @@
 import { CreateCustomerInput, SetCustomerForOrderResult } from '@vendure/common/lib/generated-shop-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ErrorResultUnion } from '../../common/error/error-result';
 import { AlreadyLoggedInError, GuestCheckoutError } from '../../common/error/generated-graphql-shop-errors';
 import { Injector } from '../../common/injector';

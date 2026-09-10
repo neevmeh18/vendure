@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JobState } from '@vendure/common/lib/generated-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Logger } from '../../config/logger/vendure-logger';
 import { Job } from '../../job-queue/job';
 

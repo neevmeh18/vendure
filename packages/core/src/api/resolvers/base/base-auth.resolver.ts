@@ -29,7 +29,7 @@ import { AuthService } from '../../../service/services/auth.service';
 import { UserService } from '../../../service/services/user.service';
 import { extractSessionToken } from '../../common/extract-session-token';
 import { ApiType } from '../../common/get-api-type';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { setSessionToken } from '../../common/set-session-token';
 
 export class BaseAuthResolver {

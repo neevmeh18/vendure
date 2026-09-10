@@ -97,8 +97,8 @@ export class CustomHttpHealthIndicator extends HealthIndicator {
             // `timeout: 0` as "no timeout".
             await fetch(url, timeout ? { signal: AbortSignal.timeout(timeout) } : undefined);
             isHealthy = true;
-        } catch (err) {
-            this.generateHttpError(key, err);
+        } catch (caughtError) {
+            this.generateHttpError(key, caughtError);
         }
 
         return this.getStatus(key, isHealthy);

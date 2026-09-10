@@ -163,8 +163,8 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
                             const channel = previousChannel ?? refetchedData.me.channels[0];
                             try {
                                 localStorage.setItem(LS_KEY_SELECTED_CHANNEL_TOKEN, channel.token);
-                            } catch (e) {
-                                console.error('Failed to store selected channel in localStorage', e);
+                            } catch (caughtError) {
+                                console.error('Failed to store selected channel in localStorage', caughtError);
                             }
                             setActiveChannelId(channel.id);
                         }
@@ -204,13 +204,13 @@ export function AuthProvider({ children }: Readonly<{ children: React.ReactNode 
             let data;
             try {
                 data = await api.mutate(LogOutMutation)({});
-            } catch (error) {
+            } catch (caughtError) {
                 // Network/server failure. Transport failure doesn't tell us
                 // whether the server applied the logout, so refetch the
                 // current user to determine actual state rather than trusting
                 // the cached isAuthenticated snapshot (staleTime: Infinity
                 // means react-query won't auto-refetch this query).
-                setAuthenticationError(error instanceof Error ? error.message : String(error));
+                setAuthenticationError(caughtError instanceof Error ? caughtError.message : String(caughtError));
                 const { data: refreshedData, error: refreshedError } = await refetchCurrentUser();
                 if (refreshedError || !refreshedData?.me?.id) {
                     setStatus('unauthenticated');

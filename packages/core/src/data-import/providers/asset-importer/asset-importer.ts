@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { isGraphQlErrorResult } from '../../../common/index';
 import { ConfigService } from '../../../config/config.service';
 import { Asset } from '../../../entity/asset/asset.entity';

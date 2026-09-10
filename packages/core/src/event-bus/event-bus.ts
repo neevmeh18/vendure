@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { EntityManager } from 'typeorm';
 
-import { RequestContext } from '../api/common/request-context';
+import { RequestContext } from '../api/common/vendure-request-context';
 import { TRANSACTION_MANAGER_KEY } from '../common/constants';
 import { Instrument } from '../common/instrument-decorator';
 import { Logger } from '../config/logger/vendure-logger';

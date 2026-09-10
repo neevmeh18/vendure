@@ -4,7 +4,7 @@ import { Permission, SettingsStoreScopeType } from '@vendure/common/lib/generate
 import { JsonCompatible } from '@vendure/common/lib/shared-types';
 import ms, { type StringValue } from 'ms';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { InternalServerError, UserInputError } from '../../../common/error/errors';
 import { Injector } from '../../../common/injector';
 import { ConfigService } from '../../../config/config.service';
@@ -242,11 +242,11 @@ export class SettingsStoreService implements OnModuleInit {
                 key,
                 result: true,
             };
-        } catch (error) {
+        } catch (caughtError) {
             return {
                 key,
                 result: false,
-                error: error instanceof Error ? error.message : 'Unknown error occurred',
+                error: caughtError instanceof Error ? caughtError.message : 'Unknown error occurred',
             };
         }
     }
@@ -521,10 +521,10 @@ export class SettingsStoreService implements OnModuleInit {
             }
 
             return ctx.userHasPermissions([Permission.Authenticated]);
-        } catch (error) {
+        } catch (caughtError) {
             // Only catch permission evaluation errors, not field validation errors
             Logger.error(
-                `Error evaluating read permissions for settings store key "${key}": ${JSON.stringify(error)}`,
+                `Error evaluating read permissions for settings store key "${key}": ${JSON.stringify(caughtError)}`,
             );
             return false;
         }
@@ -556,9 +556,9 @@ export class SettingsStoreService implements OnModuleInit {
             }
 
             return ctx.userHasPermissions([Permission.Authenticated]);
-        } catch (error) {
+        } catch (caughtError) {
             Logger.error(
-                `Error evaluating write permissions for settings store key "${key}": ${JSON.stringify(error)}`,
+                `Error evaluating write permissions for settings store key "${key}": ${JSON.stringify(caughtError)}`,
             );
             return false;
         }
@@ -599,7 +599,7 @@ export class SettingsStoreService implements OnModuleInit {
         try {
             const fieldConfig = this.getFieldConfig(key);
             return fieldConfig.readonly === true;
-        } catch (error) {
+        } catch (caughtError) {
             return false;
         }
     }

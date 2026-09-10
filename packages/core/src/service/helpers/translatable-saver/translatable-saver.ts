@@ -3,7 +3,7 @@ import { omit } from '@vendure/common/lib/omit';
 import { ID, Type } from '@vendure/common/lib/shared-types';
 import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { Translatable, TranslatedInput, Translation } from '../../../common/types/locale-types';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { VendureEntity } from '../../../entity/base/base.entity';

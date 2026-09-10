@@ -19,12 +19,12 @@ function resolveVendureUiSourcePath(): string | undefined {
         // fileURLToPath decodes percent-encoding (e.g. spaces) and handles Windows drive letters.
         const filePath = resolved.startsWith('file:') ? fileURLToPath(resolved) : resolved;
         return path.resolve(filePath, '../../../');
-    } catch (error) {
+    } catch (caughtError) {
         // eslint-disable-next-line no-console
         console.warn(
             '[@vendure/dashboard] Could not resolve @vendure-io/ui source path. ' +
                 'Tailwind CSS classes from @vendure-io/ui may be missing.',
-            error,
+            caughtError,
         );
         return undefined;
     }

@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InjectableStrategy } from '../../common/types/injectable-strategy';
 import { CustomOrderLineFields, Order, OrderLine, ProductVariant } from '../../entity/index';
 

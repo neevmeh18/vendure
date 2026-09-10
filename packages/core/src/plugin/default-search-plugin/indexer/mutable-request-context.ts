@@ -1,7 +1,7 @@
 import { CurrencyCode } from '@vendure/common/lib/generated-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext, SerializedRequestContext } from '../../../api/common/request-context';
+import { RequestContext, SerializedRequestContext } from '../../../api/common/vendure-request-context';
 import { Channel } from '../../../entity/channel/channel.entity';
 
 /**

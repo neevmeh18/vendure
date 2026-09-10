@@ -1,7 +1,7 @@
 import { Permission } from '@vendure/common/lib/generated-types';
 import { SelectQueryBuilder } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { InjectableStrategy } from '../../common/types/injectable-strategy';
 import { VendureEntity } from '../../entity/base/base.entity';
 

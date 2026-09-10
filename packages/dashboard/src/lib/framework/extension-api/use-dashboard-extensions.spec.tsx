@@ -43,8 +43,8 @@ describe('useDashboardExtensions', () => {
             try {
                 const extensionMessageId = ['Extension', 'label'].join(' ');
                 i18n._(extensionMessageId);
-            } catch (error) {
-                extensionError = error;
+            } catch (caughtError) {
+                extensionError = caughtError;
             }
         });
 

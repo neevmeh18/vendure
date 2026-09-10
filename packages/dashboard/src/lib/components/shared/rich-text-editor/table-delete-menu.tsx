@@ -50,8 +50,8 @@ export function TableDeleteMenu({ editor, disabled }: Readonly<TableDeleteMenuPr
                 }
 
                 setTableRect(tableDOMNode.getBoundingClientRect());
-            } catch (error) {
-                console.warn('Error calculating table position:', error);
+            } catch (caughtError) {
+                console.warn('Error calculating table position:', caughtError);
                 setTableRect(null);
             }
         };

@@ -5,7 +5,7 @@ import { Facet } from '../../../entity/facet/facet.entity';
 import { FacetValue } from '../../../entity/facet-value/facet-value.entity';
 import { LocaleStringHydrator } from '../../../service/helpers/locale-string-hydrator/locale-string-hydrator';
 import { FacetService } from '../../../service/services/facet.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Ctx } from '../../decorators/request-context.decorator';
 
 @Resolver('FacetValue')

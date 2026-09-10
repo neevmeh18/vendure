@@ -1,7 +1,7 @@
 import { SearchInput as GeneratedSearchInput } from '@vendure/common/lib/generated-types';
 import { ID, JsonCompatible } from '@vendure/common/lib/shared-types';
 
-import { SerializedRequestContext } from '../../api/common/request-context';
+import { SerializedRequestContext } from '../../api/common/vendure-request-context';
 import { Asset } from '../../entity/asset/asset.entity';
 
 import { SearchStrategy } from './search-strategy/search-strategy';

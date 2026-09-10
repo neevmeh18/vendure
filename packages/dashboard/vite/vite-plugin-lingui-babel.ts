@@ -113,10 +113,10 @@ export function linguiBabelPlugin(options?: LinguiBabelPluginOptions): Plugin {
                                     }
                                 }
                             }
-                        } catch (error) {
+                        } catch (caughtError) {
                             // Log but continue - will use only manually specified paths
                             // eslint-disable-next-line no-console
-                            console.warn('[vendure:lingui-babel] Failed to load plugin config:', error);
+                            console.warn('[vendure:lingui-babel] Failed to load plugin config:', caughtError);
                         }
                     }
 
@@ -156,11 +156,11 @@ export function linguiBabelPlugin(options?: LinguiBabelPluginOptions): Plugin {
                     code: result.code,
                     map: result.map,
                 };
-            } catch (error) {
+            } catch (caughtError) {
                 // Log the error but don't crash - let the build continue
                 // The lingui vite plugin will catch untransformed macros later
                 // eslint-disable-next-line no-console
-                console.error(`[vendure:lingui-babel] Failed to transform ${id}:`, error);
+                console.error(`[vendure:lingui-babel] Failed to transform ${id}:`, caughtError);
                 return null;
             }
         },

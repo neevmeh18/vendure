@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { Translatable } from '../../../common/types/locale-types';
 import { ConfigService } from '../../../config';
 import { VendureEntity } from '../../../entity';

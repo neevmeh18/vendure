@@ -1,5 +1,5 @@
-import { RequestContext } from '../../api/common/request-context';
-import { PriceCalculationResult } from '../../common/types/common-types';
+import { RequestContext } from '../../api/common/vendure-request-context';
+import { PriceCalculationResult } from '../../common/types/shared-types';
 import { InjectableStrategy } from '../../common/types/injectable-strategy';
 import { Order } from '../../entity/order/order.entity';
 import { ProductVariant } from '../../entity/product-variant/product-variant.entity';

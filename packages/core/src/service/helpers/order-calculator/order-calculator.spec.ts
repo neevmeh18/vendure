@@ -3,7 +3,7 @@ import { AdjustmentType, LanguageCode, TaxLine } from '@vendure/common/lib/gener
 import { summate } from '@vendure/common/lib/shared-utils';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { PromotionItemAction, PromotionOrderAction, PromotionShippingAction } from '../../../config';
 import { ensureConfigLoaded } from '../../../config/config-helpers';

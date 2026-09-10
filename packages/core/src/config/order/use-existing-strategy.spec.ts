@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Order } from '../../entity/order/order.entity';
 import { createOrderFromLines } from '../../testing/order-test-utils';
 

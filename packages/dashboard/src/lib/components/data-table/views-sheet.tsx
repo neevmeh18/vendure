@@ -64,7 +64,7 @@ export const ViewsSheet: React.FC<ViewsSheetProps> = ({ open, onOpenChange, type
             toast.success(message);
             setEditingId(null);
             setEditingName('');
-        } catch (error) {
+        } catch (caughtError) {
             const message = isGlobal ? t`Failed to rename global view` : t`Failed to rename view`;
             toast.error(message);
         }
@@ -83,7 +83,7 @@ export const ViewsSheet: React.FC<ViewsSheetProps> = ({ open, onOpenChange, type
             const message = isGlobal ? t`Global view deleted successfully` : t`View deleted successfully`;
             toast.success(message);
             setDeleteConfirmId(null);
-        } catch (error) {
+        } catch (caughtError) {
             const message = isGlobal ? t`Failed to delete global view` : t`Failed to delete view`;
             toast.error(message);
         }
@@ -96,7 +96,7 @@ export const ViewsSheet: React.FC<ViewsSheetProps> = ({ open, onOpenChange, type
                 ? t`Global view duplicated successfully`
                 : t`View duplicated successfully`;
             toast.success(message);
-        } catch (error) {
+        } catch (caughtError) {
             const message = isGlobal ? t`Failed to duplicate global view` : t`Failed to duplicate view`;
             toast.error(message);
         }
@@ -106,7 +106,7 @@ export const ViewsSheet: React.FC<ViewsSheetProps> = ({ open, onOpenChange, type
         try {
             await duplicateView(view.id, 'user');
             toast.success(t`Global view converted to personal view successfully`);
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to convert global view to personal view`);
         }
     };
@@ -116,7 +116,7 @@ export const ViewsSheet: React.FC<ViewsSheetProps> = ({ open, onOpenChange, type
             await duplicateView(view.id, 'global');
             await deleteView(view.id);
             toast.success(t`View converted to global successfully`);
-        } catch (error) {
+        } catch (caughtError) {
             toast.error(t`Failed to convert view to global`);
         }
     };

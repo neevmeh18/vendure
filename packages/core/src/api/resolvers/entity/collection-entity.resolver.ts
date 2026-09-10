@@ -9,7 +9,7 @@ import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { CacheKey } from '../../../common/constants';
-import { ListQueryOptions } from '../../../common/types/common-types';
+import { ListQueryOptions } from '../../../common/types/shared-types';
 import { Translated } from '../../../common/types/locale-types';
 import { CollectionFilter } from '../../../config/catalog/collection-filter';
 import { Asset, Collection, Product, ProductVariant } from '../../../entity';
@@ -19,7 +19,7 @@ import { CollectionService } from '../../../service/services/collection.service'
 import { ProductVariantService } from '../../../service/services/product-variant.service';
 import { ConfigurableOperationCodec } from '../../common/configurable-operation-codec';
 import { ApiType } from '../../common/get-api-type';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Api } from '../../decorators/api.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

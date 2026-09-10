@@ -1,7 +1,7 @@
 import { HistoryEntryType } from '@vendure/common/lib/generated-types';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { isGraphQlErrorResult } from '../../common/error/error-result';
 import { InternalServerError } from '../../common/error/errors';
 import { awaitPromiseOrObservable } from '../../common/utils';

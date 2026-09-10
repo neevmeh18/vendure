@@ -9,7 +9,7 @@ import { normalizeString } from '@vendure/common/lib/normalize-string';
 import { ID } from '@vendure/common/lib/shared-types';
 import { unique } from '@vendure/common/lib/unique';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { Channel } from '../../../entity/channel/channel.entity';
 import { ProductOptionGroupTranslation } from '../../../entity/product-option-group/product-option-group-translation.entity';

@@ -43,7 +43,7 @@ export function DataTableBulkActions<TData>({
                     selectedItemsCache.current.set(key, row.original);
                     return row.original;
                 }
-            } catch (error) {
+            } catch (caughtError) {
                 // ignore the error, it just means the row is not on the
                 // current page.
             }

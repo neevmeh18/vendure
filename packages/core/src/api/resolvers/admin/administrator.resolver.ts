@@ -15,7 +15,7 @@ import { PaginatedList } from '@vendure/common/lib/shared-types';
 
 import { Administrator } from '../../../entity/administrator/administrator.entity';
 import { AdministratorService } from '../../../service/services/administrator.service';
-import { RequestContext } from '../../common/request-context';
+import { RequestContext } from '../../common/vendure-request-context';
 import { Allow } from '../../decorators/allow.decorator';
 import { RelationPaths, Relations } from '../../decorators/relations.decorator';
 import { Ctx } from '../../decorators/request-context.decorator';

@@ -1,4 +1,4 @@
-import { Orderable } from '../../../common/types/common-types';
+import { Orderable } from '../../../common/types/shared-types';
 import { idsAreEqual } from '../../../common/utils';
 import { VendureEntity } from '../../../entity/base/base.entity';
 

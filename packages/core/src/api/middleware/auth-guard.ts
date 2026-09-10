@@ -22,7 +22,7 @@ import {
     internal_getRequestContext,
     internal_setRequestContext,
     RequestContext,
-} from '../common/request-context';
+} from '../common/vendure-request-context';
 import { setSessionToken } from '../common/set-session-token';
 import { PERMISSIONS_METADATA_KEY } from '../decorators/allow.decorator';
 

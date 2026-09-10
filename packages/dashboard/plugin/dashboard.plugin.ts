@@ -242,9 +242,9 @@ export class DashboardPlugin implements NestModule {
                 const defaultHtml = fs.readFileSync(htmlPath, 'utf8');
                 res.setHeader('Content-Type', 'text/html');
                 res.send(defaultHtml);
-            } catch (error) {
+            } catch (caughtError) {
                 res.status(500).send(
-                    `Unable to load default page: ${error instanceof Error ? error.message : String(error)}`,
+                    `Unable to load default page: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`,
                 );
             }
         });
@@ -305,9 +305,9 @@ export class DashboardPlugin implements NestModule {
                         hasBuiltFiles,
                         mode,
                     });
-                } catch (error) {
+                } catch (caughtError) {
                     res.status(500).json({
-                        error: `Status check failed: ${error instanceof Error ? error.message : String(error)}`,
+                        error: `Status check failed: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`,
                     });
                 }
             },
@@ -351,8 +351,8 @@ export class DashboardPlugin implements NestModule {
 
                 // Fall back to default page
                 return defaultPage(req, res, next);
-            } catch (error) {
-                Logger.error(`Dashboard dynamic handler error: ${String(error)}`, loggerCtx);
+            } catch (caughtError) {
+                Logger.error(`Dashboard dynamic handler error: ${String(caughtError)}`, loggerCtx);
                 res.status(500).send('Dashboard unavailable');
             }
         });

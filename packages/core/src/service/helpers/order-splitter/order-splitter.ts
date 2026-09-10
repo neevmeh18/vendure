@@ -3,7 +3,7 @@ import { OrderType } from '@vendure/common/lib/generated-types';
 import { pick } from '@vendure/common/lib/pick';
 import { ID } from '@vendure/common/lib/shared-types';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { InternalServerError } from '../../../common/error/errors';
 import { ConfigService } from '../../../config/config.service';
 import { TransactionalConnection } from '../../../connection/transactional-connection';

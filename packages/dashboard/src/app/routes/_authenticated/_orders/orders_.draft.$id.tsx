@@ -213,8 +213,8 @@ function DraftOrderPage() {
                                 orderId: order.id,
                             });
                         }
-                    } catch (e) {
-                        toast.error(t`Failed to set address for order: ${e instanceof Error ? e.message : String(e)}`);
+                    } catch (caughtError) {
+                        toast.error(t`Failed to set address for order: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`);
                     }
                     refreshEntity();
                     break;

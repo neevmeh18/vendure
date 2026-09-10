@@ -2,7 +2,7 @@ import { Permission } from '@vendure/common/lib/generated-types';
 
 import { CustomFieldConfig } from '../../config/custom-field/custom-field-types';
 
-import { RequestContext } from './request-context';
+import { RequestContext } from './vendure-request-context';
 
 export function userHasPermissionsOnCustomField(ctx: RequestContext, fieldDef: CustomFieldConfig) {
     if (ctx.apiType === 'shop' && fieldDef.public === true) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import { RequestContextCacheService } from '../../../cache/request-context-cache.service';
 import { CacheKey } from '../../../common/constants';
 import { InternalServerError } from '../../../common/error/errors';

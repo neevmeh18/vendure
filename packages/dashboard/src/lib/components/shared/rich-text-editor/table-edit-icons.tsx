@@ -77,8 +77,8 @@ export function TableEditIcons({ editor, disabled }: Readonly<TableEditIconsProp
                     cellRect: cellDOMNode.getBoundingClientRect(),
                     tableRect: tableDOMNode.getBoundingClientRect(),
                 });
-            } catch (error) {
-                console.warn('Error calculating table cell position:', error);
+            } catch (caughtError) {
+                console.warn('Error calculating table cell position:', caughtError);
                 setCellPosition(null);
             }
         };

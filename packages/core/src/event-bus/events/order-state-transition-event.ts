@@ -1,4 +1,4 @@
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Order } from '../../entity/order/order.entity';
 import { OrderState } from '../../service/helpers/order-state-machine/order-state';
 import { VendureEvent } from '../vendure-event';

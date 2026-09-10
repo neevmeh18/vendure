@@ -4,7 +4,7 @@ import { CustomFieldsObject, ID } from '@vendure/common/lib/shared-types';
 import { VendureEntity } from '../../entity/base/base.entity';
 import { TranslatableRelationsKeys } from '../../service/helpers/utils/translate-entity';
 
-import { UnwrappedArray } from './common-types';
+import { UnwrappedArray } from './shared-types';
 
 /**
  * This type should be used in any interfaces where the value is to be

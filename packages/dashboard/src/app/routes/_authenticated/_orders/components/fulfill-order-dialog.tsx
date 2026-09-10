@@ -185,9 +185,9 @@ export function FulfillOrderDialog({ order, onSuccess }: Readonly<FulfillOrderDi
             setOpen(false);
             form.reset();
             setFulfillmentQuantities({});
-        } catch (error) {
+        } catch (caughtError) {
             toast(t`Failed to fulfill order`, {
-                description: error instanceof Error ? error.message : 'Unknown error',
+                description: caughtError instanceof Error ? caughtError.message : 'Unknown error',
             });
         } finally {
             setIsSubmitting(false);

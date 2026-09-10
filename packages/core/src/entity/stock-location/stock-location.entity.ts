@@ -1,7 +1,7 @@
 import { DeepPartial } from '@vendure/common/lib/shared-types';
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
-import { ChannelAware } from '../../common/types/common-types';
+import { ChannelAware } from '../../common/types/shared-types';
 import { HasCustomFields } from '../../config/custom-field/custom-field-types';
 import { VendureEntity } from '../base/base.entity';
 import { Channel } from '../channel/channel.entity';

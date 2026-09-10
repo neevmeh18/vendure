@@ -115,9 +115,9 @@ async function compileProject(configPath: string, options?: { sourceRoot?: strin
             ...(options?.sourceRoot ? { pathAdapter: { sourceRoot: options.sourceRoot } } : {}),
         });
         return { outputRoot, outputPath, result, logger };
-    } catch (error) {
+    } catch (caughtError) {
         await removeDirs(outputRoot);
-        throw error;
+        throw caughtError;
     }
 }
 

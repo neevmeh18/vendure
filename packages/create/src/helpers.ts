@@ -141,7 +141,7 @@ export function checkThatNpmCanReadCwd() {
         // to reproduce the wrong path. Just printing process.cwd()
         // in a Node process was not enough.
         childOutput = spawn.sync('npm', ['config', 'list']).output.join('');
-    } catch (err: any) {
+    } catch (caughtError: any) {
         // Something went wrong spawning node.
         // Not great, but it means we can't do this check.
         // We might fail later on, but let's continue.
@@ -630,11 +630,11 @@ async function checkMysqlDbExists(options: any, root: string): Promise<true> {
         // mysql2/promise's createConnection returns a Promise that resolves
         // to a connection once connected, so we must await it.
         connection = await mysql.createConnection(connectionOptions);
-    } catch (err: any) {
-        if (err.code === 'ER_BAD_DB_ERROR') {
+    } catch (caughtError: any) {
+        if (caughtError.code === 'ER_BAD_DB_ERROR') {
             throwDatabaseDoesNotExist(options.database);
         }
-        throwConnectionError(err);
+        throwConnectionError(caughtError);
     }
 
     await connection.end();
@@ -667,17 +667,17 @@ async function checkPostgresDbExists(options: any, root: string): Promise<true> 
         if (schema.rows.length === 0) {
             throw new Error('NO_SCHEMA');
         }
-    } catch (e: any) {
-        if (e.code === '3D000') {
+    } catch (caughtError: any) {
+        if (caughtError.code === '3D000') {
             throwDatabaseDoesNotExist(options.database);
-        } else if (e.message === 'NO_SCHEMA') {
+        } else if (caughtError.message === 'NO_SCHEMA') {
             throwDatabaseSchemaDoesNotExist(options.database, options.schema);
-        } else if (e.code === '28000') {
-            throwSSLConnectionError(e, options.ssl);
+        } else if (caughtError.code === '28000') {
+            throwSSLConnectionError(caughtError, options.ssl);
         }
-        throwConnectionError(e);
+        throwConnectionError(caughtError);
         await client.end();
-        throw e;
+        throw caughtError;
     }
     await client.end();
     return true;
@@ -698,7 +698,7 @@ export async function isDockerAvailable(): Promise<{ result: 'not-found' | 'not-
         try {
             execFileSync('docker', ['stats', '--no-stream'], { stdio: 'ignore' });
             return true;
-        } catch (e: any) {
+        } catch (caughtError: any) {
             return false;
         }
     }
@@ -707,7 +707,7 @@ export async function isDockerAvailable(): Promise<{ result: 'not-found' | 'not-
     try {
         execFileSync('docker', ['-v'], { stdio: 'ignore' });
         dockerSpinner.message('Docker was found!');
-    } catch (e: any) {
+    } catch (caughtError: any) {
         dockerSpinner.stop('Docker was not found on this machine. We will use SQLite for the database.');
         return { result: 'not-found' };
     }
@@ -729,9 +729,9 @@ export async function isDockerAvailable(): Promise<{ result: 'not-found' | 'not-
         } else {
             execSync('systemctl start docker', { stdio: 'ignore' });
         }
-    } catch (e: any) {
+    } catch (caughtError: any) {
         dockerSpinner.stop('Could not start Docker.');
-        log(e.message, { level: 'verbose' });
+        log(caughtError.message, { level: 'verbose' });
         return { result: 'not-running' };
     }
     // Verify that the daemon is now running
@@ -811,8 +811,8 @@ export async function startPostgresDatabase(root: string, projectName: string): 
                 level: 'verbose',
             });
         }
-    } catch (e: any) {
-        log(pc.red(`Failed to start PostgreSQL database: ${e.message as string}`));
+    } catch (caughtError: any) {
+        log(pc.red(`Failed to start PostgreSQL database: ${caughtError.message as string}`));
         postgresContainerSpinner.stop('Failed to start PostgreSQL database');
         return false;
     }
@@ -839,9 +839,9 @@ export async function startPostgresDatabase(root: string, projectName: string): 
                     level: 'verbose',
                 });
             }
-        } catch (e: any) {
+        } catch (caughtError: any) {
             // ignore
-            log('is_ready error:' + (e.message as string), { level: 'verbose', newline: 'before' });
+            log('is_ready error:' + (caughtError.message as string), { level: 'verbose', newline: 'before' });
         }
         if (isReady) {
             break;
@@ -980,7 +980,7 @@ export function cleanUpDockerResources(name: string) {
         if (volumeIds.length) {
             execFileSync('docker', ['volume', 'rm', ...volumeIds], { stdio: 'ignore' });
         }
-    } catch (e) {
+    } catch (caughtError) {
         log(pc.yellow(`Could not clean up Docker resources`), { level: 'verbose' });
     }
 }
@@ -1075,13 +1075,13 @@ export async function downloadAndExtractStorefront(
 
         // Clean up temp file
         await fs.remove(tempTarPath);
-    } catch (error) {
+    } catch (caughtError) {
         // Clean up on error
         await fs.remove(tempTarPath).catch(() => {
             // eslint-disable-next-line
-            console.error(error);
+            console.error(caughtError);
         });
-        throw error;
+        throw caughtError;
     }
 }
 
@@ -1095,8 +1095,8 @@ export async function findAvailablePort(startPort: number, range: number = 20): 
         let inUse: boolean;
         try {
             inUse = await isServerPortInUse(port);
-        } catch (e) {
-            throw new Error(`Could not probe port ${port}: ${e instanceof Error ? e.message : String(e)}`);
+        } catch (caughtError) {
+            throw new Error(`Could not probe port ${port}: ${caughtError instanceof Error ? caughtError.message : String(caughtError)}`);
         }
         if (!inUse) return port;
         port++;

@@ -3,7 +3,7 @@ import { ConfigurableOperationInput } from '@vendure/common/lib/generated-types'
 import { normalizeString } from '@vendure/common/lib/normalize-string';
 import { notNullOrUndefined } from '@vendure/common/lib/shared-utils';
 
-import { RequestContext } from '../../../api/common/request-context';
+import { RequestContext } from '../../../api/common/vendure-request-context';
 import {
     ConfigService,
     defaultShippingCalculator,

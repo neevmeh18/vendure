@@ -1,6 +1,6 @@
 import ms, { type StringValue } from 'ms';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Injector } from '../../common';
 import { generatePublicId } from '../../common/generate-public-id';
 import { ConfigService } from '../config.service';

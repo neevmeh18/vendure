@@ -10,7 +10,7 @@ import { ID, PaginatedList } from '@vendure/common/lib/shared-types';
 import { IsNull } from 'typeorm';
 
 import { RelationPaths } from '../../api';
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { ListQueryOptions } from '../../common';
 import { Instrument } from '../../common/instrument-decorator';
 import { Translated } from '../../common/types/locale-types';

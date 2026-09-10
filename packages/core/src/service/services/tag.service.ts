@@ -8,9 +8,9 @@ import {
 import { ID, PaginatedList, Type } from '@vendure/common/lib/shared-types';
 import { unique } from '@vendure/common/lib/unique';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { Instrument } from '../../common/instrument-decorator';
-import { ListQueryOptions, Taggable } from '../../common/types/common-types';
+import { ListQueryOptions, Taggable } from '../../common/types/shared-types';
 import { TransactionalConnection } from '../../connection/transactional-connection';
 import { VendureEntity } from '../../entity/base/base.entity';
 import { Tag } from '../../entity/tag/tag.entity';

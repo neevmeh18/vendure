@@ -2,10 +2,10 @@ import { Adjustment, AdjustmentType, ConfigurableOperation } from '@vendure/comm
 import { DeepPartial } from '@vendure/common/lib/shared-types';
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
-import { RequestContext } from '../../api/common/request-context';
+import { RequestContext } from '../../api/common/vendure-request-context';
 import { roundMoney } from '../../common/round-money';
 import { AdjustmentSource } from '../../common/types/adjustment-source';
-import { ChannelAware, SoftDeletable } from '../../common/types/common-types';
+import { ChannelAware, SoftDeletable } from '../../common/types/shared-types';
 import { LocaleString, Translatable, Translation } from '../../common/types/locale-types';
 import { getConfig } from '../../config/config-helpers';
 import { HasCustomFields } from '../../config/custom-field/custom-field-types';

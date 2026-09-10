@@ -144,9 +144,9 @@ export class FacetValueSelectorComponent implements OnInit, OnDestroy, ControlVa
             try {
                 const facetValueIds = JSON.parse(obj) as string[];
                 valueIds = facetValueIds;
-            } catch (err) {
+            } catch (caughtError) {
                 // TODO: log error
-                throw err;
+                throw caughtError;
             }
         } else if (Array.isArray(obj)) {
             const isIdArray = (input: unknown[]): input is Array<string | number> =>
