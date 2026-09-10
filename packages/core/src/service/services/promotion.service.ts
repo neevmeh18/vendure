@@ -101,6 +101,21 @@ export class PromotionService {
             });
     }
 
+    /**
+     * @description
+     * Returns the enabled Promotions for the active Channel that are currently running,
+     * translated into the language of the RequestContext.
+     */
+    async getActivePromotions(ctx: RequestContext): Promise<Promotion[]> {
+        const promotions = await this.connection.getRepository(ctx, Promotion).find({
+            where: { enabled: true, deletedAt: IsNull(), channels: { id: ctx.channelId } },
+            relations: ['channels', 'translations'],
+        });
+        return promotions
+            .filter(p => p.isRunningAt(new Date()))
+            .map(p => this.translator.translate(p, ctx));
+    }
+
     async findOne(
         ctx: RequestContext,
         adjustmentSourceId: ID,

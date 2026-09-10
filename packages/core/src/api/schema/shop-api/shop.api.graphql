@@ -49,6 +49,8 @@ type Query {
     activePaymentMethods: [PublicPaymentMethod]!
     "Get active shipping methods"
     activeShippingMethods: [PublicShippingMethod]!
+    "Get the promotions which are currently running"
+    activePromotions: [Promotion!]!
 }
 
 type PublicPaymentMethod {
