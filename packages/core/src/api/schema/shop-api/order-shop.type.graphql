@@ -1,0 +1,19 @@
+enum OrderTimelineStage {
+    PLACED
+    PAID
+    SHIPPED
+    DELIVERED
+    CANCELLED
+}
+
+type OrderTimelineEvent {
+    stage: OrderTimelineStage!
+    label: String!
+    message: String
+    occurredAt: DateTime!
+}
+
+type Order {
+    currentStage: OrderTimelineStage!
+    timeline(take: Int): [OrderTimelineEvent!]!
+}

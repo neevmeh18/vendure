@@ -64,6 +64,7 @@ import { FulfillmentLineEntityResolver } from './resolvers/entity/fulfillment-li
 import { JobEntityResolver } from './resolvers/entity/job-entity.resolver';
 import { OrderAdminEntityResolver, OrderEntityResolver } from './resolvers/entity/order-entity.resolver';
 import { OrderLineEntityResolver } from './resolvers/entity/order-line-entity.resolver';
+import { OrderShopEntityResolver } from './resolvers/entity/order-shop-entity.resolver';
 import {
     PaymentAdminEntityResolver,
     PaymentEntityResolver,
@@ -184,6 +185,10 @@ export const adminEntityResolvers = [
     JobEntityResolver,
 ];
 
+export const shopEntityResolvers = [
+    OrderShopEntityResolver,
+];
+
 /**
  * The internal module containing some shared providers used by more than
  * one API module.
@@ -224,7 +229,7 @@ export class AdminApiModule {}
  */
 @Module({
     imports: [ApiSharedModule, ...createDynamicGraphQlModulesForPlugins('shop')],
-    providers: [...shopResolvers, ...entityResolvers],
+    providers: [...shopResolvers, ...entityResolvers, ...shopEntityResolvers],
     exports: [...shopResolvers],
 })
 export class ShopApiModule {}
